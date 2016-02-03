@@ -1,0 +1,48 @@
+html, body {
+	width:  100%; /* needed for resize functions */
+	height: 100%; /* needed for resize functions */
+	margin: 0px; /* needed for resize functions */
+	background: #000;
+	color: #ccc;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 12px;
+	line-height: 1.2em;
+	overflow: hidden;
+}
+
+#viewerContainer {
+	z-index: 20;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+#viewer {
+	z-index: 21;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+#debug {
+	z-index: 9999;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#oldie {
+	background: #EEE;
+	z-index: 2000;
+	position: absolute;
+	top: 0px;
+	left: 20px;
+}
+
+.hidden {
+	display: none;
+}
