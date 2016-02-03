@@ -108,7 +108,7 @@ function SolarSystem() {
 		//odd shiting going on with camera pan
 		var atmosMaterial = new THREE.MeshPhongMaterial( 
 		{ 
-			map: new THREE.ImageUtils.loadTexture( 'img/solar/mars-atmos.png' ), 
+			map: new THREE.ImageUtils.loadTexture( 'img/solar/atmos.png' ), 
 			color: 0xe4986e, 
 			transparent: true, 
 			blending: THREE.AdditiveBlending
