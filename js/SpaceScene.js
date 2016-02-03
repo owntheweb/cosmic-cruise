@@ -1,12 +1,6 @@
 function SpaceScene() {
 
 	var _self = this;
-
-	//class vars
-	_self.debug = true;
-	_self.debugPaintText = '';
-	_self.sceneInitiated = false;
-    _self.sceneStopAnimating = false;
 	
 	//files
 	_self.images = {};
@@ -17,13 +11,27 @@ function SpaceScene() {
 	//three.js scene
 	_self.container;
 	_self.scene;
-	_self.sceneSkybox;
 	_self.camera;
 	_self.renderer;
-	_self.effect;
+	_self.stereoCameras;
+	_self.effectFXAA;
+	_self.effectCopy;
+	_self.effectBloom;
 	_self.element;
 	_self.controls;
 	_self.clock;
+	_self.composer;
+	_self.renderPass;
+
+	_self.debug = true;
+	_self.debugPaintText = '';
+	_self.sceneInitiated = false;
+    _self.sceneStopAnimating = false;
+
+	_self.stereoCameras;
+
+	_self.ship;
+	_self.solarSystem;
 
 	//stats
 	_self.stats;
@@ -67,23 +75,6 @@ function SpaceScene() {
 		}
 	};
 
-	//request to go full screen
-	//!!! note: disabled for now as not needed for app envirnment, also interferes with interface overlay at the moment
-	//!!! keep here for now in case this can be used online as web-app
-	/*
-	_self.fullscreen = function() {
-		if(_self.container.requestFullscreen) {
-			_self.container.requestFullscreen();
-		} else if (_self.container.msRequestFullscreen) {
-			_self.container.msRequestFullscreen();
-		} else if (self.container.mozRequestFullScreen) {
-			_self.container.mozRequestFullScreen();
-		} else if (_self.container.webkitRequestFullscreen) {
-			_self.container.webkitRequestFullscreen();
-		}
-	};
-	*/
-
 	_self.onResize = function() {
 		var width = window.innerWidth;
 	    var height = window.innerHeight;
@@ -91,16 +82,18 @@ function SpaceScene() {
 	    _self.camera.aspect = width / height;
 	    _self.camera.updateProjectionMatrix();
 	    _self.renderer.setSize(width, height);
-	    _self.effect.setSize(width, height);
+	    _self.effectFXAA.uniforms.resolution.value = new THREE.Vector2(1 / width, 1 / height);
+	    _self.composer.setSize(width, height);
+	    _self.composer.reset();
 	};
 
 	//put the scene together
 	_self.initScene = function() {
 		var i;
 
+
 	    _self.clock = new THREE.Clock();
 
-		//three.js container
 		_self.container = document.getElementById("viewerContainer");
 
 		///////////
@@ -108,21 +101,23 @@ function SpaceScene() {
 	    ///////////
 
 	    _self.scene = new THREE.Scene();
-	    _self.sceneSkybox = new THREE.Scene();
 
-	    ////////////
-	    // CAMERA //
-	    ////////////
+	    /////////////
+	    // CAMERAS //
+	    /////////////
 
 	    var screenW = window.innerWidth;
 	    var screenH = window.innerHeight;   
 	    var viewAngle = 90;
 	    var aspectRatio = screenW / screenH;
 	    var near = 0.001;
-	    var far = 10000;
+	    var far = 120000;
 	    _self.camera = new THREE.PerspectiveCamera(viewAngle, aspectRatio, near, far);
 	    _self.camera.position.set(0,0,0);
 	    _self.camera.lookAt(_self.scene.position);
+
+	    //stereo camera (use main camera position/angle to produce a stereo L/R camera)
+	    _self.stereoCamera = new THREE.StereoCamera();
 
 	    //////////////
 	    // RENDERER //
@@ -130,24 +125,32 @@ function SpaceScene() {
 	    
 	    var canvas = document.getElementById("viewer");
 
-	    // create and start the renderer; choose antialias setting.
-	    if (Detector.webgl) {
-	        console.log('using WebGLRenderer');
-	        _self.renderer = new THREE.WebGLRenderer({antialias:true, canvas:canvas});
-	    } else {
-	        console.log('using CanvasRenderer');
-	        _self.renderer = new THREE.CanvasRenderer({antialias:true, canvas:canvas}); 
-	    }
-
+	    _self.renderer = new THREE.WebGLRenderer({antialias:true, canvas:canvas, alpha: true, clearColor: 0x000000 });
 	    _self.renderer.autoClear = false;
 	    _self.element = _self.renderer.domElement;
 
-	    //////////
-	    //EFFECT//
-	    //////////
+	    ///////////
+	    //EFFECTS//
+	    ///////////
 
-	    _self.effect = new THREE.StereoEffect(_self.renderer, 3, 15);
-	    _self.effectSkybox = new THREE.StereoEffect(_self.renderer, 3, 15);
+	    _self.effectCopy = new THREE.ShaderPass( THREE.CopyShader );
+	    _self.effectCopy.renderToScreen = true;
+
+	    _self.effectBloom = new THREE.BloomPass( 1.0 );
+
+	    _self.effectFXAA = new THREE.ShaderPass(THREE.FXAAShader);
+		_self.effectFXAA.uniforms.resolution.value = new THREE.Vector2(1 / window.innerWidth, 1 / window.innerHeight);
+		
+		///////////////////
+		// effect composer
+		///////////////////
+
+		_self.renderPass = new THREE.RenderPass(_self.scene, _self.stereoCamera.left);
+		_self.composer = new THREE.EffectComposer(_self.renderer);
+		_self.composer.addPass(_self.renderPass);
+		//_self.composer.addPass(_self.effectBloom);
+		_self.composer.addPass(_self.effectFXAA);
+		_self.composer.addPass(_self.effectCopy);
 
 	    //////////////
 	    // CONTROLS //
@@ -172,7 +175,8 @@ function SpaceScene() {
 				return;
 			}
 			
-			_self.controls = null; //reset controls
+			_self.controls.enabled = false; //reset controls
+			_self.controls = undefined;
 
 			_self.controls = new THREE.DeviceOrientationControls(_self.camera, true);
 			_self.controls.connect();
@@ -190,10 +194,8 @@ function SpaceScene() {
 	    // STATS //
 	    ///////////
 	    
-	    // displays current and past frames per second attained by scene
 	    _self.stats = new Stats();
-
-	    _self.stats.domElement.style.position = 'absolute';
+	   	_self.stats.domElement.style.position = 'absolute';
 	    _self.stats.domElement.style.bottom = '0px';
 	    _self.stats.domElement.style.zIndex = 100;
 	    _self.container.appendChild( _self.stats.domElement );
@@ -224,8 +226,8 @@ function SpaceScene() {
 		        side: THREE.BackSide
 		    });
 
-		    var skybox = new THREE.Mesh(new THREE.BoxGeometry(6000, 6000, 6000), skyBoxMaterial);
-		    _self.sceneSkybox.add(skybox);
+		    var skybox = new THREE.Mesh(new THREE.BoxGeometry(70000, 70000, 70000), skyBoxMaterial);
+		    _self.scene.add(skybox);
 
 		});
 
@@ -234,54 +236,34 @@ function SpaceScene() {
 	    ///////////
 	    
 	    // create a light
-	    var light = new THREE.PointLight(0xffffff);
-	    light.position.set(0,250,250);
+	    var light = new THREE.PointLight(0xffffff, 2);
+	    light.position.set(-5000,0,5000);
 	    _self.scene.add(light);
-	    _self.scene.add( new THREE.AmbientLight( 0xcccccc ) );
+	    
+	    _self.scene.add( new THREE.AmbientLight( 0x111111 ) );
 
-	    /////////////////
-	    //TEST GEOMETRY//
-	    /////////////////
+	    ////////////
+	    //GEOMETRY//
+	    ////////////
 
-	    var geometry = new THREE.BoxGeometry(20, 20, 20);
-	    var i, object;
-		for (i=0; i<800; i++) {
-			object = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff } ));
+	    
+	    //ship
+		_self.ship = new Ship1();
+		_self.ship.loadModels();
+		_self.ship.obj.add(_self.camera); //if ship rotates, so does camera (as if you were in the ship)
+		_self.scene.add(_self.ship.obj);
 
-			object.position.x = Math.random() * 2000 - 1000;
-			object.position.y = Math.random() * 2000 - 1000;
-			object.position.z = Math.random() * 2000 - 1000;
-
-			object.rotation.x = Math.random() * 2 * Math.PI;
-			object.rotation.y = Math.random() * 2 * Math.PI;
-			object.rotation.z = Math.random() * 2 * Math.PI;
-
-			object.scale.x = object.scale.y = object.scale.z = 1.0;
-
-			_self.scene.add(object);
-
-		}
-
-		object = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({ color: 0xff9900 } ));
-
-		object.position.x = 0;
-		object.position.y = 0;
-		object.position.z = -40;
-
-		object.rotation.x = Math.random() * 2 * Math.PI;
-		object.rotation.y = Math.random() * 2 * Math.PI;
-		object.rotation.z = Math.random() * 2 * Math.PI;
-
-		object.scale.x = object.scale.y = object.scale.z = 1.0;
-
-		_self.scene.add(object);
-
-		var geometry = new THREE.BoxGeometry( 200, 200, 200 );
-		var material = new THREE.MeshBasicMaterial({ color: '#FF9900' });
-		var position = THREE.Vector3(1.0, 1.0, 1.0);
-
-		var mesh = new THREE.Mesh(geometry, material);
-		_self.scene.add(mesh);
+		//solar system
+		_self.solarSystem = new SolarSystem();
+		_self.solarSystem.createMars(_self.camera);
+		//!!! temporary
+		_self.solarSystem.mars.position.z = -1300;
+		_self.solarSystem.mars.position.y = -300;
+		_self.solarSystem.mars.position.x = -300;
+		_self.solarSystem.marsAtmosphere.position.z = -1300;
+		_self.solarSystem.marsAtmosphere.position.y = -300;
+		_self.solarSystem.marsAtmosphere.position.x = -300;
+		_self.scene.add(_self.solarSystem.system);
 
 	    //ensure size/scale is set correctly (wasn't during initial tests)
 	    _self.onResize();
@@ -291,9 +273,8 @@ function SpaceScene() {
 	};
 
 	_self.initMusic = function() {
-		/*
-		_self.creativeMusic = new Howl({
-			src: ['music/spaced-out-by-john-rumbach.mp3'],
+		_self.music = new Howl({
+			src: ['audio/AForgottenPlanet.mp3'],
 			autoplay: true,
 			loop: true,
 			volume: 1.0,
@@ -309,7 +290,6 @@ function SpaceScene() {
 				console.log('creative music stopped');
 			}
 		});
-		*/
 	};
 
 	//reset if starting over (!!! may not need this any longer)
@@ -324,21 +304,26 @@ function SpaceScene() {
 	    // delta = change in time since last call (in seconds)
 	    var delta = _self.clock.getDelta();
 
-	    for (i=0; i<_self.scene.children.length; i++) {
-			object = _self.scene.children[i];
-			r = _self.clock.elapsedTime * 0.1;
-			object.rotation.x = object.rotation.y = object.rotation.z = r;
-		}
+	    _self.stereoCamera.update(_self.scene, _self.camera, window.innerWidth, window.innerHeight);
+	    
+
+	    _self.solarSystem.update(_self.camera);
+
+		_self.ship.obj.rotation.y -= 0.0001;
+		_self.solarSystem.mars.rotation.y += 0.00005;
 	        
 	    _self.stats.update();
 	};
 
 	//render three.js scene
 	_self.render = function() {   
-	    //_self.renderer.clear();
-		//_self.effect.render(_self.sceneSkybox, _self.camera);
-		//_self.renderer.clearDepth();
-		_self.effect.render(_self.scene, _self.camera);
+		_self.renderer.setViewport( 0, 0, window.innerWidth / 2, window.innerHeight);
+		_self.renderPass.camera = _self.stereoCamera.left; //note: breaking rule by settings Class.camera directly xO
+		_self.composer.render();
+
+		_self.renderer.setViewport( window.innerWidth / 2, 0, window.innerWidth / 2, window.innerHeight);
+		_self.renderPass.camera = _self.stereoCamera.right; //note: breaking rule by settings Class.camera directly xO
+		_self.composer.render();
 	};
 
 	//"Go forth with forthness, into the depths of depthness."" --crazy web guy
@@ -352,8 +337,8 @@ function SpaceScene() {
 			window.requestAnimationFrame(drawFrame, _self.earthCanvas);
 
 			if(_self.sceneInitiated == true && _self.sceneStopAnimating == false) {
-		       	_self.render();
 		       	_self.update();
+		       	_self.render();
 		       	_self.controls.update();       
 		    } else {
 		    	console.log('space scene not ready yet...');
