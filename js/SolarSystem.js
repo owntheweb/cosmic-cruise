@@ -80,13 +80,13 @@ function SolarSystem() {
 	_self.createSun = function() {
 		/* //!!! light not work in Object3D? set in SpaceScene for now
 		//sun light
-	    var light = new THREE.PointLight(0xffffff, 2);
-	    light.position.set(-5000,0,5000);
-	    _self.system.add(light);
-	    
-	    //some ambient light
-	    _self.system.add( new THREE.AmbientLight(0x111111));
-	    */
+		var light = new THREE.PointLight(0xffffff, 2);
+		light.position.set(-5000,0,5000);
+		_self.system.add(light);
+		
+		//some ambient light
+		_self.system.add( new THREE.AmbientLight(0x111111));
+		*/
 
 
 	};
@@ -126,6 +126,6 @@ function SolarSystem() {
 
 	_self.update = function(camera) {
 		//_self.solarSystem.marsAtmosphere.quaternion.copy( _self.camera.quaternion ); //?? not needed?
-	    _self.marsAtmosphere.lookAt(camera.position);
+		_self.marsAtmosphere.lookAt(camera.position);
 	};
 }

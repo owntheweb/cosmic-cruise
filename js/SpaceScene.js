@@ -26,7 +26,7 @@ function SpaceScene() {
 	_self.debug = true;
 	_self.debugPaintText = '';
 	_self.sceneInitiated = false;
-    _self.sceneStopAnimating = false;
+	_self.sceneStopAnimating = false;
 
 	_self.stereoCameras;
 
@@ -77,14 +77,14 @@ function SpaceScene() {
 
 	_self.onResize = function() {
 		var width = window.innerWidth;
-	    var height = window.innerHeight;
+		var height = window.innerHeight;
 
-	    _self.camera.aspect = width / height;
-	    _self.camera.updateProjectionMatrix();
-	    _self.renderer.setSize(width, height);
-	    _self.effectFXAA.uniforms.resolution.value = new THREE.Vector2(1 / width, 1 / height);
-	    _self.composer.setSize(width, height);
-	    _self.composer.reset();
+		_self.camera.aspect = width / height;
+		_self.camera.updateProjectionMatrix();
+		_self.renderer.setSize(width, height);
+		_self.effectFXAA.uniforms.resolution.value = new THREE.Vector2(1 / width, 1 / height);
+		_self.composer.setSize(width, height);
+		_self.composer.reset();
 	};
 
 	//put the scene together
@@ -92,51 +92,51 @@ function SpaceScene() {
 		var i;
 
 
-	    _self.clock = new THREE.Clock();
+		_self.clock = new THREE.Clock();
 
 		_self.container = document.getElementById("viewerContainer");
 
 		///////////
-	    // SCENE //
-	    ///////////
+		// SCENE //
+		///////////
 
-	    _self.scene = new THREE.Scene();
+		_self.scene = new THREE.Scene();
 
-	    /////////////
-	    // CAMERAS //
-	    /////////////
+		/////////////
+		// CAMERAS //
+		/////////////
 
-	    var screenW = window.innerWidth;
-	    var screenH = window.innerHeight;   
-	    var viewAngle = 90;
-	    var aspectRatio = screenW / screenH;
-	    var near = 0.001;
-	    var far = 120000;
-	    _self.camera = new THREE.PerspectiveCamera(viewAngle, aspectRatio, near, far);
-	    _self.camera.position.set(0,0,0);
-	    _self.camera.lookAt(_self.scene.position);
+		var screenW = window.innerWidth;
+		var screenH = window.innerHeight;
+		var viewAngle = 90;
+		var aspectRatio = screenW / screenH;
+		var near = 0.001;
+		var far = 120000;
+		_self.camera = new THREE.PerspectiveCamera(viewAngle, aspectRatio, near, far);
+		_self.camera.position.set(0,0,0);
+		_self.camera.lookAt(_self.scene.position);
 
-	    //stereo camera (use main camera position/angle to produce a stereo L/R camera)
-	    _self.stereoCamera = new THREE.StereoCamera();
+		//stereo camera (use main camera position/angle to produce a stereo L/R camera)
+		_self.stereoCamera = new THREE.StereoCamera();
 
-	    //////////////
-	    // RENDERER //
-	    //////////////
-	    
-	    var canvas = document.getElementById("viewer");
+		//////////////
+		// RENDERER //
+		//////////////
+		
+		var canvas = document.getElementById("viewer");
 
-	    _self.renderer = new THREE.WebGLRenderer({antialias:true, canvas:canvas, alpha: true, clearColor: 0x000000 });
-	    _self.renderer.autoClear = false;
-	    _self.element = _self.renderer.domElement;
+		_self.renderer = new THREE.WebGLRenderer({antialias:true, canvas:canvas, alpha: true, clearColor: 0x000000 });
+		_self.renderer.autoClear = false;
+		_self.element = _self.renderer.domElement;
 
-	    ///////////
-	    //EFFECTS//
-	    ///////////
+		///////////
+		//EFFECTS//
+		///////////
 
-	    _self.effectCopy = new THREE.ShaderPass( THREE.CopyShader );
-	    _self.effectCopy.renderToScreen = true;
+		_self.effectCopy = new THREE.ShaderPass( THREE.CopyShader );
+		_self.effectCopy.renderToScreen = true;
 
-	    _self.effectFXAA = new THREE.ShaderPass(THREE.FXAAShader);
+		_self.effectFXAA = new THREE.ShaderPass(THREE.FXAAShader);
 		_self.effectFXAA.uniforms.resolution.value = new THREE.Vector2(1 / window.innerWidth, 1 / window.innerHeight);
 		
 		///////////////////
@@ -149,11 +149,11 @@ function SpaceScene() {
 		_self.composer.addPass(_self.effectFXAA);
 		_self.composer.addPass(_self.effectCopy);
 
-	    //////////////
-	    // CONTROLS //
-	    //////////////
+		//////////////
+		// CONTROLS //
+		//////////////
 
-	    // Our initial control fallback with mouse/touch events in case DeviceOrientation is not enabled
+		// Our initial control fallback with mouse/touch events in case DeviceOrientation is not enabled
 		_self.controls = new THREE.OrbitControls(_self.camera, _self.element);
 		_self.controls.target.set(
 			_self.camera.position.x,
@@ -163,11 +163,11 @@ function SpaceScene() {
 		_self.controls.enablePan = false;
 		_self.controls.enableZoom = false;
 
-	    ////////////
-	    // EVENTS //
-	    ////////////
+		////////////
+		// EVENTS //
+		////////////
 
-	    var setOrientationControls = function(e) {
+		var setOrientationControls = function(e) {
 			if (e == undefined || !e.alpha) {
 				return;
 			}
@@ -183,68 +183,68 @@ function SpaceScene() {
 			window.removeEventListener("deviceorientation", setOrientationControls, true);
 		};
 
-	    // automatically resize renderer
-	    window.addEventListener('resize', function() { _self.onResize(); }, true);
-	    window.addEventListener("deviceorientation", setOrientationControls, true);
+		// automatically resize renderer
+		window.addEventListener('resize', function() { _self.onResize(); }, true);
+		window.addEventListener("deviceorientation", setOrientationControls, true);
 
-	    ///////////
-	    // STATS //
-	    ///////////
-	    
-	    _self.stats = new Stats();
-	   	_self.stats.domElement.style.position = 'absolute';
-	    _self.stats.domElement.style.bottom = '0px';
-	    _self.stats.domElement.style.zIndex = 100;
-	    _self.container.appendChild( _self.stats.domElement );
+		///////////
+		// STATS //
+		///////////
+		
+		_self.stats = new Stats();
+		_self.stats.domElement.style.position = 'absolute';
+		_self.stats.domElement.style.bottom = '0px';
+		_self.stats.domElement.style.zIndex = 100;
+		_self.container.appendChild( _self.stats.domElement );
 
-	    ////////////
-	    // SKYBOX //
-	    ////////////
+		////////////
+		// SKYBOX //
+		////////////
 
-	    var cubeTexLoader = new THREE.CubeTextureLoader();
+		var cubeTexLoader = new THREE.CubeTextureLoader();
 		var cubeUrls = [
-		    "./img/skybox/rightSm.jpg",
-		    "./img/skybox/leftSm.jpg",
-		    "./img/skybox/topSm.jpg",
-		    "./img/skybox/downSm.jpg",
-		    "./img/skybox/frontSm.jpg",
-		    "./img/skybox/backSm.jpg"
+			"./img/skybox/rightSm.jpg",
+			"./img/skybox/leftSm.jpg",
+			"./img/skybox/topSm.jpg",
+			"./img/skybox/downSm.jpg",
+			"./img/skybox/frontSm.jpg",
+			"./img/skybox/backSm.jpg"
 		];
 		cubeTexLoader.load( cubeUrls, function(tex) {
 
 			var cubeShader = THREE.ShaderLib['cube'];
-		    cubeShader.uniforms['tCube'].value = tex;
+			cubeShader.uniforms['tCube'].value = tex;
 
-		    var skyBoxMaterial = new THREE.ShaderMaterial({
-		        fragmentShader: cubeShader.fragmentShader,
-		        vertexShader: cubeShader.vertexShader,
-		        uniforms: cubeShader.uniforms,
-		        depthWrite: false,
-		        side: THREE.BackSide
-		    });
+			var skyBoxMaterial = new THREE.ShaderMaterial({
+			fragmentShader: cubeShader.fragmentShader,
+			vertexShader: cubeShader.vertexShader,
+			uniforms: cubeShader.uniforms,
+			depthWrite: false,
+			side: THREE.BackSide
+			});
 
-		    var skybox = new THREE.Mesh(new THREE.BoxGeometry(70000, 70000, 70000), skyBoxMaterial);
-		    _self.scene.add(skybox);
+			var skybox = new THREE.Mesh(new THREE.BoxGeometry(70000, 70000, 70000), skyBoxMaterial);
+			_self.scene.add(skybox);
 
 		});
 
-	    ///////////
-	    // LIGHT //
-	    ///////////
-	    
-	    // create a light
-	    var light = new THREE.PointLight(0xffffff, 2);
-	    light.position.set(-5000,0,5000);
-	    _self.scene.add(light);
-	    
-	    _self.scene.add( new THREE.AmbientLight( 0x111111 ) );
+		///////////
+		// LIGHT //
+		///////////
+		
+		// create a light
+		var light = new THREE.PointLight(0xffffff, 2);
+		light.position.set(-5000,0,5000);
+		_self.scene.add(light);
+		
+		_self.scene.add( new THREE.AmbientLight( 0x111111 ) );
 
-	    ////////////
-	    //GEOMETRY//
-	    ////////////
+		////////////
+		//GEOMETRY//
+		////////////
 
-	    
-	    //ship
+		
+		//ship
 		_self.ship = new Ship1();
 		_self.ship.loadModels();
 		_self.ship.obj.add(_self.camera); //if ship rotates, so does camera (as if you were in the ship)
@@ -262,11 +262,11 @@ function SpaceScene() {
 		_self.solarSystem.marsAtmosphere.position.x = -300;
 		_self.scene.add(_self.solarSystem.system);
 
-	    //ensure size/scale is set correctly (wasn't during initial tests)
-	    _self.onResize();
+		//ensure size/scale is set correctly (wasn't during initial tests)
+		_self.onResize();
 
-	    //mark scene as initiated
-	    _self.sceneInitiated = true;
+		//mark scene as initiated
+		_self.sceneInitiated = true;
 	};
 
 	_self.initMusic = function() {
@@ -296,24 +296,24 @@ function SpaceScene() {
 
 	//update scene elements
 	_self.update = function() {
-	    var i, object, r;
+		var i, object, r;
 
-	    // delta = change in time since last call (in seconds)
-	    var delta = _self.clock.getDelta();
+		// delta = change in time since last call (in seconds)
+		var delta = _self.clock.getDelta();
 
-	    _self.stereoCamera.update(_self.scene, _self.camera, window.innerWidth, window.innerHeight);
-	    
+		_self.stereoCamera.update(_self.scene, _self.camera, window.innerWidth, window.innerHeight);
+		
 
-	    _self.solarSystem.update(_self.camera);
+		_self.solarSystem.update(_self.camera);
 
 		_self.ship.obj.rotation.y -= 0.0001;
 		_self.solarSystem.mars.rotation.y += 0.00005;
-	        
-	    _self.stats.update();
+		
+		_self.stats.update();
 	};
 
 	//render three.js scene
-	_self.render = function() {   
+	_self.render = function() { 
 		_self.renderer.setViewport( 0, 0, window.innerWidth / 2, window.innerHeight);
 		_self.renderPass.camera = _self.stereoCamera.left; //note: breaking rule by settings Class.camera directly xO
 		_self.composer.render();
@@ -334,12 +334,12 @@ function SpaceScene() {
 			window.requestAnimationFrame(drawFrame, _self.earthCanvas);
 
 			if(_self.sceneInitiated == true && _self.sceneStopAnimating == false) {
-		       	_self.update();
-		       	_self.render();
-		       	_self.controls.update();       
-		    } else {
-		    	console.log('space scene not ready yet...');
-		    }
+			 	_self.update();
+			 	_self.render();
+			 	_self.controls.update();
+			} else {
+				console.log('space scene not ready yet...');
+			}
 		}());
 	};
 }
