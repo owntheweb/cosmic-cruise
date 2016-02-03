@@ -136,8 +136,6 @@ function SpaceScene() {
 	    _self.effectCopy = new THREE.ShaderPass( THREE.CopyShader );
 	    _self.effectCopy.renderToScreen = true;
 
-	    _self.effectBloom = new THREE.BloomPass( 1.0 );
-
 	    _self.effectFXAA = new THREE.ShaderPass(THREE.FXAAShader);
 		_self.effectFXAA.uniforms.resolution.value = new THREE.Vector2(1 / window.innerWidth, 1 / window.innerHeight);
 		
@@ -148,7 +146,6 @@ function SpaceScene() {
 		_self.renderPass = new THREE.RenderPass(_self.scene, _self.stereoCamera.left);
 		_self.composer = new THREE.EffectComposer(_self.renderer);
 		_self.composer.addPass(_self.renderPass);
-		//_self.composer.addPass(_self.effectBloom);
 		_self.composer.addPass(_self.effectFXAA);
 		_self.composer.addPass(_self.effectCopy);
 
