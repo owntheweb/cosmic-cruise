@@ -14,6 +14,8 @@ Audio will be added soon. At the moment, audio used in development is not open s
 ## Three.js
 This project is powered by [Three.js](http://threejs.org/).
 
+## Special Thanks
+
 ![Space Foundation](http://www.spacefoundation.org/m/vcards/images/sfLogo.png)
 
 This app is co-sponsored by the [Space Foundation](http://www.spacefoundation.org).
