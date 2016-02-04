@@ -46,3 +46,7 @@ html, body {
 .hidden {
 	display: none;
 }
+
+div.dg.ac {
+	z-index: 5000;
+}

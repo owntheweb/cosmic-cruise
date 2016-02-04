@@ -256,11 +256,16 @@ function SpaceScene() {
 		_self.solarSystem.init(_self.camera);
 		_self.scene.add(_self.solarSystem.system);
 
-		//!!! temporary
-		_self.ship.obj.position.x = (_self.solarSystem.sun.position.x - -800);
-		_self.ship.obj.position.y = (_self.solarSystem.sun.position.y - 800);
-		_self.ship.obj.position.z = (_self.solarSystem.sun.position.z - -200);
-		
+		var gui = new dat.GUI();
+		var f1 = gui.addFolder('Ship Position');
+		f1.add(_self.ship.obj.position, 'x', -5000, 5000);
+		f1.add(_self.ship.obj.position, 'y', -5000, 5000);
+		f1.add(_self.ship.obj.position, 'z', -5000, 5000);
+		var f2 = gui.addFolder('Ship Rotation');
+		//!!! I want to see floats here but am seeing integers, how to update?
+		f2.add(_self.ship.obj.rotation, 'x', 0.0, Math.PI * 2);
+		f2.add(_self.ship.obj.rotation, 'y', 0.0, Math.PI * 2);
+		f2.add(_self.ship.obj.rotation, 'z', 0.0, Math.PI * 2);
 
 		//ensure size/scale is set correctly (wasn't during initial tests)
 		_self.onResize();
@@ -309,9 +314,9 @@ function SpaceScene() {
 		_self.solarSystem.update(_self.camera);
 
 		//!!! TEMP
-		_self.ship.obj.position.x -= 0.4;
-		_self.ship.obj.position.y += 0.4;
-		_self.ship.obj.position.z -= 0.4;
+		//_self.ship.obj.position.x -= 0.4;
+		//_self.ship.obj.position.y += 0.4;
+		//_self.ship.obj.position.z -= 0.4;
 
 		//_self.ship.obj.rotation.y -= 0.0001;
 		//_self.solarSystem.mars.rotation.y += 0.00005;
