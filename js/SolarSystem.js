@@ -5,7 +5,7 @@
 function SolarSystem() {
 	var _self = this;
 
-	_self.baseDiameter = 100; //scale of earth for this project, with other planets scaling with multipliers
+	_self.baseDiameter = 300; //scale of earth for this project, with other planets scaling with multipliers
 
 	_self.sun = new THREE.Object3D();
 	_self.murcury = new THREE.Object3D();
@@ -66,6 +66,9 @@ function SolarSystem() {
 			z:-710,
 			s:1.0,
 			a:0.401426
+		},
+		earthMoon: {
+			s:0.27254357
 		},
 		mars: {
 			x:-1840,
@@ -244,7 +247,7 @@ function SolarSystem() {
 			blending: THREE.AdditiveBlending
 		});
 
-		var atmosGeom = new THREE.PlaneGeometry(geometry.boundingSphere.radius * 2.8, geometry.boundingSphere.radius * 2.8, 2);
+		var atmosGeom = new THREE.PlaneGeometry(geometry.boundingSphere.radius * 2.5, geometry.boundingSphere.radius * 2.5, 2);
 		var atmosMesh = new THREE.Mesh(atmosGeom, atmosMaterial);
 
 		_self.marsAtmosphere.add(atmosMesh);
@@ -258,7 +261,7 @@ function SolarSystem() {
 
 		var material = new THREE.MeshPhongMaterial({
 			map: THREE.ImageUtils.loadTexture('img/solar/jupiter2_1k.jpg'),
-			shininess: 0.5
+			shininess: 0.0
 		});
 
 		var mesh = new THREE.Mesh(geometry, material);
@@ -364,16 +367,16 @@ function SolarSystem() {
 	};
 
 	_self.init = function() {
-		_self.createSun();
-		_self.createMurcury();
-		_self.createVenus();
-		_self.createEarth();
+		//_self.createSun();
+		//_self.createMurcury();
+		//_self.createVenus();
+		//_self.createEarth();
 		_self.createMars();
-		_self.createJupiter();
-		_self.createSaturn();
-		_self.createUranus();
-		_self.createNeptune();
-		_self.createPluto();
+		//_self.createJupiter();
+		//_self.createSaturn();
+		//_self.createUranus();
+		//_self.createNeptune();
+		//_self.createPluto();
 	};
 
 	_self.update = function(camera) {

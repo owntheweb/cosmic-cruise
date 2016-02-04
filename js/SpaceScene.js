@@ -111,7 +111,7 @@ function SpaceScene() {
 		var screenH = window.innerHeight;
 		var viewAngle = 90;
 		var aspectRatio = screenW / screenH;
-		var near = 100;
+		var near = 4;
 		var far = 7000000;
 		_self.camera = new THREE.PerspectiveCamera(viewAngle, aspectRatio, near, far);
 		_self.camera.position.set(0,0,0);
@@ -246,10 +246,18 @@ function SpaceScene() {
 
 		
 		//ship
-		_self.ship = new Ship1();
+		_self.ship = new Ship2();
 		_self.ship.loadModels();
 		_self.ship.obj.add(_self.camera); //if ship rotates, so does camera (as if you were in the ship)
 		_self.scene.add(_self.ship.obj);
+
+		//!!! TEMP
+		_self.ship.obj.position.x = -1674;
+		_self.ship.obj.position.y = 34;
+		_self.ship.obj.position.z = 98;
+		_self.ship.obj.rotation.x = 0.6;
+		_self.ship.obj.rotation.y = 2;
+		_self.ship.obj.rotation.z = 0.1;
 
 		//solar system
 		_self.solarSystem = new SolarSystem();
