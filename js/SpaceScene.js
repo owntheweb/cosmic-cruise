@@ -30,6 +30,7 @@ function SpaceScene() {
 
 	_self.stereoCameras;
 
+	_self.skybox;
 	_self.ship;
 	_self.solarSystem;
 
@@ -110,8 +111,8 @@ function SpaceScene() {
 		var screenH = window.innerHeight;
 		var viewAngle = 90;
 		var aspectRatio = screenW / screenH;
-		var near = 0.001;
-		var far = 120000;
+		var near = 100;
+		var far = 7000000;
 		_self.camera = new THREE.PerspectiveCamera(viewAngle, aspectRatio, near, far);
 		_self.camera.position.set(0,0,0);
 		_self.camera.lookAt(_self.scene.position);
@@ -223,8 +224,8 @@ function SpaceScene() {
 			side: THREE.BackSide
 			});
 
-			var skybox = new THREE.Mesh(new THREE.BoxGeometry(70000, 70000, 70000), skyBoxMaterial);
-			_self.scene.add(skybox);
+			_self.skybox = new THREE.Mesh(new THREE.BoxGeometry(4000000, 4000000, 4000000), skyBoxMaterial);
+			_self.scene.add(_self.skybox);
 
 		});
 
@@ -234,7 +235,7 @@ function SpaceScene() {
 		
 		// create a light
 		var light = new THREE.PointLight(0xffffff, 2);
-		light.position.set(-5000,0,5000);
+		light.position.set(0,0,0);
 		_self.scene.add(light);
 		
 		_self.scene.add( new THREE.AmbientLight( 0x111111 ) );
@@ -252,15 +253,14 @@ function SpaceScene() {
 
 		//solar system
 		_self.solarSystem = new SolarSystem();
-		_self.solarSystem.createMars(_self.camera);
-		//!!! temporary
-		_self.solarSystem.mars.position.z = -1300;
-		_self.solarSystem.mars.position.y = -300;
-		_self.solarSystem.mars.position.x = -300;
-		_self.solarSystem.marsAtmosphere.position.z = -1300;
-		_self.solarSystem.marsAtmosphere.position.y = -300;
-		_self.solarSystem.marsAtmosphere.position.x = -300;
+		_self.solarSystem.init(_self.camera);
 		_self.scene.add(_self.solarSystem.system);
+
+		//!!! temporary
+		_self.ship.obj.position.x = (_self.solarSystem.sun.position.x - -800);
+		_self.ship.obj.position.y = (_self.solarSystem.sun.position.y - 800);
+		_self.ship.obj.position.z = (_self.solarSystem.sun.position.z - -200);
+		
 
 		//ensure size/scale is set correctly (wasn't during initial tests)
 		_self.onResize();
@@ -301,19 +301,28 @@ function SpaceScene() {
 		// delta = change in time since last call (in seconds)
 		var delta = _self.clock.getDelta();
 
+		//_self.skybox.position = _self.camera.position;
+		//console.log(_self.camera.position);
+
 		_self.stereoCamera.update(_self.scene, _self.camera, window.innerWidth, window.innerHeight);
 		
-
 		_self.solarSystem.update(_self.camera);
 
-		_self.ship.obj.rotation.y -= 0.0001;
-		_self.solarSystem.mars.rotation.y += 0.00005;
+		//!!! TEMP
+		_self.ship.obj.position.x -= 0.4;
+		_self.ship.obj.position.y += 0.4;
+		_self.ship.obj.position.z -= 0.4;
+
+		//_self.ship.obj.rotation.y -= 0.0001;
+		//_self.solarSystem.mars.rotation.y += 0.00005;
 		
 		_self.stats.update();
 	};
 
 	//render three.js scene
 	_self.render = function() { 
+		//_self.renderer.clear();
+
 		_self.renderer.setViewport( 0, 0, window.innerWidth / 2, window.innerHeight);
 		_self.renderPass.camera = _self.stereoCamera.left; //note: breaking rule by settings Class.camera directly xO
 		_self.composer.render();
