@@ -2,7 +2,7 @@
   <name>VR Solar System Tour</name>
   <description>Take a narrated tour of the solar system!</description>
   <author href="http://www.spacefoundation.org" email="cstevens@spacefoundation.org">Christopher Stevens</author>
-  <content src="index.htm"/>
+  <content src="index.html"/>
   <preference name="permissions" value="none"/>
   <preference name="orientation" value="landscape"/>
   <preference name="target-device" value="universal"/>
