@@ -62,8 +62,8 @@
   <icon src="www/res/icon/webos/icon-64.png" gap:platform="webos"/>
   <icon src="www/res/icon/windows-phone/icon-48.png" gap:platform="winphone"/>
   <icon src="www/res/icon/windows-phone/icon-173-tile.png" gap:platform="winphone" gap:role="background"/>
-<gap:splash src="splash.png" />
-<!--
+  <icon src="www/res/ios/icon-60@3x.png" width="180" height="180" /> <!-- iPhone 6+ addition -->
+
   <gap:splash src="www/res/screen/android/screen-ldpi-portrait.png" gap:platform="android" gap:qualifier="port-ldpi"/>
   <gap:splash src="www/res/screen/android/screen-mdpi-portrait.png" gap:platform="android" gap:qualifier="port-mdpi"/>
   <gap:splash src="www/res/screen/android/screen-hdpi-portrait.png" gap:platform="android" gap:qualifier="port-hdpi"/>
@@ -75,11 +75,16 @@
   <gap:splash src="www/res/screen/ios/screen-ipad-portrait.png" gap:platform="ios" width="768" height="1024"/>
   <gap:splash src="www/res/screen/ios/screen-ipad-landscape.png" gap:platform="ios" width="1024" height="768"/>
   <gap:splash src="www/res/screen/windows-phone/screen-portrait.jpg" gap:platform="winphone"/>
--->
+
   <!-- new splash screen requirements for ios9 -->
-  <gap:splash src="www/res/screen/ios/750.png" gap:platform="ios" width="750" height="1334" />
-  <gap:splash src="www/res/screen/ios/1242.png" gap:platform="ios" width="1242" height="2208" />
-  <gap:splash src="www/res/screen/ios/2208.png" gap:platform="ios" width="2208" height="1242" />
+  <!-- ACTUALLY not sure on these -->
+  <!-- <gap:splash src="www/res/screen/ios/750.png" gap:platform="ios" width="750" height="1334" /> -->
+  <!-- <gap:splash src="www/res/screen/ios/1242.png" gap:platform="ios" width="1242" height="2208" /> -->
+  <!-- <gap:splash src="www/res/screen/ios/2208.png" gap:platform="ios" width="2208" height="1242" /> -->
+
+  <!-- iPhone 6+ addition (file names may be important as well?) -->
+  <splash src="www/res/screen/ios/Default-736h.png" width="1242" height="2208"/>
+  <splash src="www/res/screen/ios/Default-Landscape-736h.png" width="2208" height="1242"/>
 
   <access origin="*"/>
   <plugin name="cordova-plugin-whitelist" version="1"/>
