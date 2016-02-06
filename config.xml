@@ -49,32 +49,30 @@
   <gap:plugin name="nl.x-services.plugins.insomnia" />
 
   <icon src="icon.png"/>
-  <icon src="www/res/icon/android/icon-36-ldpi.png" gap:platform="android" gap:qualifier="ldpi"/>
-  <icon src="www/res/icon/android/icon-48-mdpi.png" gap:platform="android" gap:qualifier="mdpi"/>
-  <icon src="www/res/icon/android/icon-72-hdpi.png" gap:platform="android" gap:qualifier="hdpi"/>
-  <icon src="www/res/icon/android/icon-96-xhdpi.png" gap:platform="android" gap:qualifier="xhdpi"/>
-  <icon src="www/res/icon/blackberry/icon-80.png" gap:platform="blackberry"/>
-  <icon src="www/res/icon/blackberry/icon-80.png" gap:platform="blackberry" gap:state="hover"/>
-  <icon src="www/res/icon/ios/icon-57.png" gap:platform="ios" width="57" height="57"/>
-  <icon src="www/res/icon/ios/icon-72.png" gap:platform="ios" width="72" height="72"/>
-  <icon src="www/res/icon/ios/icon-57-2x.png" gap:platform="ios" width="114" height="114"/>
-  <icon src="www/res/icon/ios/icon-72-2x.png" gap:platform="ios" width="144" height="144"/>
-  <icon src="www/res/icon/webos/icon-64.png" gap:platform="webos"/>
-  <icon src="www/res/icon/windows-phone/icon-48.png" gap:platform="winphone"/>
-  <icon src="www/res/icon/windows-phone/icon-173-tile.png" gap:platform="winphone" gap:role="background"/>
-  <icon src="www/res/ios/icon-60@3x.png" width="180" height="180" /> <!-- iPhone 6+ addition -->
+  <icon src="res/icon/android/icon-36-ldpi.png" gap:platform="android" gap:qualifier="ldpi"/>
+  <icon src="res/icon/android/icon-48-mdpi.png" gap:platform="android" gap:qualifier="mdpi"/>
+  <icon src="res/icon/android/icon-72-hdpi.png" gap:platform="android" gap:qualifier="hdpi"/>
+  <icon src="res/icon/android/icon-96-xhdpi.png" gap:platform="android" gap:qualifier="xhdpi"/>
+  <icon src="res/icon/blackberry/icon-80.png" gap:platform="blackberry"/>
+  <icon src="res/icon/blackberry/icon-80.png" gap:platform="blackberry" gap:state="hover"/>
+  <icon src="res/icon/ios/icon-57.png" gap:platform="ios" width="57" height="57"/>
+  <icon src="res/icon/ios/icon-72.png" gap:platform="ios" width="72" height="72"/>
+  <icon src="res/icon/ios/icon-57-2x.png" gap:platform="ios" width="114" height="114"/>
+  <icon src="res/icon/ios/icon-72-2x.png" gap:platform="ios" width="144" height="144"/>
+  <icon src="res/icon/webos/icon-64.png" gap:platform="webos"/>
+  <icon src="res/icon/windows-phone/icon-48.png" gap:platform="winphone"/>
+  <icon src="res/icon/windows-phone/icon-173-tile.png" gap:platform="winphone" gap:role="background"/>
+  <icon src="res/ios/icon-60@3x.png" width="180" height="180" /> <!-- iPhone 6+ addition -->
 
   <gap:splash src="res/screen/android/screen-ldpi-portrait.png" gap:platform="android" gap:qualifier="port-ldpi"/>
   <gap:splash src="res/screen/android/screen-mdpi-portrait.png" gap:platform="android" gap:qualifier="port-mdpi"/>
   <gap:splash src="res/screen/android/screen-hdpi-portrait.png" gap:platform="android" gap:qualifier="port-hdpi"/>
   <gap:splash src="res/screen/android/screen-xhdpi-portrait.png" gap:platform="android" gap:qualifier="port-xhdpi"/>
-  <gap:splash src="res/screen/blackberry/screen-225.png" gap:platform="blackberry"/>
   <gap:splash src="res/screen/ios/screen-iphone-portrait.png" gap:platform="ios" width="320" height="480"/>
   <gap:splash src="res/screen/ios/screen-iphone-portrait-2x.png" gap:platform="ios" width="640" height="960"/>
   <gap:splash src="res/screen/ios/screen-iphone-portrait-568h-2x.png" gap:platform="ios" width="640" height="1136"/>
   <gap:splash src="res/screen/ios/screen-ipad-portrait.png" gap:platform="ios" width="768" height="1024"/>
   <gap:splash src="res/screen/ios/screen-ipad-landscape.png" gap:platform="ios" width="1024" height="768"/>
-  <gap:splash src="res/screen/windows-phone/screen-portrait.jpg" gap:platform="winphone"/>
 
   <!-- new splash screen requirements for ios9 -->
   <!-- ACTUALLY not sure on these -->
@@ -83,8 +81,8 @@
   <!-- <gap:splash src="www/res/screen/ios/2208.png" gap:platform="ios" width="2208" height="1242" /> -->
 
   <!-- iPhone 6+ addition (file names may be important as well?) -->
-  <splash src="res/screen/ios/Default-736h.png" width="1242" height="2208"/>
-  <splash src="res/screen/ios/Default-Landscape-736h.png" width="2208" height="1242"/>
+  <splash src="res/screen/ios/Default-736h.png" gap:platform="ios" width="1242" height="2208"/>
+  <splash src="res/screen/ios/Default-Landscape-736h.png" gap:platform="ios" width="2208" height="1242"/>
 
   <access origin="*"/>
   <plugin name="cordova-plugin-whitelist" version="1"/>
