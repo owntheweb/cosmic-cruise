@@ -45,6 +45,16 @@
   <preference name="StatusBarBackgroundColor" value="#000b1c" />
   -->
 
+  <!--hide iOS status bar -->
+  <gap:plugin name="com.phonegap.plugin.statusbar" />
+  <gap:config-file platform="ios" parent="UIStatusBarHidden">
+    <true/>
+  </gap:config-file>
+  <gap:config-file platform="ios" parent="UIViewControllerBasedStatusBarAppearance">
+    <false/>
+  </gap:config-file>
+  <preference name="StatusBarOverlaysWebView" value="true" />
+
   <!-- prevent app from sleeping -->
   <gap:plugin name="nl.x-services.plugins.insomnia" />
 
