@@ -4,7 +4,7 @@
 Take a Google Cardboard tour of the solar system! This project is just getting started, so prepare for several updates before it's usable. The end project will run as a PhoneGap app.
 
 ## Planet Textures
-This project makes use of textures, normal maps and bump maps from [planetpixelemporium](http://planetpixelemporium.com/planets.html) (Murcury, Venus, Earch, Moon, Mars, Jupiter, Saturn, Uranus, Neptune).
+This project makes use of textures, normal maps and bump maps from [planetpixelemporium](http://planetpixelemporium.com/planets.html) (Murcury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Uranus, Neptune).
 
 Pluto texture courtesy of NASA (coming soon, along with some others)
 
@@ -17,7 +17,7 @@ Skybox texture generated and altered from [this image](http://www.eso.org/public
 Based on a work at [http://www.toucanmusic.co.uk/albums/toulp5.html](http://www.toucanmusic.co.uk/albums/toulp5.html)
 Permissions beyond the scope of this license may be available at [http://www.toucanmusic.co.uk/licensing.php](http://www.toucanmusic.co.uk/licensing.php).
 
-Note: Music selection is still a work-in-progress. Narration is also on the way. Credits will be added inside of the app itself once the app is in a more functional state (prior to posting non-commercial app in app markets).
+Note: Music selection is still a work-in-progress. Narration is also on the way. Credits will be added inside of the app itself once the app is in a more functional state (prior to posting non-commercial app in markets).
 
 ## Three.js
 This project is powered by [Three.js](http://threejs.org/).
