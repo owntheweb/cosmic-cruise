@@ -284,7 +284,7 @@ function SpaceScene() {
 
 	_self.initMusic = function() {
 		_self.music = new Howl({
-			src: ['audio/AForgottenPlanet.mp3'],
+			src: ['audio/Psychadelik_Pedestrian_-_07_-_Pacific.mp3'],
 			autoplay: true,
 			loop: true,
 			volume: 1.0,
