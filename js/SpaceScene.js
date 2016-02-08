@@ -197,6 +197,7 @@ function SpaceScene() {
 		window.addEventListener('click', function() {
 			_self.onClick();
 		});
+		
 		console.log(navigator.compass);
 		if(navigator.compass != undefined) {
 			console.log('There is a compass!');
