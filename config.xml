@@ -46,7 +46,8 @@
   -->
 
   <!--hide iOS status bar -->
-  <gap:plugin name="com.phonegap.plugin.statusbar" />
+  <!--<gap:plugin name="com.phonegap.plugin.statusbar" />-->
+  <gap:plugin name="cordova-plugin-statusbar" source="npm" />
   <gap:config-file platform="ios" parent="UIStatusBarHidden">
     <true/>
   </gap:config-file>
