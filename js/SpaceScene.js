@@ -219,6 +219,8 @@ function SpaceScene() {
 				var options = {frequency: 100};
 			}
 			var watchID = navigator.compass.watchHeading(onHeadingSuccess, onHeadingError, options);
+		} else {
+			console.log('no compass detected');
 		}
 
 
