@@ -198,6 +198,8 @@ function SpaceScene() {
 			_self.onClick();
 		});
 		if(navigator.compass !== undefined) {
+			console.log('There is a compass!');
+			
 			var onHeadingSuccess = function(heading) {
 			    console.log(heading.magneticHeading);
 
