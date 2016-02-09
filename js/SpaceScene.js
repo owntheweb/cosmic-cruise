@@ -159,7 +159,7 @@ function SpaceScene() {
 		_self.controls.target.set(
 			_self.camera.position.x,
 			_self.camera.position.y,
-			_self.camera.position.z - 0.0001
+			_self.camera.position.z + 0.0001
 		);
 		_self.controls.enablePan = false;
 		_self.controls.enableZoom = false;
@@ -284,31 +284,34 @@ function SpaceScene() {
 		//GEOMETRY//
 		////////////
 
-		
-		//ship
-		_self.ship = new Ship2();
-		_self.ship.loadModels();
-		_self.ship.obj.add(_self.camera); //if ship rotates, so does camera (as if you were in the ship)
-		_self.scene.add(_self.ship.obj);
-
-		//!!! TEMP
-		_self.ship.obj.position.x = -1674;
-		_self.ship.obj.position.y = 34;
-		_self.ship.obj.position.z = 98;
-		_self.ship.obj.rotation.x = 0.6;
-		_self.ship.obj.rotation.y = 2;
-		_self.ship.obj.rotation.z = 0.1;
 
 		//solar system
 		_self.solarSystem = new SolarSystem();
 		_self.solarSystem.init(_self.camera);
 		_self.scene.add(_self.solarSystem.system);
 
+		//ship
+		_self.ship = new Ship2();
+		_self.ship.loadModels();
+		_self.ship.obj.add(_self.camera); //if ship rotates, so does camera (as if you were in the ship)
+		_self.solarSystem.system.add(_self.ship.obj);
+
+		//!!! TEMP
+		//_self.ship.obj.position.x = -1674;
+		//_self.ship.obj.position.y = 34;
+		//_self.ship.obj.position.z = 98;
+		//_self.ship.obj.position.x = -10000;
+		//_self.ship.obj.position.y = 500;
+		//_self.ship.obj.position.z = -10000;
+		//_self.ship.obj.rotation.x = 0.6;
+		//_self.ship.obj.rotation.y = 2;
+		//_self.ship.obj.rotation.z = 0.1;
+
 		var gui = new dat.GUI();
 		var f1 = gui.addFolder('Ship Position');
-		f1.add(_self.ship.obj.position, 'x', -5000, 5000);
-		f1.add(_self.ship.obj.position, 'y', -5000, 5000);
-		f1.add(_self.ship.obj.position, 'z', -5000, 5000);
+		f1.add(_self.ship.obj.position, 'x', -10000, 10000);
+		f1.add(_self.ship.obj.position, 'y', -10000, 10000);
+		f1.add(_self.ship.obj.position, 'z', -10000, 10000);
 		var f2 = gui.addFolder('Ship Rotation');
 		//!!! I want to see floats here but am seeing integers, how to update?
 		f2.add(_self.ship.obj.rotation, 'x', 0.0, Math.PI * 2);
@@ -320,6 +323,14 @@ function SpaceScene() {
 
 		//mark scene as initiated
 		_self.sceneInitiated = true;
+
+		//!!! TEMP
+		var endlessFlight = function() {
+			var randomPlanet = _self.solarSystem.planets[Math.floor(Math.random() * _self.solarSystem.planets.length)];
+			console.log("We travel to " + randomPlanet.name + "! Weeeee!");
+			_self.navToPlanet(randomPlanet, endlessFlight);
+		};
+		endlessFlight();
 	};
 
 	_self.initMusic = function() {
@@ -347,6 +358,42 @@ function SpaceScene() {
 		
 	};
 
+	//!!! It works!... sort of. I feel there are still issues here.
+	//!!! Often planet collissions occur as overlapping stopping points
+	_self.navToPlanet = function(to, finishCallback) {
+		//!!! offset will likely change per planet, move this soon
+		var exitPoint = new THREE.Vector3(0, -150, 0).add(_self.ship.obj.position);
+		var arrivalOffset = new THREE.Vector3(100, -60, -50).add(to.position);
+
+		//!!! not working as expected, ship doesn't turn towards target always
+		//!!! sometimes it's messed up (time to study)
+		var shipRef = new THREE.Object3D();
+		shipRef.position = _self.ship.obj.position;
+		shipRef.rotation = _self.ship.obj.rotation;
+		shipRef.lookAt(to.position);
+		var destinationTurn = shipRef.rotation;
+
+		var tl = new TimelineLite();
+
+		tl.to(_self.ship.obj.position, 6, { 
+			ease: Power2.easeInOut, 
+			x: (exitPoint.x), 
+			y: (exitPoint.y), 
+			z: (exitPoint.z)
+		}).to(_self.ship.obj.rotation, 10, { 
+			ease: Power1.easeInOut, 
+			x: (destinationTurn.x), 
+			y: (destinationTurn.y), 
+			z: (destinationTurn.z)
+		}).to( _self.ship.obj.position, 10, { 
+			ease: Power2.easeInOut, 
+			x: (arrivalOffset.x), 
+			y: (arrivalOffset.y), 
+			z: (arrivalOffset.z),
+			onComplete: finishCallback
+		});
+	}
+
 	//update scene elements
 	_self.update = function() {
 		var i, object, r;
@@ -354,7 +401,10 @@ function SpaceScene() {
 		// delta = change in time since last call (in seconds)
 		var delta = _self.clock.getDelta();
 
-		//_self.skybox.position = _self.camera.position;
+		//!!! this is causing errors until skybox textures are loaded
+		_self.skybox.position = _self.ship.obj.position;
+		
+		//console.log(_self.skybox.position);
 		//console.log(_self.camera.position);
 
 		_self.stereoCamera.update(_self.scene, _self.camera, window.innerWidth, window.innerHeight);
@@ -368,6 +418,8 @@ function SpaceScene() {
 
 		//_self.ship.obj.rotation.y -= 0.0001;
 		//_self.solarSystem.mars.rotation.y += 0.00005;
+
+		//console.log(_self.ship.obj.position);
 		
 		_self.stats.update();
 	};
