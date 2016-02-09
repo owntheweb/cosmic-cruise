@@ -379,17 +379,20 @@ function SpaceScene() {
 			ease: Power2.easeInOut, 
 			x: (exitPoint.x), 
 			y: (exitPoint.y), 
-			z: (exitPoint.z)
+			z: (exitPoint.z),
+			onStart: function() { console.log('Moving away from departure point...'); }
 		}).to(_self.ship.obj.rotation, 10, { 
 			ease: Power1.easeInOut, 
 			x: (destinationTurn.x), 
 			y: (destinationTurn.y), 
-			z: (destinationTurn.z)
+			z: (destinationTurn.z),
+			onStart: function() { console.log('Turning towards destination...'); }
 		}).to( _self.ship.obj.position, 10, { 
-			ease: Power2.easeInOut, 
+			ease: Power4.easeInOut, 
 			x: (arrivalOffset.x), 
 			y: (arrivalOffset.y), 
 			z: (arrivalOffset.z),
+			onStart: function() { console.log('Engage!'); },
 			onComplete: finishCallback
 		});
 	}
