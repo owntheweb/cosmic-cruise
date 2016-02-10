@@ -480,22 +480,23 @@ function SolarSystem() {
 
 	//thanks: http://stackoverflow.com/questions/20396150/three-js-how-to-keep-sprite-text-size-unchanged-when-zooming
 	_self.setDistantPlanetSprites = function(camera) {
-		var i, v, scale;
-		var virtual_z = 20;
+		var i, v, scale, dist;
+		//var virtual_z = 20; //!!! this should actually be distance to planet from camera, not static value
 		for(i=0; i<_self.planets.length; i++) {
 			//console.log(_self.planetSprites);
 			
-			/*
+			var dist = _self.planets[i].position.distanceTo(camera.position) * 0.002;
+			//console.log(dist);
+
 			v = _self.planets[i].position
 			.clone()
 			.applyMatrix4(camera.matrixWorldInverse);
 
-			scale=(v.z-camera.position.z)/virtual_z;
+			scale=(v.z-camera.position.z)/dist;
 			_self.planets[i].scale.set(scale,scale,scale);
-			*/
 
-			scale=200;
-			_self.planets[i].scale.set(scale,scale,scale);
+			//scale=200;
+			//_self.planets[i].scale.set(scale,scale,scale);
 		}
 	}
 

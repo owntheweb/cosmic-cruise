@@ -32,6 +32,7 @@ function SpaceScene() {
 
 	_self.skybox;
 	_self.ship;
+	_self.shipRef;
 	_self.solarSystem;
 
 	//stats
@@ -296,6 +297,17 @@ function SpaceScene() {
 		_self.ship.obj.add(_self.camera); //if ship rotates, so does camera (as if you were in the ship)
 		_self.solarSystem.system.add(_self.ship.obj);
 
+		//ship reference (empty object used to help calculate turns to new targets)
+		_self.shipRef = new THREE.Object3D();
+		_self.solarSystem.system.add(_self.shipRef);
+
+		//!!! TEMP
+		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
+        var material = new THREE.SpriteMaterial( { map: map, color: 0xFF0000 } );
+        _self.focusPoint = new THREE.Sprite( material );
+        _self.focusPoint.scale = 5.0;
+        _self.shipRef.add(_self.focusPoint);
+
 		//!!! TEMP
 		//_self.ship.obj.position.x = -1674;
 		//_self.ship.obj.position.y = 34;
@@ -358,35 +370,64 @@ function SpaceScene() {
 		
 	};
 
+	_self.getPointInBetweenByPerc = function(pointA, pointB, percentage) {
+		var dir = pointB.clone().sub(pointA);
+		var len = dir.length();
+		dir = dir.normalize().multiplyScalar(len*percentage);
+		return pointA.clone().add(dir);
+	}
+
 	//!!! It works!... sort of. I feel there are still issues here.
 	//!!! Often planet collissions occur as overlapping stopping points
 	_self.navToPlanet = function(to, finishCallback) {
-		//!!! offset will likely change per planet, move this soon
-		var exitPoint = new THREE.Vector3(0, -150, 0).add(_self.ship.obj.position);
-		var arrivalOffset = new THREE.Vector3(100, -60, -50).add(to.position);
+		//!!! needed??? skip???
+		//_self.camera.updateProjectionMatrix();
 
-		//!!! not working as expected, ship doesn't turn towards target always
-		//!!! sometimes it's messed up (time to study)
-		var shipRef = new THREE.Object3D();
-		shipRef.position = _self.ship.obj.position;
-		shipRef.rotation = _self.ship.obj.rotation;
-		shipRef.lookAt(to.position);
-		var destinationTurn = shipRef.rotation;
+		//!!! offset will likely change per planet, move this soon
+		var exitPoint = new THREE.Vector3(0, -1200, 0);
+		exitPoint.x += _self.ship.obj.position.x;
+		exitPoint.y += _self.ship.obj.position.y;
+		exitPoint.z += _self.ship.obj.position.z;
+		var arrivalOffset = new THREE.Vector3(0, -600, -0);
+		arrivalOffset.x += to.position.x;
+		arrivalOffset.y += to.position.y;
+		arrivalOffset.z += to.position.z;
+
+		var shipFace = _self.getPointInBetweenByPerc(exitPoint, arrivalOffset, 0.01);
+		//console.log(shipFace);
+
+
 
 		var tl = new TimelineLite();
 
 		tl.to(_self.ship.obj.position, 6, { 
 			ease: Power2.easeInOut, 
-			x: (exitPoint.x), 
-			y: (exitPoint.y), 
-			z: (exitPoint.z),
-			onStart: function() { console.log('Moving away from departure point...'); }
-		}).to(_self.ship.obj.rotation, 10, { 
-			ease: Power1.easeInOut, 
-			x: (destinationTurn.x), 
-			y: (destinationTurn.y), 
-			z: (destinationTurn.z),
-			onStart: function() { console.log('Turning towards destination...'); }
+			x: exitPoint.x, 
+			y: exitPoint.y, 
+			z: exitPoint.z,
+			onStart: function() { console.log('Moving away from departure point...'); },
+			onComplete: function() {
+				var zCamVec = new THREE.Vector3(0,0,10);
+				var position = _self.ship.obj.localToWorld(zCamVec);
+				_self.shipRef.position.copy(position);
+				//console.log(shipFace);
+			}
+		}).to(_self.shipRef.position, 10, { 
+			ease: Power4.easeIn, 
+			x: shipFace.x,
+			y: shipFace.y,
+			z: shipFace.z,
+			onStart: function() { 
+				console.log('Turning towards destination...'); 
+			},
+			onUpdate: function() {
+				_self.ship.obj.lookAt(_self.shipRef.position);
+				//console.log(_self.shipRef.position);
+			},
+			onComplete: function() {
+				//!!! temp
+				//_self.ship.obj.lookAt(arrivalOffset); //shouldn't notice a jarring change. If so, shoot!
+			}
 		}).to( _self.ship.obj.position, 10, { 
 			ease: Power4.easeInOut, 
 			x: (arrivalOffset.x), 
@@ -405,7 +446,7 @@ function SpaceScene() {
 		var delta = _self.clock.getDelta();
 
 		//!!! this is causing errors until skybox textures are loaded
-		_self.skybox.position = _self.ship.obj.position;
+		//_self.skybox.position = _self.ship.obj.position;
 		
 		//console.log(_self.skybox.position);
 		//console.log(_self.camera.position);
