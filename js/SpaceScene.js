@@ -195,36 +195,6 @@ function SpaceScene() {
 		window.addEventListener('click', function() {
 			_self.onClick();
 		});
-		
-		console.log(navigator.compass);
-		if(navigator.compass != undefined) {
-			console.log('There is a compass!');
-			
-			var onHeadingSuccess = function(heading) {
-			    console.log(heading.magneticHeading);
-
-			    //!!! is it a "click?". Figure that one out...
-			};
-
-			var onHeadingError = function(compassError) {
-			    console.log('Compass error: ' + compassError.code);
-			};
-
-			//iOS does better with heading filter (call function after change in degrees)
-			//Android does not support filter
-			//more details at: https://github.com/apache/cordova-plugin-device-orientation
-			var devicePlatform = device.platform;
-			console.log(devicePlatform);
-			if(devicePlatform == "iOS") {
-				var options = {filter: 2};
-			} else if(devicePlatform == "Android") {
-				var options = {frequency: 100};
-			}
-			var watchID = navigator.compass.watchHeading(onHeadingSuccess, onHeadingError, options);
-		} else {
-			console.log('no compass detected');
-		}
-
 
 		///////////
 		// STATS //
