@@ -66,9 +66,6 @@ function Ship2() {
 			_self.chassis = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
 			_self.chassis.scale.x = _self.chassis.scale.y = _self.chassis.scale.z = 25;
 			_self.chassis.rotation.y = 0;
-	        //_self.chassis.position.x = -5;
-	        //_self.chassis.position.y = -2.5;
-	        //_self.chassis.position.z = -10;
 
 			_self.chassisLoaded = true;
 			_self.areAllModelsLoaded();

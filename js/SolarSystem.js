@@ -9,142 +9,107 @@
 function SolarSystem() {
 	var _self = this;
 
-	_self.baseDiameter = 300; //scale of earth for this project, with other planets scaling with multipliers
-
-	_self.sun = new THREE.Object3D();
-	_self.murcury = new THREE.Object3D();
-	_self.murcurySprite;
-	_self.venus = new THREE.Object3D();
-	_self.venusSprite;
-	_self.earth = new THREE.Object3D();
-	_self.earthAtmosphere = new THREE.Object3D();
-	_self.earthSprite;
-	_self.earthMoon = new THREE.Object3D();
-	_self.earthMoonSprite;
-	_self.mars = new THREE.Object3D(); //add moons? (yah!)
-	_self.marsAtmosphere = new THREE.Object3D();
-	_self.marsSprite;
-	_self.jupiter = new THREE.Object3D(); //add moons? (yah!) !!! does it have a glow?
-	_self.jupiterSprite;
-	_self.saturn = new THREE.Object3D(); //add moons? (yah!)
-	_self.saturnSprite;
-	_self.uranus = new THREE.Object3D();
-	_self.uranusSprite;
-	_self.neptune = new THREE.Object3D();
-	_self.neptuneSprite;
-	_self.pluto = new THREE.Object3D(); //add moons? (yah!)
-	_self.plutoSprite;
-
-	_self.planetSprites;
+	_self.baseDiameter = 500; //scale of earth for this project, with other planets scaling with multipliers
 
 	_self.system = new THREE.Object3D();
-	_self.system.add(_self.sun);
-	_self.system.add(_self.murcury);
-	_self.system.add(_self.venus);
-	_self.system.add(_self.earth);
-	_self.system.add(_self.earthAtmosphere);
-	_self.system.add(_self.earthMoon);
-	_self.system.add(_self.mars);
-	_self.system.add(_self.marsAtmosphere);
-	_self.system.add(_self.jupiter);
-	_self.system.add(_self.saturn);
-	_self.system.add(_self.uranus);
-	_self.system.add(_self.neptune);
-	_self.system.add(_self.pluto);
+
+	//for itteration, random selections, etc (better way?)
+	_self.planetArray = [];
 
 	//ROUGH planet location grid (good for quick vr tour): 
 	//not exactly scientific YET, but estimated by art guy based on mad science representations by other artists... Yeah!
-	_self.planetInfo = {
-		sun: {
-			name:'Sun',
-			x:0,
-			y:0,
-			z:0,
-			s:109.0, //scale to earth
-			a:0.0 //axis in radians http://www.redshift-live.com/en/magazine/articles/Redshift_Archive/17239-Rotational_Axes__total_disorder-1.html
-		},
+	_self.planets = {
 		murcury: {
 			name:'Murcury',
 			x:-4600,
 			y:0,
 			z:2800,
-			s:0.382,
-			a:0.0001745329
+			a:0.0001745329,
+			sprite: new THREE.Sprite(),
+			planet: new THREE.Object3D()
 		},
 		venus: {
 			name:'Venus',
 			x:-4600,
 			y:0,
 			z:7900,
-			s:0.949,
-			a:3.08923
+			a:3.08923,
+			sprite: new THREE.Sprite(),
+			planet: new THREE.Object3D()
 		},
 		earth: {
 			name:'Earth',
 			x:-7800,
 			y:0,
 			z:-7100,
-			s:1.0,
-			a:0.401426
-		},
-		earthMoon: {
-			name:'Moon',
-			s:0.27254357
+			a:0.401426,
+			sprite: new THREE.Sprite(),
+			planet: new THREE.Object3D()
 		},
 		mars: {
 			name:'Mars',
 			x:-18400,
 			y:0,
 			z:3900,
-			s:0.532,
-			a:0.1,
-			a:0.436332
+			a:0.436332,
+			sprite: new THREE.Sprite(),
+			planet: new THREE.Object3D()
 		},
 		jupiter: {
 			name:'Jupiter',
 			x:-59400,
 			y:0,
 			z:-14400,
-			s:11.209,
-			a:0.0523599
+			a:0.0523599,
+			sprite: new THREE.Sprite(),
+			planet: new THREE.Object3D()
 		},
 		saturn: {
 			name:'Saturn',
 			x:-40300,
 			y:0,
 			z:107000,
-			s:9.449,
-			a:0.471239
+			a:0.471239,
+			sprite: new THREE.Sprite(),
+			planet: new THREE.Object3D()
 		},
 		uranus: {
 			name:'Uranus',
 			x:213100,
 			y:0,
 			z:-74600,
-			s:4.007,
-			a:1.71042
+			a:1.71042,
+			sprite: new THREE.Sprite(),
+			planet: new THREE.Object3D()
 		},
 		neptune: {
 			name:'Neptune',
 			x:316900,
 			y:0,
 			z:122000,
-			s:3.883,
-			a:0.523599
+			a:0.523599,
+			sprite: new THREE.Sprite(),
+			planet: new THREE.Object3D()
 		},
+		
+		//I know... but they just flew by this king of the dwarfs and took pictures!
 		pluto: {
 			name:'Pluto',
 			x:495400,
 			y:50000,
 			z:-61200,
-			s:0.167,
-			a:0 //??
+			a:0, //??
+			sprite: new THREE.Sprite(),
+			planet: new THREE.Object3D()
 		}
 	}
 
 	//!!! hmmm
 	_self.createSun = function() {
 		//!!! We'll change this all up soon.
+
+		//_self.sun.name = _self.planets.sun.name;
+		//_self.setPosition(_self.sun, _self.planets.sun);
 
 		/* //!!! light not work in Object3D? set in SpaceScene for now
 		//sun light
@@ -157,7 +122,7 @@ function SolarSystem() {
 		*/
 		/*
 		//currently eating everything until distance scaling is added:
-		//var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planetInfo.sun.s, 32, 32);
+		//var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planets.sun.s, 32, 32);
 		var geometry = new THREE.SphereGeometry(_self.baseDiameter, 32, 32);
 
 		var material = new THREE.MeshPhongMaterial({
@@ -168,16 +133,20 @@ function SolarSystem() {
 		var mesh = new THREE.Mesh(geometry, material);
 
 		//!!! axis: check this, likely not correct!
-		mesh.rotation.z = _self.planetInfo.sun.a;
+		mesh.rotation.z = _self.planets.sun.a;
 
 		_self.sun.add(mesh);
-		_self.setPosition(_self.sun, _self.planetInfo.sun);
+		
 		*/
 	};
 
 	_self.createMurcury = function() {
+		_self.planets.murcury.planet.name = _self.planets.murcury.n;
+		_self.setPosition(_self.planets.murcury.planet, _self.planets.murcury);
+
+
 		/*
-		var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planetInfo.murcury.s, 32, 32);
+		var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planets.murcury.s, 32, 32);
 
 		var material = new THREE.MeshPhongMaterial({
 			map: THREE.ImageUtils.loadTexture('img/solar/mercurymap.jpg'),
@@ -189,26 +158,28 @@ function SolarSystem() {
 		var mesh = new THREE.Mesh(geometry, material);
 
 		//!!! axis: check this, likely not correct!
-		mesh.rotation.z = _self.planetInfo.murcury.a;
+		mesh.rotation.z = _self.planets.murcury.a;
 
 		_self.murcury.add(mesh);
 		*/
 
-		_self.murcury.name = _self.planetInfo.murcury.name;
-		_self.setPosition(_self.murcury, _self.planetInfo.murcury);
-
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
         var material = new THREE.SpriteMaterial( { map: map, color: 0xffffff } );
-        _self.murcurySprite = new THREE.Sprite( material );
-        _self.murcury.add(_self.murcurySprite);
+        _self.planets.murcury.sprite = new THREE.Sprite( material );
+        
+        _self.system.add(_self.planets.murcury.planet);
+        _self.system.add(_self.planets.murcury.sprite);
 
 	};
 
 	//!!! find atmosphere version, not xray (covered in clouds), swap between the two?
 	_self.createVenus = function() {
+		_self.planets.venus.planet.name = _self.planets.venus.n;
+		_self.setPosition(_self.planets.venus.planet, _self.planets.venus);
+
 		/*
-		var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planetInfo.venus.s, 32, 32);
+		var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planets.venus.s, 32, 32);
 
 		var material = new THREE.MeshPhongMaterial({
 			map: THREE.ImageUtils.loadTexture('img/solar/venusmap.jpg'),
@@ -220,25 +191,28 @@ function SolarSystem() {
 		var mesh = new THREE.Mesh(geometry, material);
 
 		//!!! axis: check this, likely not correct!
-		mesh.rotation.z = _self.planetInfo.venus.a;
+		mesh.rotation.z = _self.planets.venus.a;
 
 		_self.venus.add(mesh);
 		*/
-		_self.venus.name = _self.planetInfo.venus.name;
-		_self.setPosition(_self.venus, _self.planetInfo.venus);
 		
 
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
         var material = new THREE.SpriteMaterial( { map: map, color: 0xffffff } );
-        _self.venusSprite = new THREE.Sprite( material );
-        _self.venus.add(_self.venusSprite);
+        _self.planets.venus.sprite = new THREE.Sprite( material );
+       
+        _self.system.add(_self.planets.venus.planet);
+        _self.system.add(_self.planets.venus.sprite);
 	};
 
 	//!!! don't forget the moon!
 	//!!! add clouds!
 	_self.createEarth = function() {
+		_self.planets.earth.planet.name = _self.planets.earth.n;
+		_self.setPosition(_self.planets.earth.planet, _self.planets.earth);
+
 		/*
-		var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planetInfo.earth.s, 32, 32);
+		var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planets.earth.s, 32, 32);
 
 		var material = new THREE.MeshPhongMaterial({
 			map: THREE.ImageUtils.loadTexture('img/solar/earthmap1k.jpg'),
@@ -250,12 +224,10 @@ function SolarSystem() {
 		var mesh = new THREE.Mesh(geometry, material);
 
 		//!!! axis: check this, likely not correct!
-		mesh.rotation.z = _self.planetInfo.earth.a;
+		mesh.rotation.z = _self.planets.earth.a;
 
 		_self.earth.add(mesh);
 		*/
-		_self.earth.name = _self.planetInfo.earth.name;
-		_self.setPosition(_self.earth, _self.planetInfo.earth);
 		
 
 		/*
@@ -271,18 +243,23 @@ function SolarSystem() {
 
 		_self.earthAtmosphere.add(atmosMesh);
 		
-		_self.setPosition(_self.earthAtmosphere, _self.planetInfo.earth);
+		_self.setPosition(_self.earthAtmosphere, _self.planets.earth);
 		*/
 
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
-        var material = new THREE.SpriteMaterial( { map: map, color: 0x0099ff } );
-        _self.earthSprite = new THREE.Sprite( material );
-        _self.earth.add(_self.earthSprite);
+        var material = new THREE.SpriteMaterial( { map: map, color: 0xffffff } );
+        _self.planets.earth.sprite = new THREE.Sprite( material );
+        
+        _self.system.add(_self.planets.earth.planet);
+        _self.system.add(_self.planets.earth.sprite);
 	};
 
 	_self.createMars = function() {
-		/*
-		var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planetInfo.mars.s, 32, 32);
+		_self.planets.mars.planet.name = _self.planets.mars.n;
+		_self.setPosition(_self.planets.mars.planet, _self.planets.mars);
+
+		
+		var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planets.mars.s, 32, 32);
 
 		var material = new THREE.MeshPhongMaterial({
 			map: THREE.ImageUtils.loadTexture('img/solar/mars_1k_color.jpg'),
@@ -294,12 +271,12 @@ function SolarSystem() {
 		var mesh = new THREE.Mesh(geometry, material);
 
 		//!!! axis: check this, likely not correct!
-		mesh.rotation.z = _self.planetInfo.mars.a;
+		//!!! note: also need to check texture near poles (pinched)
+		mesh.rotation.z = _self.planets.mars.a;
 
-		_self.mars.add(mesh);
-		*/
-		_self.mars.name = _self.planetInfo.mars.name;
-		_self.setPosition(_self.mars, _self.planetInfo.mars);
+		_self.planets.mars.planet.add(mesh);
+		
+		
 	
 		/*
 		var atmosMaterial = new THREE.MeshPhongMaterial({ 
@@ -314,22 +291,25 @@ function SolarSystem() {
 
 		_self.marsAtmosphere.add(atmosMesh);
 		
-		_self.setPosition(_self.marsAtmosphere, _self.planetInfo.mars);
+		_self.setPosition(_self.marsAtmosphere, _self.planets.mars);
 		*/
 
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
-        var material = new THREE.SpriteMaterial( { map: map, color: 0xff9900 } );
-        _self.marsSprite = new THREE.Sprite( material );
-        _self.mars.add(_self.marsSprite);
-
-        //console.log(_self.marsSprite);
+        var material = new THREE.SpriteMaterial( { map: map, color: 0xffffff } );
+        _self.planets.mars.sprite = new THREE.Sprite( material );
+        
+        _self.system.add(_self.planets.mars.planet);
+        _self.system.add(_self.planets.mars.sprite);
 	};
 
 	//!!! add glow?
 	//!!! add moons!
 	_self.createJupiter = function() {
+		_self.planets.jupiter.planet.name = _self.planets.jupiter.n;
+		_self.setPosition(_self.planets.jupiter.planet, _self.planets.jupiter);
+
 		/*
-		var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planetInfo.jupiter.s, 32, 32);
+		var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planets.jupiter.s, 32, 32);
 
 		var material = new THREE.MeshPhongMaterial({
 			map: THREE.ImageUtils.loadTexture('img/solar/jupiter2_1k.jpg'),
@@ -339,25 +319,28 @@ function SolarSystem() {
 		var mesh = new THREE.Mesh(geometry, material);
 
 		//!!! axis: check this, likely not correct!
-		mesh.rotation.z = _self.planetInfo.jupiter.a;
+		mesh.rotation.z = _self.planets.jupiter.a;
 
 		_self.jupiter.add(mesh);
 		*/
-		_self.jupiter.name = _self.planetInfo.jupiter.name;
-		_self.setPosition(_self.jupiter, _self.planetInfo.jupiter);
 		
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
         var material = new THREE.SpriteMaterial( { map: map, color: 0xffffff } );
-        _self.jupiterSprite = new THREE.Sprite( material );
-        _self.jupiter.add(_self.jupiterSprite);
+        _self.planets.jupiter.sprite = new THREE.Sprite( material );
+        
+        _self.system.add(_self.planets.jupiter.planet);
+        _self.system.add(_self.planets.jupiter.sprite);
 	};
 
 	//!!! add rings!
 	//!!! add moons!
 	//!!! add glow?
 	_self.createSaturn = function() {
+		_self.planets.pluto.planet.name = _self.planets.pluto.n;
+		_self.setPosition(_self.planets.saturn.planet, _self.planets.saturn);
+
 		/*
-		var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planetInfo.saturn.s, 32, 32);
+		var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planets.saturn.s, 32, 32);
 
 		var material = new THREE.MeshPhongMaterial({
 			map: THREE.ImageUtils.loadTexture('img/solar/saturnmap.jpg'),
@@ -367,24 +350,27 @@ function SolarSystem() {
 		var mesh = new THREE.Mesh(geometry, material);
 
 		//!!! axis: check this, likely not correct!
-		mesh.rotation.z = _self.planetInfo.saturn.a;
+		mesh.rotation.z = _self.planets.saturn.a;
 
 		_self.saturn.add(mesh);
 		*/
-		_self.saturn.name = _self.planetInfo.saturn.name;
-		_self.setPosition(_self.saturn, _self.planetInfo.saturn);
 
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
         var material = new THREE.SpriteMaterial( { map: map, color: 0xffffff } );
-        _self.saturnSprite = new THREE.Sprite( material );
-        _self.saturn.add(_self.saturnSprite);
+        _self.planets.saturn.sprite = new THREE.Sprite( material );
+        
+        _self.system.add(_self.planets.saturn.planet);
+        _self.system.add(_self.planets.saturn.sprite);
 		
 	};
 
 	//!!! add glow?
 	_self.createUranus = function() {
+		_self.planets.uranus.planet.name = _self.planets.uranus.n;
+		_self.setPosition(_self.planets.uranus.planet, _self.planets.uranus);
+
 		/*
-		var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planetInfo.uranus.s, 32, 32);
+		var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planets.uranus.s, 32, 32);
 
 		var material = new THREE.MeshPhongMaterial({
 			map: THREE.ImageUtils.loadTexture('img/solar/uranusmap.jpg'),
@@ -394,25 +380,28 @@ function SolarSystem() {
 		var mesh = new THREE.Mesh(geometry, material);
 
 		//!!! axis: check this, likely not correct!
-		mesh.rotation.z = _self.planetInfo.uranus.a;
+		mesh.rotation.z = _self.planets.uranus.a;
 
 		_self.uranus.add(mesh);
 		*/
-		_self.uranus.name = _self.planetInfo.uranus.name;
-		_self.setPosition(_self.uranus, _self.planetInfo.uranus);
 
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
         var material = new THREE.SpriteMaterial( { map: map, color: 0xffffff } );
-        _self.uranusSprite = new THREE.Sprite( material );
-        _self.uranus.add(_self.uranusSprite);
+        _self.planets.uranus.sprite = new THREE.Sprite( material );
+       
+        _self.system.add(_self.planets.uranus.planet);
+        _self.system.add(_self.planets.uranus.sprite);
 		
 	};
 
 	//!!! add ring(s)?
 	//!!! add glow?
 	_self.createNeptune = function() {
+		_self.planets.neptune.planet.name = _self.planets.neptune.n;
+		_self.setPosition(_self.planets.neptune.planet, _self.planets.neptune);
+
 		/*
-		var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planetInfo.neptune.s, 32, 32);
+		var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planets.neptune.s, 32, 32);
 
 		var material = new THREE.MeshPhongMaterial({
 			map: THREE.ImageUtils.loadTexture('img/solar/neptunemap.jpg')
@@ -421,24 +410,27 @@ function SolarSystem() {
 		var mesh = new THREE.Mesh(geometry, material);
 
 		//!!! axis: check this, likely not correct!
-		mesh.rotation.z = _self.planetInfo.neptune.a;
+		mesh.rotation.z = _self.planets.neptune.a;
 
 		_self.neptune.add(mesh);
 		*/
-		_self.neptune.name = _self.planetInfo.neptune.name;
-		_self.setPosition(_self.neptune, _self.planetInfo.neptune);
 		
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
         var material = new THREE.SpriteMaterial( { map: map, color: 0xffffff } );
-        _self.neptuneSprite = new THREE.Sprite( material );
-        _self.neptune.add(_self.neptuneSprite);
+        _self.planets.neptune.sprite = new THREE.Sprite( material );
+        
+		_self.system.add(_self.planets.neptune.planet);
+        _self.system.add(_self.planets.neptune.sprite);
 	};
 
 	//!!! add moons?
 	_self.createPluto = function() {
+		_self.planets.pluto.planet.name = _self.planets.pluto.n;
+		_self.setPosition(_self.planets.pluto.planet, _self.planets.pluto);
+
 		//!!! get the latest map!
 		/*
-		var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planetInfo.pluto.s, 32, 32);
+		var geometry = new THREE.SphereGeometry(_self.baseDiameter * _self.planets.pluto.s, 32, 32);
 
 		var material = new THREE.MeshPhongMaterial({
 			map: THREE.ImageUtils.loadTexture('img/solar/mars_1k_color.jpg'),
@@ -450,18 +442,20 @@ function SolarSystem() {
 		var mesh = new THREE.Mesh(geometry, material);
 
 		//!!! axis: check this, likely not correct!
-		mesh.rotation.z = _self.planetInfo.pluto.a;
+		mesh.rotation.z = _self.planets.pluto.a;
 
 		
 		//_self.pluto.add(mesh);
 		*/
-		_self.pluto.name = _self.planetInfo.pluto.name;
-		_self.setPosition(_self.pluto, _self.planetInfo.pluto);
 
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
         var material = new THREE.SpriteMaterial( { map: map, color: 0xffffff } );
-        _self.plutoSprite = new THREE.Sprite( material );
-        _self.pluto.add(_self.plutoSprite);
+        _self.planets.pluto.sprite = new THREE.Sprite( material );
+        
+        
+
+        _self.system.add(_self.planets.pluto.planet);
+        _self.system.add(_self.planets.pluto.sprite);
 		
 	};
 
@@ -478,30 +472,29 @@ function SolarSystem() {
 		target.lookAt(vec);
 	};
 
-	//thanks: http://stackoverflow.com/questions/20396150/three-js-how-to-keep-sprite-text-size-unchanged-when-zooming
-	_self.setDistantPlanetSprites = function(camera) {
-		var i, v, scale, dist;
-		//var virtual_z = 20; //!!! this should actually be distance to planet from camera, not static value
-		for(i=0; i<_self.planets.length; i++) {
-			//console.log(_self.planetSprites);
-			
-			var dist = _self.planets[i].position.distanceTo(camera.position) * 0.002;
-			//console.log(dist);
+	_self.setDistantPlanetSprites = function(ship) {
+		var i, shipPos, planetPos, spritePos, item;
+		//for(i=0; i<_self.planetArray.length; i++) {
+		for (item in _self.planets) {
+			shipPos = ship.getWorldPosition();
+			//shipPos = new THREE.Vector3(ship.position.x, ship.position.y, ship.position.z);
+			planetPos = _self.planets[item].planet.getWorldPosition().sub(shipPos);
+			//planetPos = _self.planets[item].planet.position;
+			spritePos = shipPos.add(THREE.Utils.moveVectorToSphereEdge(planetPos, 10000));
+			//spritePos = THREE.Utils.moveVectorToSphereEdge(planetPos, 500);
 
-			v = _self.planets[i].position
-			.clone()
-			.applyMatrix4(camera.matrixWorldInverse);
 
-			scale=(v.z-camera.position.z)/dist;
-			_self.planets[i].scale.set(scale,scale,scale);
-
-			//scale=200;
-			//_self.planets[i].scale.set(scale,scale,scale);
+			_self.planets[item].sprite.position.copy(spritePos);
+			_self.planets[item].sprite.scale.x = 200;
+			_self.planets[item].sprite.scale.y = 200;
+			_self.planets[item].sprite.scale.z = 200;
 		}
+
+		//console.log(spritePos);
 	}
 
 	_self.init = function() {
-		_self.createSun();
+		//_self.createSun();
 		_self.createMurcury();
 		_self.createVenus();
 		_self.createEarth();
@@ -512,11 +505,14 @@ function SolarSystem() {
 		_self.createNeptune();
 		_self.createPluto();
 
-		_self.planets = [_self.murcury, _self.venus, _self.earth, _self.mars, _self.jupiter, _self.saturn, _self.uranus, _self.neptune, _self.pluto];
+		//!!! temporary I think...
+		for (var item in _self.planets) {
+			_self.planetArray.push(_self.planets[item]);
+		}
 	};
 
-	_self.update = function(camera) {
-		_self.setDistantPlanetSprites(camera);
+	_self.update = function(camera, ship) {
+		_self.setDistantPlanetSprites(ship);
 
 		//_self.atmosphereFaceCamera(_self.marsAtmosphere, camera);
 	};

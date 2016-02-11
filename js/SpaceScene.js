@@ -264,17 +264,6 @@ function SpaceScene() {
 		_self.ship.obj.add(_self.camera); //if ship rotates, so does camera (as if you were in the ship)
 		_self.solarSystem.system.add(_self.ship.obj);
 
-		//!!! TEMP
-		//_self.ship.obj.position.x = -1674;
-		//_self.ship.obj.position.y = 34;
-		//_self.ship.obj.position.z = 98;
-		//_self.ship.obj.position.x = -10000;
-		//_self.ship.obj.position.y = 500;
-		//_self.ship.obj.position.z = -10000;
-		//_self.ship.obj.rotation.x = 0.6;
-		//_self.ship.obj.rotation.y = 2;
-		//_self.ship.obj.rotation.z = 0.1;
-
 		var gui = new dat.GUI();
 		var f1 = gui.addFolder('Ship Position');
 		f1.add(_self.ship.obj.position, 'x', -10000, 10000);
@@ -295,7 +284,7 @@ function SpaceScene() {
 		//!!! TEMP
 		var lastPlanetInt = -1;
 		var endlessFlight = function() {
-			var randomPlanet = _self.solarSystem.planets[Math.floor(Math.random() * _self.solarSystem.planets.length)];
+			var randomPlanet = _self.solarSystem.planetArray[Math.floor(Math.random() * _self.solarSystem.planetArray.length)].planet;
 			if(randomPlanet != lastPlanetInt) {
 				lastPlanetInt = randomPlanet;
 				console.log("We travel to " + randomPlanet.name + "! Weeeee!");
@@ -337,12 +326,14 @@ function SpaceScene() {
 	_self.navToPlanet = function(to, finishCallback) {
 
 		//!!! offset will likely change per planet, move this soon
-		var exitPoint = new THREE.Vector3(0, -1200, 0);
+		var exitPoint = new THREE.Vector3(0, -200, 0);
 		exitPoint.x += _self.ship.obj.position.x;
 		exitPoint.y += _self.ship.obj.position.y;
 		exitPoint.z += _self.ship.obj.position.z;
 		
-		var arrivalOffset = new THREE.Vector3(0, -600, -0);
+		//!!! approach "front" of planet, not bottom, fix this
+		//!!! then need to navigate to desired talking point location
+		var arrivalOffset = new THREE.Vector3(0, -100, -0);
 		arrivalOffset.x += to.position.x;
 		arrivalOffset.y += to.position.y;
 		arrivalOffset.z += to.position.z;
@@ -390,25 +381,9 @@ function SpaceScene() {
 		// delta = change in time since last call (in seconds)
 		var delta = _self.clock.getDelta();
 
-		//!!! this is causing errors until skybox textures are loaded
-		//_self.skybox.position = _self.ship.obj.position;
-		
-		//console.log(_self.skybox.position);
-		//console.log(_self.camera.position);
-
 		_self.stereoCamera.update(_self.scene, _self.camera, window.innerWidth, window.innerHeight);
 		
-		_self.solarSystem.update(_self.camera);
-
-		//!!! TEMP
-		//_self.ship.obj.position.x -= 0.4;
-		//_self.ship.obj.position.y += 0.4;
-		//_self.ship.obj.position.z -= 0.4;
-
-		//_self.ship.obj.rotation.y -= 0.0001;
-		//_self.solarSystem.mars.rotation.y += 0.00005;
-
-		//console.log(_self.ship.obj.position);
+		_self.solarSystem.update(_self.camera, _self.ship.obj);
 		
 		_self.stats.update();
 	};
