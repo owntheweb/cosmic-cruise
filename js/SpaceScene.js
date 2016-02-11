@@ -332,13 +332,6 @@ function SpaceScene() {
 		
 	};
 
-	_self.getPointInBetweenByPerc = function(pointA, pointB, percentage) {
-		var dir = pointB.clone().sub(pointA);
-		var len = dir.length();
-		dir = dir.normalize().multiplyScalar(len*percentage);
-		return pointA.clone().add(dir);
-	}
-
 	//!!! It works!... sort of. I feel there are still issues here.
 	//!!! Often planet collissions occur as overlapping stopping points
 	_self.navToPlanet = function(to, finishCallback) {
