@@ -516,7 +516,6 @@ function SolarSystem() {
 	};
 
 	_self.update = function(camera) {
-		_self.system.updateMatrix();
 		_self.setDistantPlanetSprites(camera);
 
 		//_self.atmosphereFaceCamera(_self.marsAtmosphere, camera);
