@@ -394,7 +394,7 @@ function SpaceScene() {
 			onStart: function() { 
 				console.log('Turning towards destination...'); 
 			}
-		}).to( _s.ship.obj.position, 10, { 
+		}).to( _s.ship.obj.position, 20, { 
 			ease: Power4.easeInOut, 
 			x: (arrivalOffset.x), 
 			y: (arrivalOffset.y), 

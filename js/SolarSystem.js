@@ -370,7 +370,7 @@ function SolarSystem() {
 	//!!! add moons!
 	//!!! add glow?
 	_s.createSaturn = function() {
-		_s.planets.pluto.planet.name = _s.planets.pluto.name;
+		_s.planets.saturn.planet.name = _s.planets.saturn.name;
 		_s.setPosition(_s.planets.saturn.planet, _s.planets.saturn);
 
 		/*
@@ -535,17 +535,17 @@ function SolarSystem() {
 			if(planetDist > _s.planetThresh - 200) {
 				_s.planets[item].sprite.visible = true;
 				_s.planets[item].sprite.position.copy(spritePos);
-				_s.planets[item].sprite.scale.x = 200;
-				_s.planets[item].sprite.scale.y = 200;
-				_s.planets[item].sprite.scale.z = 200;
+				_s.planets[item].sprite.scale.x = 150;
+				_s.planets[item].sprite.scale.y = 150;
+				_s.planets[item].sprite.scale.z = 150;
 			} else {
 				_s.planets[item].sprite.visible = false;
 			}
 
 			//scale planets
-			if(planetDist < _s.planetThresh * 2) {
+			if(planetDist < _s.planetThresh) {
 				_s.planets[item].planet.visible = true;
-				scale = 1 - ((planetDist - _s.baseRadius - 200) / (_s.planetThresh * 2));
+				scale = 1 - ((planetDist - _s.baseRadius - 200) / _s.planetThresh);
 				//console.log(scale);
 
 				_s.planets[item].planet.scale.x = scale;
