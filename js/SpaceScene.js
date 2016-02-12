@@ -326,17 +326,19 @@ function SpaceScene() {
 	_self.navToPlanet = function(to, finishCallback) {
 
 		//!!! offset will likely change per planet, move this soon
-		var exitPoint = new THREE.Vector3(0, -200, 0);
+		var exitPoint = new THREE.Vector3(0, -850, 0);
 		exitPoint.x += _self.ship.obj.position.x;
 		exitPoint.y += _self.ship.obj.position.y;
 		exitPoint.z += _self.ship.obj.position.z;
 		
 		//!!! approach "front" of planet, not bottom, fix this
 		//!!! then need to navigate to desired talking point location
-		var arrivalOffset = new THREE.Vector3(0, -100, -0);
-		arrivalOffset.x += to.position.x;
-		arrivalOffset.y += to.position.y;
-		arrivalOffset.z += to.position.z;
+		//var arrivalOffset = new THREE.Vector3(0, -80, -0);
+		//arrivalOffset.x += to.position.x;
+		//arrivalOffset.y += to.position.y;
+		//arrivalOffset.z += to.position.z;
+
+		arrivalOffset = THREE.Utils.getPointInBetweenByLen(to.position, _self.ship.obj.position, 1550);
 
 		var turnTo = new THREE.Object3D();
 	    turnTo.position.x = exitPoint.x;
@@ -345,8 +347,6 @@ function SpaceScene() {
 	    turnTo.rotation.order = "YXZ";
 	    _self.ship.obj.rotation.order = "YXZ";
 	    turnTo.lookAt(arrivalOffset);
-
-
 
 		var tl = new TimelineLite();
 
