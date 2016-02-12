@@ -210,6 +210,7 @@ function SpaceScene() {
 		// SKYBOX //
 		////////////
 
+		/*
 		var cubeTexLoader = new THREE.CubeTextureLoader();
 		var cubeUrls = [
 			"./img/skybox/rightSm.jpg",
@@ -233,6 +234,63 @@ function SpaceScene() {
 			});
 
 			_self.skybox = new THREE.Mesh(new THREE.BoxGeometry(4000000, 4000000, 4000000), skyBoxMaterial);
+			_self.scene.add(_self.skybox);
+
+		});
+		*/
+
+		//thanks: http://stackoverflow.com/questions/13541141/three-js-skybox-assigned-to-camera
+		//shader that moves skybox with camera
+		var skyboxShader = {'skybox': {
+								uniforms: { "tCube": { type: "t", value: null },
+								"tFlip": { type: "f", value: -1 } },
+								vertexShader: [
+									"varying vec3 vWorldPosition;",
+									THREE.ShaderChunk[ "logdepthbuf_pars_vertex" ],
+									"void main() {",
+									"   vec4 worldPosition = modelMatrix * vec4( position, 1.0 );",
+									"   vWorldPosition = worldPosition.xyz;",
+									"   gl_Position = projectionMatrix * modelViewMatrix * vec4( position + cameraPosition, 1.0 );",
+									THREE.ShaderChunk[ "logdepthbuf_vertex" ],
+									"}"
+								].join("\n"),
+								fragmentShader: [
+									"uniform samplerCube tCube;",
+									"uniform float tFlip;",
+									"varying vec3 vWorldPosition;",
+									THREE.ShaderChunk[ "logdepthbuf_pars_fragment" ],
+									"void main() {",
+									"   gl_FragColor = textureCube( tCube, vec3( tFlip * vWorldPosition.x, vWorldPosition.yz ) );",
+									THREE.ShaderChunk[ "logdepthbuf_fragment" ],
+									"}"
+								].join("\n")}
+							};
+
+		var cubeTexLoader = new THREE.CubeTextureLoader();
+		var cubeUrls = [
+			"./img/skybox/rightSm.jpg",
+			"./img/skybox/leftSm.jpg",
+			"./img/skybox/topSm.jpg",
+			"./img/skybox/downSm.jpg",
+			"./img/skybox/frontSm.jpg",
+			"./img/skybox/backSm.jpg"
+		];
+		cubeTexLoader.load( cubeUrls, function(tex) {
+
+			var cubeShader = skyboxShader.skybox;
+			cubeShader.uniforms['tCube'].value = tex;
+
+			var skyBoxMaterial = new THREE.ShaderMaterial({
+			fragmentShader: cubeShader.fragmentShader,
+			vertexShader: cubeShader.vertexShader,
+			uniforms: cubeShader.uniforms,
+			depthWrite: false,
+			side: THREE.BackSide
+			});
+
+			_self.skybox = new THREE.Mesh(new THREE.BoxGeometry(4000000, 4000000, 4000000), skyBoxMaterial);
+			_self.skybox.frustumCulled = false;
+
 			_self.scene.add(_self.skybox);
 
 		});
