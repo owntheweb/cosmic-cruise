@@ -3,13 +3,13 @@
 
 function Ship2() {
 
-    var _self = this;
+    var _s = this;
 
-    _self.chassis;
-    _self.chassisLoaded = false;
-    _self.obj = new THREE.Object3D();
+    _s.chassis;
+    _s.chassisLoaded = false;
+    _s.obj = new THREE.Object3D();
 
-    _self.assignShipMaterials = function(materials) {
+    _s.assignShipMaterials = function(materials) {
 	    var i;
 
 	    for(i=0;i<materials.length;i++) {
@@ -54,31 +54,31 @@ function Ship2() {
 	    return materials;
 	};
 
-	_self.loadModels = function() {
+	_s.loadModels = function() {
 		var ship;
 		var loader = new THREE.JSONLoader();
 
 	    //load the back
 	    loader.load( 'models/ship2.json', function ( geometry, materials ) {
 
-			materials = _self.assignShipMaterials(materials);
+			materials = _s.assignShipMaterials(materials);
 
-			_self.chassis = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
-			_self.chassis.scale.x = _self.chassis.scale.y = _self.chassis.scale.z = 25;
-			_self.chassis.rotation.y = 0;
+			_s.chassis = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
+			_s.chassis.scale.x = _s.chassis.scale.y = _s.chassis.scale.z = 25;
+			_s.chassis.rotation.y = 0;
 
-			_self.chassisLoaded = true;
-			_self.areAllModelsLoaded();
+			_s.chassisLoaded = true;
+			_s.areAllModelsLoaded();
 		});
 	};
 
-	_self.areAllModelsLoaded = function() {	
-	    if(_self.chassisLoaded == true) {
-	        _self.init();
+	_s.areAllModelsLoaded = function() {	
+	    if(_s.chassisLoaded == true) {
+	        _s.init();
 	    }
 	}
 
-	_self.init = function() {
-		_self.obj.add(_self.chassis);
+	_s.init = function() {
+		_s.obj.add(_s.chassis);
 	};
 }
