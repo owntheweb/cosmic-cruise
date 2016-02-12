@@ -355,7 +355,7 @@ function SpaceScene() {
 	_s.navToPlanet = function(to, finishCallback) {
 
 		//!!! offset will likely change per planet, move this soon
-		var exitPoint = new THREE.Vector3(0, -1100, 0);
+		var exitPoint = new THREE.Vector3(0, -1300, 0);
 		exitPoint.x += _s.ship.obj.position.x;
 		exitPoint.y += _s.ship.obj.position.y;
 		exitPoint.z += _s.ship.obj.position.z;
@@ -380,6 +380,7 @@ function SpaceScene() {
 		var tl = new TimelineLite();
 
 		tl.to(_s.ship.obj.position, 6, { 
+			delay: 2,
 			ease: Power2.easeInOut, 
 			x: exitPoint.x, 
 			y: exitPoint.y, 

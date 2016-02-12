@@ -10,6 +10,7 @@ function SolarSystem() {
 	var _s = this;
 
 	_s.baseRadius = 1000; //scale of earth for this project, with other planets scaling with multipliers
+	_s.planetThresh = 10000; //distance of planet sprite sphere and where planets appear
 
 	_s.system = new THREE.Object3D();
 
@@ -520,25 +521,41 @@ function SolarSystem() {
 		target.lookAt(vec);
 	};
 
-	_s.setDistantPlanetSprites = function(ship) {
-		var i, shipPos, planetPos, spritePos, item;
+	//place distant planet sprites around ship
+	//!!! don't do all this math if ship is stopped
+	_s.scalePlanets = function(ship) {
+		var i, shipPos, planetPos, spritePos, planetDist, scale, item;
 		for (item in _s.planets) {
 			shipPos = ship.getWorldPosition();
 			planetPos = _s.planets[item].planet.getWorldPosition().sub(shipPos);
-			spritePos = shipPos.add(THREE.Utils.moveVectorToSphereEdge(planetPos, 10000));
+			spritePos = shipPos.add(THREE.Utils.moveVectorToSphereEdge(planetPos, _s.planetThresh));
+			planetDist = ship.position.distanceTo(_s.planets[item].planet.position);
 
-			_s.planets[item].sprite.position.copy(spritePos);
-			_s.planets[item].sprite.scale.x = 200;
-			_s.planets[item].sprite.scale.y = 200;
-			_s.planets[item].sprite.scale.z = 200;
+			//place and scale planet sprites
+			if(planetDist > _s.planetThresh - 200) {
+				_s.planets[item].sprite.visible = true;
+				_s.planets[item].sprite.position.copy(spritePos);
+				_s.planets[item].sprite.scale.x = 200;
+				_s.planets[item].sprite.scale.y = 200;
+				_s.planets[item].sprite.scale.z = 200;
+			} else {
+				_s.planets[item].sprite.visible = false;
+			}
+
+			//scale planets
+			if(planetDist < _s.planetThresh * 2) {
+				_s.planets[item].planet.visible = true;
+				scale = 1 - ((planetDist - _s.baseRadius - 200) / (_s.planetThresh * 2));
+				//console.log(scale);
+
+				_s.planets[item].planet.scale.x = scale;
+				_s.planets[item].planet.scale.y = scale;
+				_s.planets[item].planet.scale.z = scale;
+			} else {
+				_s.planets[item].planet.visible = false;
+			}
 		}
 	}
-
-	//
-	//hide planets that are too far away
-	_s.scalePlanets = function() {
-
-	};
 
 	_s.init = function() {
 		//_s.createSun();
@@ -559,7 +576,8 @@ function SolarSystem() {
 	};
 
 	_s.update = function(camera, ship) {
-		_s.setDistantPlanetSprites(ship);
+		_s.scalePlanets(ship);
+		//_s.scalePlanets();
 
 		//_s.atmosphereFaceCamera(_s.marsAtmosphere, camera);
 	};

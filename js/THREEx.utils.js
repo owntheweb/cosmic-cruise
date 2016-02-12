@@ -18,10 +18,6 @@ THREE.Utils = {
     	dir = dir.normalize().multiplyScalar(len*percentage);
     	return pointA.clone().add(dir);
     },
-    getDistanceBetweenPoints: function(pointA, pointB) {
-    	var dir = pointB.clone().sub(pointA);
-    	return dir.length();
-    },
     
     //move a vector to the boundary of a sphere radius relative to an observation vector of 0,0,0
     moveVectorToSphereEdge: function(v, r) {
