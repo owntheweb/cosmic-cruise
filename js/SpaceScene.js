@@ -399,7 +399,26 @@ function SpaceScene() {
 			x: (arrivalOffset.x), 
 			y: (arrivalOffset.y), 
 			z: (arrivalOffset.z),
-			onStart: function() { console.log('Engage!'); },
+			onStart: function() { console.log('Engage!');
+
+				//initialize warp effect
+				_s.ship.toggleWarp();
+				var tlWarp = new TimelineLite();
+				tlWarp.to(_s.ship, 6, { 
+					ease: Power2.easeIn,
+					warpAlpha: 1.0,
+					warpSpeed: 60.0
+				}).to(_s.ship, 6, { 
+					ease: Power4.easeOut,
+					delay: 8,
+					warpAlpha: 0.0,
+					warpSpeed: 0.0,
+					onComplete: function() {
+						_s.ship.toggleWarp();
+					}
+				});
+
+			},
 			onComplete: finishCallback
 		});
 	}
@@ -443,6 +462,7 @@ function SpaceScene() {
 
 			if(_s.sceneInitiated == true && _s.sceneStopAnimating == false) {
 			 	_s.update();
+			 	_s.ship.update();
 			 	_s.render();
 			 	_s.controls.update();
 			} else {
