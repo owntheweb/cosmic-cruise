@@ -94,7 +94,7 @@ function Ship2() {
 		
 		_s.obj.add(_s.warpEffectObj);
 
-		for(i=0; i<300; i++) {
+		for(i=0; i<50; i++) {
 			
 			map = new THREE.TextureLoader().load( "img/warpBeam.png" );
 		    geometry = new THREE.PlaneGeometry(120, 10);
