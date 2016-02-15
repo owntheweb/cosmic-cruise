@@ -13,8 +13,7 @@ var onDeviceReady = function() {
 //thanks: http://stackoverflow.com/questions/8068052/phonegap-detect-if-running-on-desktop-browser
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
 	console.log('running in app...');
-	//window.plugins.insomnia.keepAwake();
-	document.addEventListener("deviceready", onDeviceReady, false);
+	document.addEventListener("deviceready", function() { window.plugins.insomnia.keepAwake(); onDeviceReady(); }, false);
 } else {
 	console.log('running in browser...');
 	onDeviceReady(); //this is the browser

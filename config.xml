@@ -57,7 +57,7 @@
   <preference name="StatusBarOverlaysWebView" value="true" />
 
   <!-- prevent app from sleeping -->
-  <gap:plugin name="nl.x-services.plugins.insomnia" />
+  <plugin name="cordova-plugin-insomnia" />
 
   <icon src="icon.png"/>
   <icon src="res/icon/android/icon-36-ldpi.png" gap:platform="android" gap:qualifier="ldpi"/>
