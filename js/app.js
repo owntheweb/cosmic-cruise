@@ -1,30 +1,21 @@
-(function(){
+var onDeviceReady = function() {
+	console.log('starting...');
 
-	var start = function() {
-    	console.log('starting...');
-
-    	//show a message if webGL is not supported
-		if(!Detector.webgl) {
-			Detector.addGetWebGLMessage();
-		} else {
-			var spaceScene = new SpaceScene();
-			spaceScene.goForth();
-		}
-	};
-
-	var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
-	if (app) { // PhoneGap application
-	    //keep app awake using insomnia plugin (added in config.xml)
-    	window.plugins.insomnia.keepAwake();
-
-	    //document.addEventListener('deviceready', function() { 
-	    	//!!! temporary delay to start for PhoneGap Build troubleshooting purposes
-	    	//Perhaps it would be better to show a start screen anyway, educating about Google Cardboard requirements.
-			console.log('device ready...');
-			var tempStartDelay = setTimeout(start, 5000);
-	    //});
-	} else {  // Web page
-		start();
+	//show a message if webGL is not supported
+	if(!Detector.webgl) {
+		Detector.addGetWebGLMessage();
+	} else {
+		var spaceScene = new SpaceScene();
+		spaceScene.goForth();
 	}
+};
 
-})();
+//thanks: http://stackoverflow.com/questions/8068052/phonegap-detect-if-running-on-desktop-browser
+if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+	console.log('running in app...');
+	window.plugins.insomnia.keepAwake();
+	document.addEventListener("deviceready", onDeviceReady, false);
+} else {
+	console.log('running in browser...');
+	onDeviceReady(); //this is the browser
+}
