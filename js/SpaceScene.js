@@ -418,6 +418,18 @@ function SpaceScene() {
 					}
 				});
 
+				//initialize warp effect for camera (increased field of view)
+				var tlCamera = new TimelineLite();
+				tlCamera.to(_s.camera, 6, { 
+					delay: 1,
+					ease: Power3.easeInOut,
+					fov: 96
+				}).to(_s.camera, 6, { 
+					delay: 5.5,
+					ease: Power4.easeInOut,
+					fov: 90
+				});
+
 			},
 			onComplete: finishCallback
 		});

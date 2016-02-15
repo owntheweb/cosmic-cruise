@@ -181,7 +181,7 @@ function SolarSystem() {
 		*/
 
 		//test planet
-		_s.planets.murcury.planet.add(_s.getQuickPlanetMesh(0xff9900));
+		_s.planets.murcury.planet.add(_s.getQuickPlanetMesh(0x006fe1));
 
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
@@ -217,7 +217,7 @@ function SolarSystem() {
 		*/
 		
 		//test planet
-		_s.planets.venus.planet.add(_s.getQuickPlanetMesh(0xff9900));
+		_s.planets.venus.planet.add(_s.getQuickPlanetMesh(0x006fe1));
 
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
@@ -270,7 +270,7 @@ function SolarSystem() {
 		*/
 
 		//test planet
-		_s.planets.earth.planet.add(_s.getQuickPlanetMesh(0xff9900));
+		_s.planets.earth.planet.add(_s.getQuickPlanetMesh(0x006fe1));
 
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
@@ -321,7 +321,7 @@ function SolarSystem() {
 		*/
 
 		//test planet
-		//_s.planets.murcury.planet.add(_s.getQuickPlanetMesh(0xff9900));
+		//_s.planets.murcury.planet.add(_s.getQuickPlanetMesh(0x006fe1));
 
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
@@ -355,7 +355,7 @@ function SolarSystem() {
 		*/
 		
 		//test planet
-		_s.planets.jupiter.planet.add(_s.getQuickPlanetMesh(0xff9900));
+		_s.planets.jupiter.planet.add(_s.getQuickPlanetMesh(0x006fe1));
 
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
@@ -390,7 +390,7 @@ function SolarSystem() {
 		*/
 
 		//test planet
-		_s.planets.saturn.planet.add(_s.getQuickPlanetMesh(0xff9900));
+		_s.planets.saturn.planet.add(_s.getQuickPlanetMesh(0x006fe1));
 
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
@@ -424,7 +424,7 @@ function SolarSystem() {
 		*/
 
 		//test planet
-		_s.planets.uranus.planet.add(_s.getQuickPlanetMesh(0xff9900));
+		_s.planets.uranus.planet.add(_s.getQuickPlanetMesh(0x006fe1));
 
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
@@ -458,7 +458,7 @@ function SolarSystem() {
 		*/
 		
 		//test planet
-		_s.planets.neptune.planet.add(_s.getQuickPlanetMesh(0xff9900));
+		_s.planets.neptune.planet.add(_s.getQuickPlanetMesh(0x006fe1));
 
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
@@ -495,7 +495,7 @@ function SolarSystem() {
 		*/
 
 		//test planet
-		_s.planets.pluto.planet.add(_s.getQuickPlanetMesh(0xff9900));
+		_s.planets.pluto.planet.add(_s.getQuickPlanetMesh(0x006fe1));
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
         var material = new THREE.SpriteMaterial( { map: map, color: 0xffffff } );
