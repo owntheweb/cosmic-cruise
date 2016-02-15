@@ -1,6 +1,8 @@
 (function(){
 
 	var start = function() {
+    	console.log('starting...');
+
     	//show a message if webGL is not supported
 		if(!Detector.webgl) {
 			Detector.addGetWebGLMessage();
@@ -18,6 +20,7 @@
 	    document.addEventListener('deviceready', function() { 
 	    	//!!! temporary delay to start for PhoneGap Build troubleshooting purposes
 	    	//Perhaps it would be better to show a start screen anyway, educating about Google Cardboard requirements.
+			console.log('device ready...');
 			var tempStartDelay = setTimeout(start, 5000);
 	    });
 	} else {  // Web page
