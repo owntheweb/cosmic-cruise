@@ -9,8 +9,9 @@ function Ship2() {
     _s.chassisLoaded = false;
     _s.obj = new THREE.Object3D();
 
-    _s.warpEffectObj = new THREE.Object3D();
-    _s.warpEffectBeams = [];
+    _s.warpField;
+    _s.warpFieldDiameter = 2500;
+	_s.warpLength = 5000;
     
     _s.warpActive = false;
     //!!! need to set these with set/get methods
@@ -89,19 +90,18 @@ function Ship2() {
 	_s.setupWarpEffect = function() {
 		var i, map, geometry, material, plane;
 
-		var warpFieldDiameter = 2500;
-		var warpLength = 5000;
-		
-		_s.obj.add(_s.warpEffectObj);
+		var mergedWarpGeometry = new THREE.Geometry();
 
-		for(i=0; i<50; i++) {
+		//create and merge individual warp "beams"
+		map = new THREE.TextureLoader().load( "img/warpBeam.png" );
+		material = new THREE.MeshBasicMaterial( {map: map, opacity: 0.0, transparent: true, color: 0x007eff, blending: THREE.AdditiveBlending } );
+
+		for(i=0; i<150; i++) {
 			
-			map = new THREE.TextureLoader().load( "img/warpBeam.png" );
 		    geometry = new THREE.PlaneGeometry(120, 10);
-			material = new THREE.MeshBasicMaterial( {map: map, opacity: 0.0, transparent: true, color: 0x007eff, blending: THREE.AdditiveBlending} );
-			plane = new THREE.Mesh( geometry, material );
+			plane = new THREE.Mesh(geometry);
 
-			plane.position.x = (Math.random() * warpFieldDiameter) - (warpFieldDiameter / 2);
+			plane.position.x = (Math.random() * _s.warpFieldDiameter) - (_s.warpFieldDiameter / 2);
 			//move away from ship interior
 			if(plane.position.x > 0 && plane.position.x < 50) {
 				plane.position.x += 50;
@@ -109,7 +109,7 @@ function Ship2() {
 				plane.position.x -= 50;
 			}
 
-			plane.position.y = (Math.random() * warpFieldDiameter) - (warpFieldDiameter / 2);
+			plane.position.y = (Math.random() * _s.warpFieldDiameter) - (_s.warpFieldDiameter / 2);
 			//move away from ship interior
 			if(plane.position.y > 0 && plane.position.y < 50) {
 				plane.position.y += 50;
@@ -120,15 +120,29 @@ function Ship2() {
 			//tilt plane to look towards center of ship initially
 			plane.lookAt(new THREE.Vector3(0,0,0));
 
-			plane.position.z = (Math.random() * warpLength) - (warpLength / 2);
+			plane.position.z = (Math.random() * _s.warpLength) - (_s.warpLength / 2);
 
-			//hide until warp is engaged
-			plane.visible = false;
-			
-			_s.warpEffectBeams.push(plane);
-			_s.warpEffectObj.add(plane);
-			
+			//will ensure 
+			plane.updateMatrix();
+
+			mergedWarpGeometry.merge(plane.geometry, plane.matrix);
 		}
+
+		//duplicate warp field in the front and back of the "middle" field.
+		//When camera hits start of foward duplicate field,
+		//knock field back for a "seamless" warp cycle animation
+		//(that also doesn't kill frame rate, merged beats individual beams)
+		var mergedWarpCopyFront = new THREE.Mesh(mergedWarpGeometry.clone());
+		var mergedWarpCopyBack = new THREE.Mesh(mergedWarpGeometry.clone());
+		mergedWarpCopyFront.position.z += _s.warpLength;
+		mergedWarpCopyBack.position.z -= _s.warpLength;
+		mergedWarpCopyFront.updateMatrix();
+		mergedWarpCopyBack.updateMatrix();
+		mergedWarpGeometry.merge(mergedWarpCopyFront.geometry, mergedWarpCopyFront.matrix);
+		mergedWarpGeometry.merge(mergedWarpCopyBack.geometry, mergedWarpCopyBack.matrix);
+
+		_s.warpField = new THREE.Mesh(mergedWarpGeometry, material);
+		_s.obj.add(_s.warpField);
 
 	}
 
@@ -138,17 +152,11 @@ function Ship2() {
 		if(_s.warpActive == false) {
 			_s.warpActive = true;
 			_s.warpAlpha = 0.0;
-
-			for(i=0; i<_s.warpEffectBeams.length; i++) {
-				_s.warpEffectBeams[i].visible = true;
-				_s.warpEffectBeams[i].material.opacity = 0.0;
-			}
+			_s.warpField.visible = true;
+			_s.warpField.material.opacity = 0.0;
 		} else {
 			_s.warpActive = false;
-			
-			for(i=0; i<_s.warpEffectBeams.length; i++) {
-				_s.warpEffectBeams[i].visible = false;
-			}
+			_s.warpField.visible = false;
 		}
 	};
 
@@ -157,14 +165,10 @@ function Ship2() {
 		var warpLength = 5000;
 
 		if(_s.warpActive == true) {
-			for(i=0; i<_s.warpEffectBeams.length; i++) {
-				_s.warpEffectBeams[i].material.opacity = _s.warpAlpha;
-				//_s.warpEffectBeams[i].scale.z = 1.0 + (1.0 + _s.warpAlpha) * 200;
-
-				_s.warpEffectBeams[i].position.z -= _s.warpSpeed;
-				if(_s.warpEffectBeams[i].position.z < -(warpLength / 2)) {
-					_s.warpEffectBeams[i].position.z = (warpLength / 2);
-				}
+			_s.warpField.material.opacity = _s.warpAlpha;
+			_s.warpField.position.z -= _s.warpSpeed;
+			if(_s.warpField.position.z <= -(warpLength / 2)) {
+				_s.warpField.position.z = (warpLength / 2);
 			}
 		}
 	};
