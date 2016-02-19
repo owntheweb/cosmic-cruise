@@ -6,7 +6,7 @@ Take a Google Cardboard tour of the solar system! This project is just getting s
 ## Planet Textures
 This project makes use of textures, normal maps and bump maps from [planetpixelemporium](http://planetpixelemporium.com/planets.html) (Murcury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Uranus, Neptune).
 
-Pluto texture courtesy of NASA (coming soon, along with some others)
+Pluto texture courtesy of (Snowfall-The-Cat)[http://ultrus.deviantart.com/art/Pluto-Map-2015-Nov-10-546286799], made with NASA/JPL/New horizons data.
 
 Skybox texture generated and altered from [this image](http://www.eso.org/public/images/eso0932a/) courtesy of ESO/S. Brunier.
 

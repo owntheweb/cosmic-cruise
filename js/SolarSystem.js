@@ -475,33 +475,27 @@ function SolarSystem() {
 		_s.setPosition(_s.planets.pluto.planet, _s.planets.pluto);
 
 		//!!! get the latest map!
-		/*
-		var geometry = new THREE.SphereGeometry(_s.baseRadius * _s.planets.pluto.s, 32, 32);
+		var geometry = new THREE.SphereGeometry(_s.baseRadius, 32, 32);
 
 		var material = new THREE.MeshPhongMaterial({
-			map: THREE.ImageUtils.loadTexture('img/solar/mars_1k_color.jpg'),
-			normalMap: THREE.ImageUtils.loadTexture("img/solar/mars_1k_normal.jpg"),
-			normalScale: new THREE.Vector2( 1.8, 1.8 ),
-			shininess: 0.5
+			map: THREE.ImageUtils.loadTexture('img/solar/plutomap.jpg'),
+			//normalMap: THREE.ImageUtils.loadTexture("img/solar/"),
+			//normalScale: new THREE.Vector2( 1.8, 1.8 ),
+			shininess: 0.05
 		});
 
 		var mesh = new THREE.Mesh(geometry, material);
 
 		//!!! axis: check this, likely not correct!
-		mesh.rotation.z = _s.planets.pluto.a;
+		//mesh.rotation.z = _s.planets.pluto.a;
+		mesh.rotation.y = Math.PI;
 
-		
-		//_s.pluto.add(mesh);
-		*/
+		_s.planets.pluto.planet.add(mesh);
 
-		//test planet
-		_s.planets.pluto.planet.add(_s.getQuickPlanetMesh(0x006fe1));
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
         var material = new THREE.SpriteMaterial( { map: map, color: 0xffffff } );
         _s.planets.pluto.sprite = new THREE.Sprite( material );
-        
-        
 
         _s.system.add(_s.planets.pluto.planet);
         _s.system.add(_s.planets.pluto.sprite);
