@@ -162,26 +162,21 @@ function SolarSystem() {
 		_s.setPosition(_s.planets.murcury.planet, _s.planets.murcury);
 
 
-		/*
-		var geometry = new THREE.SphereGeometry(_s.baseRadius * _s.planets.murcury.s, 32, 32);
+		var geometry = new THREE.SphereGeometry(_s.baseRadius, 32, 32);
 
-		var material = new THREE.MeshPhongMaterial({
+		var material = new THREE.MeshLambertMaterial({
 			map: THREE.ImageUtils.loadTexture('img/solar/mercurymap.jpg'),
-			bumpMap: THREE.ImageUtils.loadTexture("img/solar/mercurybump.jpg"),
-			bumpScale: 1.0,
-			shininess: 0.5
+			//normalMap: THREE.ImageUtils.loadTexture("img/solar/mercurybump.jpg"),
+			//normalScale: new THREE.Vector2( 1.8, 1.8 ),
 		});
 
 		var mesh = new THREE.Mesh(geometry, material);
 
 		//!!! axis: check this, likely not correct!
+		//mesh.rotation.y = Math.PI;
 		mesh.rotation.z = _s.planets.murcury.a;
 
-		_s.murcury.add(mesh);
-		*/
-
-		//test planet
-		_s.planets.murcury.planet.add(_s.getQuickPlanetMesh(0x006fe1));
+		_s.planets.murcury.planet.add(mesh);
 
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
@@ -198,26 +193,22 @@ function SolarSystem() {
 		_s.planets.venus.planet.name = _s.planets.venus.name;
 		_s.setPosition(_s.planets.venus.planet, _s.planets.venus);
 
-		/*
-		var geometry = new THREE.SphereGeometry(_s.baseRadius * _s.planets.venus.s, 32, 32);
+		var geometry = new THREE.SphereGeometry(_s.baseRadius, 32, 32);
 
-		var material = new THREE.MeshPhongMaterial({
+		var material = new THREE.MeshLambertMaterial({
+			//map: THREE.ImageUtils.loadTexture('img/solar/venusclouds.jpg'), //!!! pending permission
 			map: THREE.ImageUtils.loadTexture('img/solar/venusmap.jpg'),
-			bumpMap: THREE.ImageUtils.loadTexture("img/solar/venusbump.jpg"),
-			bumpScale: 1.0,
-			shininess: 0.5
+			normalMap: THREE.ImageUtils.loadTexture("img/solar/venusbump.jpg"),
+			normalScale: new THREE.Vector2( 1.8, 1.8 ),
 		});
 
 		var mesh = new THREE.Mesh(geometry, material);
 
 		//!!! axis: check this, likely not correct!
+		//mesh.rotation.y = Math.PI;
 		mesh.rotation.z = _s.planets.venus.a;
 
-		_s.venus.add(mesh);
-		*/
-		
-		//test planet
-		_s.planets.venus.planet.add(_s.getQuickPlanetMesh(0x006fe1));
+		_s.planets.venus.planet.add(mesh);
 
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
@@ -234,43 +225,21 @@ function SolarSystem() {
 		_s.planets.earth.planet.name = _s.planets.earth.name;
 		_s.setPosition(_s.planets.earth.planet, _s.planets.earth);
 
-		/*
-		var geometry = new THREE.SphereGeometry(_s.baseRadius * _s.planets.earth.s, 32, 32);
+		var geometry = new THREE.SphereGeometry(_s.baseRadius, 32, 32);
 
-		var material = new THREE.MeshPhongMaterial({
+		var material = new THREE.MeshLambertMaterial({
 			map: THREE.ImageUtils.loadTexture('img/solar/earthmap1k.jpg'),
-			bumpMap: THREE.ImageUtils.loadTexture("img/solar/earthbump1k.jpg"),
-			bumpScale: 1.0,
-			shininess: 0.5
+			normalMap: THREE.ImageUtils.loadTexture("img/solar/earthbump1k.jpg"),
+			normalScale: new THREE.Vector2( 1.8, 1.8 ),
 		});
 
 		var mesh = new THREE.Mesh(geometry, material);
 
 		//!!! axis: check this, likely not correct!
+		//mesh.rotation.y = Math.PI;
 		mesh.rotation.z = _s.planets.earth.a;
 
-		_s.earth.add(mesh);
-		*/
-		
-
-		/*
-		var atmosMaterial = new THREE.MeshPhongMaterial({ 
-			map: new THREE.ImageUtils.loadTexture('img/solar/atmos.png'), 
-			color: 0xe4986e, 
-			transparent: true, 
-			blending: THREE.AdditiveBlending
-		});
-
-		var atmosGeom = new THREE.PlaneGeometry(geometry.boundingSphere.radius * 2.8, geometry.boundingSphere.radius * 2.8, 2);
-		var atmosMesh = new THREE.Mesh(atmosGeom, atmosMaterial);
-
-		_s.earthAtmosphere.add(atmosMesh);
-		
-		_s.setPosition(_s.earthAtmosphere, _s.planets.earth);
-		*/
-
-		//test planet
-		_s.planets.earth.planet.add(_s.getQuickPlanetMesh(0x006fe1));
+		_s.planets.earth.planet.add(mesh);
 
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
@@ -338,24 +307,21 @@ function SolarSystem() {
 		_s.planets.jupiter.planet.name = _s.planets.jupiter.name;
 		_s.setPosition(_s.planets.jupiter.planet, _s.planets.jupiter);
 
-		/*
-		var geometry = new THREE.SphereGeometry(_s.baseRadius * _s.planets.jupiter.s, 32, 32);
+		var geometry = new THREE.SphereGeometry(_s.baseRadius, 32, 32);
 
-		var material = new THREE.MeshPhongMaterial({
-			map: THREE.ImageUtils.loadTexture('img/solar/jupiter2_1k.jpg'),
-			shininess: 0.0
+		var material = new THREE.MeshLambertMaterial({
+			map: THREE.ImageUtils.loadTexture('img/solar/jupitermap2.jpg'),
+			//normalMap: THREE.ImageUtils.loadTexture("img/solar/"),
+			//normalScale: new THREE.Vector2( 1.8, 1.8 ),
 		});
 
 		var mesh = new THREE.Mesh(geometry, material);
 
 		//!!! axis: check this, likely not correct!
+		//mesh.rotation.y = Math.PI;
 		mesh.rotation.z = _s.planets.jupiter.a;
 
-		_s.jupiter.add(mesh);
-		*/
-		
-		//test planet
-		_s.planets.jupiter.planet.add(_s.getQuickPlanetMesh(0x006fe1));
+		_s.planets.jupiter.planet.add(mesh);
 
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
@@ -373,24 +339,34 @@ function SolarSystem() {
 		_s.planets.saturn.planet.name = _s.planets.saturn.name;
 		_s.setPosition(_s.planets.saturn.planet, _s.planets.saturn);
 
-		/*
-		var geometry = new THREE.SphereGeometry(_s.baseRadius * _s.planets.saturn.s, 32, 32);
+		var geometry = new THREE.SphereGeometry(_s.baseRadius, 32, 32);
 
-		var material = new THREE.MeshPhongMaterial({
+		var material = new THREE.MeshLambertMaterial({
 			map: THREE.ImageUtils.loadTexture('img/solar/saturnmap.jpg'),
-			shininess: 0.5
+			//normalMap: THREE.ImageUtils.loadTexture("img/solar/"),
+			//normalScale: new THREE.Vector2( 1.8, 1.8 ),
 		});
 
 		var mesh = new THREE.Mesh(geometry, material);
 
 		//!!! axis: check this, likely not correct!
+		//mesh.rotation.y = Math.PI;
 		mesh.rotation.z = _s.planets.saturn.a;
 
-		_s.saturn.add(mesh);
-		*/
+		_s.planets.saturn.planet.add(mesh);
 
-		//test planet
-		_s.planets.saturn.planet.add(_s.getQuickPlanetMesh(0x006fe1));
+		//rings!
+		//referenced from: http://codepen.io/marvindanig/pen/GJqepZ
+		var ringMesh = new THREE.Mesh(new THREE.XRingGeometry(1.2 * _s.baseRadius, 2 * _s.baseRadius, 2 * 32, 5, 0, Math.PI * 2), new THREE.MeshBasicMaterial({
+			map: THREE.ImageUtils.loadTexture('img/solar/saturnrings.png'),
+			side: THREE.DoubleSide,
+			transparent: true,
+			opacity: 0.6
+		}));
+
+		ringMesh.rotation.z = _s.planets.saturn.a;
+
+		_s.planets.saturn.planet.add(ringMesh);
 
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
@@ -407,24 +383,34 @@ function SolarSystem() {
 		_s.planets.uranus.planet.name = _s.planets.uranus.name;
 		_s.setPosition(_s.planets.uranus.planet, _s.planets.uranus);
 
-		/*
-		var geometry = new THREE.SphereGeometry(_s.baseRadius * _s.planets.uranus.s, 32, 32);
+		var geometry = new THREE.SphereGeometry(_s.baseRadius, 32, 32);
 
-		var material = new THREE.MeshPhongMaterial({
+		var material = new THREE.MeshLambertMaterial({
 			map: THREE.ImageUtils.loadTexture('img/solar/uranusmap.jpg'),
-			shininess: 0.5
+			//normalMap: THREE.ImageUtils.loadTexture("img/solar/"),
+			//normalScale: new THREE.Vector2( 1.8, 1.8 ),
 		});
 
 		var mesh = new THREE.Mesh(geometry, material);
 
 		//!!! axis: check this, likely not correct!
+		//mesh.rotation.y = Math.PI;
 		mesh.rotation.z = _s.planets.uranus.a;
 
-		_s.uranus.add(mesh);
-		*/
+		_s.planets.uranus.planet.add(mesh);
 
-		//test planet
-		_s.planets.uranus.planet.add(_s.getQuickPlanetMesh(0x006fe1));
+		//rings!
+		//referenced from: http://codepen.io/marvindanig/pen/GJqepZ
+		var ringMesh = new THREE.Mesh(new THREE.XRingGeometry(1.5 * _s.baseRadius, 2 * _s.baseRadius, 2 * 32, 5, 0, Math.PI * 2), new THREE.MeshBasicMaterial({
+			map: THREE.ImageUtils.loadTexture('img/solar/uranusrings.png'),
+			side: THREE.DoubleSide,
+			transparent: true,
+			opacity: 0.25
+		}));
+
+		ringMesh.rotation.z = _s.planets.uranus.a;
+
+		_s.planets.uranus.planet.add(ringMesh);
 
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
@@ -441,24 +427,22 @@ function SolarSystem() {
 	_s.createNeptune = function() {
 		_s.planets.neptune.planet.name = _s.planets.neptune.name;
 		_s.setPosition(_s.planets.neptune.planet, _s.planets.neptune);
+		
+		var geometry = new THREE.SphereGeometry(_s.baseRadius, 32, 32);
 
-		/*
-		var geometry = new THREE.SphereGeometry(_s.baseRadius * _s.planets.neptune.s, 32, 32);
-
-		var material = new THREE.MeshPhongMaterial({
-			map: THREE.ImageUtils.loadTexture('img/solar/neptunemap.jpg')
+		var material = new THREE.MeshLambertMaterial({
+			map: THREE.ImageUtils.loadTexture('img/solar/neptunemap.jpg'),
+			//normalMap: THREE.ImageUtils.loadTexture("img/solar/"),
+			//normalScale: new THREE.Vector2( 1.8, 1.8 ),
 		});
 
 		var mesh = new THREE.Mesh(geometry, material);
 
 		//!!! axis: check this, likely not correct!
+		//mesh.rotation.y = Math.PI;
 		mesh.rotation.z = _s.planets.neptune.a;
 
-		_s.neptune.add(mesh);
-		*/
-		
-		//test planet
-		_s.planets.neptune.planet.add(_s.getQuickPlanetMesh(0x006fe1));
+		_s.planets.neptune.planet.add(mesh);
 
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
@@ -474,14 +458,12 @@ function SolarSystem() {
 		_s.planets.pluto.planet.name = _s.planets.pluto.name;
 		_s.setPosition(_s.planets.pluto.planet, _s.planets.pluto);
 
-		//!!! get the latest map!
 		var geometry = new THREE.SphereGeometry(_s.baseRadius, 32, 32);
 
-		var material = new THREE.MeshPhongMaterial({
+		var material = new THREE.MeshLambertMaterial({
 			map: THREE.ImageUtils.loadTexture('img/solar/plutomap.jpg'),
 			//normalMap: THREE.ImageUtils.loadTexture("img/solar/"),
 			//normalScale: new THREE.Vector2( 1.8, 1.8 ),
-			shininess: 0.05
 		});
 
 		var mesh = new THREE.Mesh(geometry, material);
@@ -575,4 +557,6 @@ function SolarSystem() {
 
 		//_s.atmosphereFaceCamera(_s.marsAtmosphere, camera);
 	};
+
 }
+
