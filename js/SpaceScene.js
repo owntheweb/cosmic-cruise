@@ -271,7 +271,7 @@ function SpaceScene() {
 		///////////
 		
 		// create a light
-		var light = new THREE.PointLight(0xffffff, 2);
+		var light = new THREE.PointLight(0xffffff, 1.2);
 		light.position.set(0,0,0);
 		_s.scene.add(light);
 		
@@ -378,6 +378,7 @@ function SpaceScene() {
 	    turnTo.lookAt(arrivalOffset);
 
 		var tl = new TimelineLite();
+		var tl2 = new TimelineLite();
 
 		tl.to(_s.ship.obj.position, 6, { 
 			delay: 2,
@@ -385,54 +386,60 @@ function SpaceScene() {
 			x: exitPoint.x, 
 			y: exitPoint.y, 
 			z: exitPoint.z,
-			onStart: function() { console.log('Moving away from departure point...'); },
-		}).to(_s.ship.obj.rotation, 10, { 
-			ease: Power2.easeInOut, 
-			x: turnTo.rotation.x,
-    		y: turnTo.rotation.y,
-    		z: turnTo.rotation.z,
 			onStart: function() { 
-				console.log('Turning towards destination...'); 
-			}
-		}).to( _s.ship.obj.position, 20, { 
-			ease: Power4.easeInOut, 
-			x: (arrivalOffset.x), 
-			y: (arrivalOffset.y), 
-			z: (arrivalOffset.z),
-			onStart: function() { console.log('Engage!');
 
-				//initialize warp effect
-				_s.ship.toggleWarp();
-				var tlWarp = new TimelineLite();
-				tlWarp.to(_s.ship, 6, { 
-					ease: Power2.easeIn,
-					warpAlpha: 1.0,
-					warpSpeed: 60.0
-				}).to(_s.ship, 6, { 
-					ease: Power4.easeOut,
-					delay: 8,
-					warpAlpha: 0.0,
-					warpSpeed: 0.0,
-					onComplete: function() {
-						_s.ship.toggleWarp();
+				console.log('Moving away from departure point...'); 
+
+				tl2.to(_s.ship.obj.rotation, 10, { 
+					ease: Power2.easeInOut, 
+					x: turnTo.rotation.x,
+		    		y: turnTo.rotation.y,
+		    		z: turnTo.rotation.z,
+					onStart: function() { 
+						console.log('Turning towards destination...'); 
 					}
-				});
+				}).to( _s.ship.obj.position, 20, { 
+					ease: Power4.easeInOut, 
+					x: (arrivalOffset.x), 
+					y: (arrivalOffset.y), 
+					z: (arrivalOffset.z),
+					onStart: function() { console.log('Engage!');
 
-				//initialize warp effect for camera (increased field of view)
-				var tlCamera = new TimelineLite();
-				tlCamera.to(_s.camera, 6, { 
-					delay: 1,
-					ease: Power3.easeInOut,
-					fov: 96
-				}).to(_s.camera, 6, { 
-					delay: 5.5,
-					ease: Power4.easeInOut,
-					fov: 90
+						//initialize warp effect
+						_s.ship.toggleWarp();
+						var tlWarp = new TimelineLite();
+						tlWarp.to(_s.ship, 6, { 
+							ease: Power2.easeIn,
+							warpAlpha: 1.0,
+							warpSpeed: 60.0
+						}).to(_s.ship, 6, { 
+							ease: Power4.easeOut,
+							delay: 8,
+							warpAlpha: 0.0,
+							warpSpeed: 0.0,
+							onComplete: function() {
+								_s.ship.toggleWarp();
+							}
+						});
+
+						//initialize warp effect for camera (increased field of view)
+						var tlCamera = new TimelineLite();
+						tlCamera.to(_s.camera, 6, { 
+							delay: 1,
+							ease: Power3.easeInOut,
+							fov: 96
+						}).to(_s.camera, 6, { 
+							delay: 5.5,
+							ease: Power4.easeInOut,
+							fov: 90
+						});
+
+					},
+					onComplete: finishCallback
 				});
 
 			},
-			onComplete: finishCallback
-		});
+		})
 	}
 
 	//update scene elements
