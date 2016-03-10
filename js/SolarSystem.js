@@ -10,7 +10,7 @@ function SolarSystem() {
 	var _s = this;
 
 	_s.baseRadius = 1000; //scale of earth for this project, with other planets scaling with multipliers
-	_s.planetThresh = 10000; //distance of planet sprite sphere and where planets appear
+	_s.planetThresh = 11000; //distance of planet sprite sphere and where planets appear
 
 	_s.system = new THREE.Object3D();
 
@@ -235,11 +235,24 @@ function SolarSystem() {
 
 		var mesh = new THREE.Mesh(geometry, material);
 
+		//clouds
+		var cloudGeometry = new THREE.SphereGeometry(_s.baseRadius * 1.02, 32, 32);
+
+		var cloudMaterial = new THREE.MeshLambertMaterial({
+			map: THREE.ImageUtils.loadTexture('img/solar/earthclouds.png'),
+			transparent: true,
+			opacity: 0.9
+		});
+
+		var cloudMesh = new THREE.Mesh(cloudGeometry, cloudMaterial);
+
 		//!!! axis: check this, likely not correct!
 		//mesh.rotation.y = Math.PI;
 		mesh.rotation.z = _s.planets.earth.a;
+		cloudMesh.rotation.z = _s.planets.earth.a;
 
 		_s.planets.earth.planet.add(mesh);
+		_s.planets.earth.planet.add(cloudMesh);
 
 		//distant sprite
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
