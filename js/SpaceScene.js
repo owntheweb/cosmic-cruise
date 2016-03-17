@@ -288,7 +288,7 @@ function SpaceScene() {
 		_s.scene.add(_s.solarSystem.system);
 
 		//ship
-		_s.ship = new Ship3();
+		_s.ship = new Ship4();
 		_s.ship.loadModels();
 		_s.ship.obj.add(_s.camera); //if ship rotates, so does camera (as if you were in the ship)
 		_s.solarSystem.system.add(_s.ship.obj);
