@@ -328,8 +328,22 @@ function SpaceScene() {
 
 		//!!! TEMP
 		//single planet: Earth
-		var randomPlanet = _s.solarSystem.planetArray[2].planet;
-		_s.navToPlanet(randomPlanet, function(){});
+		var planetInt = -1;
+		var endlessFlight = function() {
+			if(planetInt == 2) {
+				planetInt = 0;
+			} else {
+				planetInt = 2;
+			}
+			var randomPlanet = _s.solarSystem.planetArray[planetInt].planet;
+			if(randomPlanet != planetInt) {
+				console.log("We travel to " + randomPlanet.name + "! Weeeee!");
+				_s.navToPlanet(randomPlanet, endlessFlight);
+			} else {
+				endlessFlight();
+			}
+		};
+		endlessFlight();
 
 
 		//!!! TEMP
