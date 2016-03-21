@@ -240,6 +240,97 @@ function Ship5() {
 		_s.screenImage.src = uri;
 	}
 
+	//travel to a new planet destination
+	_s.navToPlanet = function(to, finishCallback, camera) {
+
+		//!!! offset will likely change per planet, move this soon
+		var exitPoint = new THREE.Vector3(0, -130, 0);
+		exitPoint.x += _s.obj.position.x;
+		exitPoint.y += _s.obj.position.y;
+		exitPoint.z += _s.obj.position.z;
+		
+		//!!! approach "front" of planet, not bottom, fix this
+		//!!! then need to navigate to desired talking point location
+		//var arrivalOffset = new THREE.Vector3(0, -80, -0);
+		//arrivalOffset.x += to.position.x;
+		//arrivalOffset.y += to.position.y;
+		//arrivalOffset.z += to.position.z;
+
+		arrivalOffset = THREE.Utils.getPointInBetweenByLen(to.position, _s.obj.position, 155);
+
+		var turnTo = new THREE.Object3D();
+	    turnTo.position.x = exitPoint.x;
+	    turnTo.position.y = exitPoint.y;
+	    turnTo.position.z = exitPoint.z;
+	    turnTo.rotation.order = "YXZ";
+	    _s.obj.rotation.order = "YXZ";
+	    turnTo.lookAt(arrivalOffset);
+
+		var tl = new TimelineLite();
+		var tl2 = new TimelineLite();
+
+		tl.to(_s.obj.position, 6, { 
+			delay: 2,
+			ease: Power2.easeInOut, 
+			x: exitPoint.x, 
+			y: exitPoint.y, 
+			z: exitPoint.z,
+			onStart: function() { 
+
+				console.log('Moving away from departure point...'); 
+
+				tl2.to(_s.obj.rotation, 10, { 
+					ease: Power2.easeInOut, 
+					x: turnTo.rotation.x,
+		    		y: turnTo.rotation.y,
+		    		z: turnTo.rotation.z,
+					onStart: function() { 
+						console.log('Turning towards destination...'); 
+					}
+				}).to( _s.obj.position, 20, { 
+					ease: Power4.easeInOut, 
+					x: (arrivalOffset.x), 
+					y: (arrivalOffset.y), 
+					z: (arrivalOffset.z),
+					onStart: function() { console.log('Engage!');
+
+						//initialize warp effect
+						_s.toggleWarp();
+						var tlWarp = new TimelineLite();
+						tlWarp.to(_s, 6, { 
+							ease: Power2.easeIn,
+							warpAlpha: 1.0,
+							warpSpeed: 6.0
+						}).to(_s, 6, { 
+							ease: Power4.easeOut,
+							delay: 8,
+							warpAlpha: 0.0,
+							warpSpeed: 0.0,
+							onComplete: function() {
+								_s.toggleWarp();
+							}
+						});
+
+						//initialize warp effect for camera (increased field of view)
+						var tlCamera = new TimelineLite();
+						tlCamera.to(camera, 6, { 
+							delay: 1,
+							ease: Power3.easeInOut,
+							fov: 96
+						}).to(camera, 6, { 
+							delay: 5.5,
+							ease: Power4.easeInOut,
+							fov: 90
+						});
+
+					},
+					onComplete: finishCallback
+				});
+
+			},
+		})
+	};
+
 	_s.init = function() {
 		_s.obj.add(_s.chassis);
 		_s.obj.add(_s.chair);
