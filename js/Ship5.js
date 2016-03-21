@@ -166,18 +166,18 @@ function Ship5() {
 
 			plane.position.x = (Math.random() * _s.warpFieldDiameter) - (_s.warpFieldDiameter / 2);
 			//move away from ship interior
-			if(plane.position.x > 0 && plane.position.x < 280) {
-				plane.position.x += 280;
-			} else if(plane.position.x < 0 && plane.position.x > -280) {
-				plane.position.x -= 280;
+			if(plane.position.x > 0 && plane.position.x < 50) {
+				plane.position.x += 50;
+			} else if(plane.position.x < 0 && plane.position.x > -50) {
+				plane.position.x -= 50;
 			}
 
 			plane.position.y = (Math.random() * _s.warpFieldDiameter) - (_s.warpFieldDiameter / 2);
 			//move away from ship interior
-			if(plane.position.y > 0 && plane.position.y < 280) {
-				plane.position.y += 280;
-			} else if(plane.position.y < 0 && plane.position.y > -280) {
-				plane.position.y -= 280;
+			if(plane.position.y > 0 && plane.position.y < 50) {
+				plane.position.y += 50;
+			} else if(plane.position.y < 0 && plane.position.y > -50) {
+				plane.position.y -= 50;
 			}
 
 			//tilt plane to look towards center of ship initially
