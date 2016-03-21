@@ -311,6 +311,7 @@ function SpaceScene() {
 		_s.sceneInitiated = true;
 
 		//!!! TEMP
+		/*
 		var lastPlanetInt = -1;
 		var endlessFlight = function() {
 			var randomPlanet = _s.solarSystem.planetArray[Math.floor(Math.random() * _s.solarSystem.planetArray.length)].planet;
@@ -323,6 +324,13 @@ function SpaceScene() {
 			}
 		};
 		endlessFlight();
+		*/
+
+		//!!! TEMP
+		//single planet: Earth
+		var randomPlanet = _s.solarSystem.planetArray[2].planet;
+		_s.navToPlanet(randomPlanet, function(){});
+
 
 		//!!! TEMP
 		var testImages = [
