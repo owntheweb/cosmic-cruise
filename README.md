@@ -4,11 +4,16 @@
 Take a Google Cardboard tour of the solar system! This project is just getting started, so prepare for several updates before it's usable. The end project will run as a PhoneGap app.
 
 ## Planet Textures
-This project makes use of textures, normal maps and bump maps from [planetpixelemporium](http://planetpixelemporium.com/planets.html) (Venus, Earth, Moon, Mars, Saturn, Uranus, Neptune).
+This project makes use of textures, normal maps and bump maps from [planetpixelemporium](http://planetpixelemporium.com/planets.html) (Venus, Moon, Mars, Saturn, Uranus, Neptune).
+
+[Earth Color Texture](http://eoimages.gsfc.nasa.gov/images/imagerecords/73000/73580/world.topo.bathy.200401.3x5400x2700.jpg) credit: NASA
+[Earth Cloud Map](http://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57747/cloud_combined_2048.jpg) credit: NASA
+[Earth Bump Map](http://www.shadedrelief.com/natural3/pages/extra.html) credit: Tom Patterson, www.shadedrelief.com
+[Earth Specular Map](http://www.shadedrelief.com/natural3/pages/extra.html) credit: Tom Patterson, www.shadedrelief.com
 
 [Murcury image](http://messenger.jhuapl.edu/the_mission/mosaics.html) credit: NASA/Johns Hopkins University Applied Physics Laboratory/Carnegie Institution of Washington
 
-[Jupiter image](http://laps.noaa.gov/albers/sos/sos.html#JUPITER) credit: NASA/JPL/Space Science Institute, color balance was adjusted in a subjective attempt (as suggested by Bjorn Jonsson) to better match the visual appearance of Jupiter in a telescope. 
+[Jupiter image](http://laps.noaa.gov/albers/sos/sos.html#JUPITER) credit: NASA/JPL/Space Science Institute, color balance was adjusted in a subjective attempt (as suggested by Bjorn Jonsson) to better match the visual appearance of Jupiter in a telescope.
 
 Pluto texture courtesy of (Snowfall-The-Cat)[http://ultrus.deviantart.com/art/Pluto-Map-2015-Nov-10-546286799], made with NASA/JPL/New horizons data.
 
