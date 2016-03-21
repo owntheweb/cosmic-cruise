@@ -7,9 +7,11 @@ function Ship5() {
 
     _s.chassis;
     _s.screen;
+    _s.screenFace;
     _s.chair;
     _s.chassisLoaded = false;
     _s.screenLoaded = false;
+    _s.screenFaceLoaded = false
     _s.chairLoaded = false;
     _s.obj = new THREE.Object3D();
 
@@ -21,6 +23,19 @@ function Ship5() {
     //!!! need to set these with set/get methods
     _s.warpSpeed = 0.0;
     _s.warpAlpha = 0.0;
+
+    //screen
+    _s.screenCanvas = document.getElementById("shipScreen");
+    _s.screenCanvas.width = 512;
+    _s.screenCanvas.height = 512;
+	_s.screenContext = _s.screenCanvas.getContext("2d");
+	_s.screenTexture = new THREE.Texture(_s.screenCanvas);
+	_s.screenImage = new Image();
+	_s.screenImage.onload = function() {
+		_s.screenContext.drawImage(_s.screenImage, 0, 149);
+		_s.screenTexture.needsUpdate = true;
+	};
+
 
     _s.assignShipMaterials = function(materials) {
 	    var i;
@@ -42,6 +57,15 @@ function Ship5() {
 	                shading: THREE.FlatShading,
 	                emissiveMap: THREE.ImageUtils.loadTexture('img/shipScreenMap.png'),
 	                name: 'screen'
+	            });
+	        } else if(materials[i].name == 'screenFace') {
+	            materials[i] = new THREE.MeshPhongMaterial({
+	                color: 0xff0000,
+	                emissive: 0xffffff,
+	                map: _s.screenTexture,
+	                shading: THREE.FlatShading,
+	                emissiveMap: _s.screenTexture,
+	                name: 'screenFace'
 	            });
 	        } else if(materials[i].name == 'chair') {
 	            materials[i] = new THREE.MeshPhongMaterial({
@@ -91,6 +115,20 @@ function Ship5() {
 			_s.areAllModelsLoaded();
 		});
 
+		//load the screen
+	    loader.load( 'models/ship5ScreenFace.json', function ( geometry, materials ) {
+
+			materials = _s.assignShipMaterials(materials);
+
+			_s.screenFace = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
+			_s.screenFace.scale.x = _s.screenFace.scale.y = _s.screenFace.scale.z = scale;
+			_s.screenFace.rotation.y = 0;
+			_s.screenFace.position.y -= 5.4;
+
+			_s.screenFaceLoaded = true;
+			_s.areAllModelsLoaded();
+		});
+
 		//load the chair
 	    loader.load( 'models/ship5Chair.json', function ( geometry, materials ) {
 
@@ -107,7 +145,7 @@ function Ship5() {
 	};
 
 	_s.areAllModelsLoaded = function() {	
-	    if(_s.chassisLoaded == true && _s.screenLoaded == true && _s.chairLoaded == true) {
+	    if(_s.chassisLoaded == true && _s.screenLoaded == true && _s.chairLoaded == true && _s.screenFaceLoaded == true) {
 	        _s.init();
 	    }
 	}
@@ -198,13 +236,15 @@ function Ship5() {
 		}
 	};
 
-	_s.init = function() {
-		//var ambientLight = new THREE.AmbientLight(0xffffff);
-        //_s.obj.add(ambientLight);
+	_s.setScreenImage = function(uri) {
+		_s.screenImage.src = uri;
+	}
 
+	_s.init = function() {
 		_s.obj.add(_s.chassis);
 		_s.obj.add(_s.chair);
 		_s.obj.add(_s.screen);
+		_s.obj.add(_s.screenFace);
 		_s.setupWarpEffect();
 	};
 

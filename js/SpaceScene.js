@@ -323,6 +323,21 @@ function SpaceScene() {
 			}
 		};
 		endlessFlight();
+
+		//!!! TEMP
+		var testImages = [
+			'img/screen/test1.png',
+			'img/screen/test2.png',
+			'img/screen/test3.png'
+		];
+		var testImagesInt = 0;
+		var testImagesInterval = setInterval(function(){ 
+			_s.ship.setScreenImage(testImages[testImagesInt]);
+			testImagesInt++;
+			if(testImagesInt >= testImages.length) {
+				testImagesInt = 0;
+			}
+		}, 1000);
 	};
 
 	_s.initMusic = function() {
