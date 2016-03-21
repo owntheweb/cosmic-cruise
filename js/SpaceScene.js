@@ -313,7 +313,8 @@ function SpaceScene() {
 		_s.sceneInitiated = true;
 
 		//!!! TEMP
-
+		//continuous random planet flight
+		/*
 		var lastPlanetInt = -1;
 		var endlessFlight = function() {
 			var randomPlanet = _s.solarSystem.planetArray[Math.floor(Math.random() * _s.solarSystem.planetArray.length)].planet;
@@ -326,13 +327,13 @@ function SpaceScene() {
 			}
 		};
 		endlessFlight();
+		*/
 
 
 		//!!! TEMP
 		//toggle between Earth and Murcury
-		/*
 		var planetInt = -1;
-		var endlessFlight = function() {
+		var endlessToggleFlight = function() {
 			if(planetInt == 2) {
 				planetInt = 0;
 			} else {
@@ -341,13 +342,12 @@ function SpaceScene() {
 			var randomPlanet = _s.solarSystem.planetArray[planetInt].planet;
 			if(randomPlanet != planetInt) {
 				console.log("We travel to " + randomPlanet.name + "! Weeeee!");
-				_s.navToPlanet(randomPlanet, endlessFlight);
+				_s.navToPlanet(randomPlanet, endlessToggleFlight);
 			} else {
-				endlessFlight();
+				endlessToggleFlight();
 			}
 		};
-		endlessFlight();
-		*/
+		endlessToggleFlight();
 
 
 		//!!! TEMP
