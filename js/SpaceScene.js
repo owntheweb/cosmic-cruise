@@ -109,7 +109,7 @@ function SpaceScene() {
 		var screenH = window.innerHeight;
 		var viewAngle = 90;
 		var aspectRatio = screenW / screenH;
-		var near = 4;
+		var near = 1.1;
 		var far = 7000000;
 		_s.camera = new THREE.PerspectiveCamera(viewAngle, aspectRatio, near, far);
 		_s.camera.position.set(0,0,0);
@@ -117,6 +117,8 @@ function SpaceScene() {
 
 		//stereo camera (use main camera position/angle to produce a stereo L/R camera)
 		_s.stereoCamera = new THREE.StereoCamera();
+		_s.stereoCamera.eyeSeparation = _s.stereoCamera.eyeSeparation * 0.1;
+		_s.stereoCamera.focalLength = _s.stereoCamera.focalLength * 0.1;
 
 		//////////////
 		// RENDERER //
@@ -259,7 +261,7 @@ function SpaceScene() {
 			side: THREE.BackSide
 			});
 
-			_s.skybox = new THREE.Mesh(new THREE.BoxGeometry(4000000, 4000000, 4000000), skyBoxMaterial);
+			_s.skybox = new THREE.Mesh(new THREE.BoxGeometry(400000, 400000, 400000), skyBoxMaterial);
 			_s.skybox.frustumCulled = false;
 
 			_s.scene.add(_s.skybox);
@@ -295,9 +297,9 @@ function SpaceScene() {
 
 		var gui = new dat.GUI();
 		var f1 = gui.addFolder('Ship Position');
-		f1.add(_s.ship.obj.position, 'x', -10000, 10000);
-		f1.add(_s.ship.obj.position, 'y', -10000, 10000);
-		f1.add(_s.ship.obj.position, 'z', -10000, 10000);
+		f1.add(_s.ship.obj.position, 'x', -1000, 1000);
+		f1.add(_s.ship.obj.position, 'y', -1000, 1000);
+		f1.add(_s.ship.obj.position, 'z', -1000, 1000);
 		var f2 = gui.addFolder('Ship Rotation');
 		//!!! I want to see floats here but am seeing integers, how to update?
 		f2.add(_s.ship.obj.rotation, 'x', 0.0, Math.PI * 2);
@@ -311,7 +313,7 @@ function SpaceScene() {
 		_s.sceneInitiated = true;
 
 		//!!! TEMP
-		/*
+
 		var lastPlanetInt = -1;
 		var endlessFlight = function() {
 			var randomPlanet = _s.solarSystem.planetArray[Math.floor(Math.random() * _s.solarSystem.planetArray.length)].planet;
@@ -324,10 +326,11 @@ function SpaceScene() {
 			}
 		};
 		endlessFlight();
-		*/
+
 
 		//!!! TEMP
-		//single planet: Earth
+		//toggle between Earth and Murcury
+		/*
 		var planetInt = -1;
 		var endlessFlight = function() {
 			if(planetInt == 2) {
@@ -344,6 +347,7 @@ function SpaceScene() {
 			}
 		};
 		endlessFlight();
+		*/
 
 
 		//!!! TEMP
@@ -392,7 +396,7 @@ function SpaceScene() {
 	_s.navToPlanet = function(to, finishCallback) {
 
 		//!!! offset will likely change per planet, move this soon
-		var exitPoint = new THREE.Vector3(0, -1300, 0);
+		var exitPoint = new THREE.Vector3(0, -130, 0);
 		exitPoint.x += _s.ship.obj.position.x;
 		exitPoint.y += _s.ship.obj.position.y;
 		exitPoint.z += _s.ship.obj.position.z;
@@ -404,7 +408,7 @@ function SpaceScene() {
 		//arrivalOffset.y += to.position.y;
 		//arrivalOffset.z += to.position.z;
 
-		arrivalOffset = THREE.Utils.getPointInBetweenByLen(to.position, _s.ship.obj.position, 1550);
+		arrivalOffset = THREE.Utils.getPointInBetweenByLen(to.position, _s.ship.obj.position, 155);
 
 		var turnTo = new THREE.Object3D();
 	    turnTo.position.x = exitPoint.x;
@@ -448,7 +452,7 @@ function SpaceScene() {
 						tlWarp.to(_s.ship, 6, { 
 							ease: Power2.easeIn,
 							warpAlpha: 1.0,
-							warpSpeed: 60.0
+							warpSpeed: 6.0
 						}).to(_s.ship, 6, { 
 							ease: Power4.easeOut,
 							delay: 8,

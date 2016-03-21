@@ -16,8 +16,8 @@ function Ship5() {
     _s.obj = new THREE.Object3D();
 
     _s.warpField;
-    _s.warpFieldDiameter = 4000;
-	_s.warpLength = 5000;
+    _s.warpFieldDiameter = 400;
+	_s.warpLength = 500;
     
     _s.warpActive = false;
     //!!! need to set these with set/get methods
@@ -85,7 +85,7 @@ function Ship5() {
 		var ship;
 		var loader = new THREE.JSONLoader();
 
-		var scale = 50;
+		var scale = 5;
 
 	    //load the hull
 	    loader.load( 'models/ship5Hull.json', function ( geometry, materials ) {
@@ -95,7 +95,7 @@ function Ship5() {
 			_s.chassis = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
 			_s.chassis.scale.x = _s.chassis.scale.y = _s.chassis.scale.z = scale;
 			_s.chassis.rotation.y = 0;
-			_s.chassis.position.y -= 5;
+			_s.chassis.position.y -= .5;
 
 			_s.chassisLoaded = true;
 			_s.areAllModelsLoaded();
@@ -109,7 +109,7 @@ function Ship5() {
 			_s.screen = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
 			_s.screen.scale.x = _s.screen.scale.y = _s.screen.scale.z = scale;
 			_s.screen.rotation.y = 0;
-			_s.screen.position.y -= 5;
+			_s.screen.position.y -= .5;
 
 			_s.screenLoaded = true;
 			_s.areAllModelsLoaded();
@@ -123,7 +123,7 @@ function Ship5() {
 			_s.screenFace = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
 			_s.screenFace.scale.x = _s.screenFace.scale.y = _s.screenFace.scale.z = scale;
 			_s.screenFace.rotation.y = 0;
-			_s.screenFace.position.y -= 5.4;
+			_s.screenFace.position.y -= .54;
 
 			_s.screenFaceLoaded = true;
 			_s.areAllModelsLoaded();
@@ -137,7 +137,7 @@ function Ship5() {
 			_s.chair = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
 			_s.chair.scale.x = _s.chair.scale.y = _s.chair.scale.z = scale;
 			_s.chair.rotation.y = 0;
-			_s.chair.position.y -= 5;
+			_s.chair.position.y -= .5;
 
 			_s.chairLoaded = true;
 			_s.areAllModelsLoaded();
@@ -161,23 +161,23 @@ function Ship5() {
 
 		for(i=0; i<150; i++) {
 			
-		    geometry = new THREE.PlaneGeometry(120, 10);
+		    geometry = new THREE.PlaneGeometry(12, 1);
 			plane = new THREE.Mesh(geometry);
 
 			plane.position.x = (Math.random() * _s.warpFieldDiameter) - (_s.warpFieldDiameter / 2);
 			//move away from ship interior
-			if(plane.position.x > 0 && plane.position.x < 50) {
-				plane.position.x += 50;
-			} else if(plane.position.x < 0 && plane.position.x > -50) {
-				plane.position.x -= 50;
+			if(plane.position.x > 0 && plane.position.x < 8) {
+				plane.position.x += 8;
+			} else if(plane.position.x < 0 && plane.position.x > -8) {
+				plane.position.x -= 8;
 			}
 
 			plane.position.y = (Math.random() * _s.warpFieldDiameter) - (_s.warpFieldDiameter / 2);
 			//move away from ship interior
-			if(plane.position.y > 0 && plane.position.y < 50) {
-				plane.position.y += 50;
-			} else if(plane.position.y < 0 && plane.position.y > -50) {
-				plane.position.y -= 50;
+			if(plane.position.y > 0 && plane.position.y < 8) {
+				plane.position.y += 8;
+			} else if(plane.position.y < 0 && plane.position.y > -8) {
+				plane.position.y -= 8;
 			}
 
 			//tilt plane to look towards center of ship initially
@@ -225,7 +225,7 @@ function Ship5() {
 
 	_s.updateWarpEffect = function() {
 		var i;
-		var warpLength = 5000;
+		var warpLength = 500;
 
 		if(_s.warpActive == true) {
 			_s.warpField.material.opacity = _s.warpAlpha;
