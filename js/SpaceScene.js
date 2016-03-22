@@ -1,7 +1,7 @@
 function SpaceScene() {
 
 	var _s = this;
-	
+
 	//files
 	_s.images = {};
 	_s.fileCount = 0; //gets tallied later
@@ -55,7 +55,7 @@ function SpaceScene() {
 	//add file to the queue
 	_s.queueFile = function(src, name) {
 		var image;
-		
+
 		image = new Image();
 		//image.onload = function() { console.log(name + ' loaded'); this.onFileLoaded(); }.bind(this); //!!! temp
 		image.onload = function() { console.log(name + ' loaded'); _s.onFileLoaded(); };
@@ -123,7 +123,7 @@ function SpaceScene() {
 		//////////////
 		// RENDERER //
 		//////////////
-		
+
 		var canvas = document.getElementById("viewer");
 
 		_s.renderer = new THREE.WebGLRenderer({antialias:true, canvas:canvas, alpha: true, clearColor: 0x000000 });
@@ -139,7 +139,7 @@ function SpaceScene() {
 
 		_s.effectFXAA = new THREE.ShaderPass(THREE.FXAAShader);
 		_s.effectFXAA.uniforms.resolution.value = new THREE.Vector2(1 / window.innerWidth, 1 / window.innerHeight);
-		
+
 		///////////////////
 		// effect composer
 		///////////////////
@@ -172,7 +172,7 @@ function SpaceScene() {
 			if (e == undefined || !e.alpha) {
 				return;
 			}
-			
+
 			_s.controls.enabled = false; //reset controls
 			_s.controls = undefined;
 
@@ -201,7 +201,7 @@ function SpaceScene() {
 		///////////
 		// STATS //
 		///////////
-		
+
 		_s.stats = new Stats();
 		_s.stats.domElement.style.position = 'absolute';
 		_s.stats.domElement.style.bottom = '0px';
@@ -271,12 +271,12 @@ function SpaceScene() {
 		///////////
 		// LIGHT //
 		///////////
-		
+
 		// create a light
 		var light = new THREE.PointLight(0xffffff, 1.2);
 		light.position.set(0,0,0);
 		_s.scene.add(light);
-		
+
 		_s.scene.add( new THREE.AmbientLight( 0x111111 ) );
 
 		////////////
@@ -357,7 +357,7 @@ function SpaceScene() {
 			'img/screen/test3.png'
 		];
 		var testImagesInt = 0;
-		var testImagesInterval = setInterval(function(){ 
+		var testImagesInterval = setInterval(function(){
 			_s.ship.setScreenImage(testImages[testImagesInt]);
 			testImagesInt++;
 			if(testImagesInt >= testImages.length) {
@@ -388,7 +388,7 @@ function SpaceScene() {
 
 	//reset if starting over (!!! may not need this any longer)
 	_s.resetSpaceScene = function() {
-		
+
 	};
 
 	//update scene elements
@@ -399,14 +399,23 @@ function SpaceScene() {
 		var delta = _s.clock.getDelta();
 
 		_s.stereoCamera.update(_s.scene, _s.camera, window.innerWidth, window.innerHeight);
-		
+
 		_s.solarSystem.update(_s.camera, _s.ship.obj);
-		
+
+    // Rotate Earth's Clouds.
+    _s.solarSystem.planetArray[2].planet.children[1].rotation.y += 0.0005;
+
+    // Rotate the Earth.
+    _s.solarSystem.planetArray[2].planet.children[0].rotation.y += 0.00025;
+
+    // Rotate the moon around the Earth.
+    _s.solarSystem.planetArray[2].planet.children[2].rotation.y += 0.01;
+
 		_s.stats.update();
 	};
 
 	//render three.js scene
-	_s.render = function() { 
+	_s.render = function() {
 		//_s.renderer.clear();
 
 		_s.renderer.setViewport( 0, 0, window.innerWidth / 2, window.innerHeight);

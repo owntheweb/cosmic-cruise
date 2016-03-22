@@ -219,18 +219,17 @@ function SolarSystem() {
     _s.system.add(_s.planets.venus.sprite);
 	};
 
-	// Create the Earth and its moon.
+  // Create the Earth and its moon.
   _s.createEarth = function() {
+    // Set initial positioning.
 		_s.planets.earth.planet.name = _s.planets.earth.name;
 		_s.setPosition(_s.planets.earth.planet, _s.planets.earth);
 
+    // Create the Earth geometry, textures, and mesh.
 		var geometry = new THREE.SphereGeometry(_s.baseRadius, 32, 32);
-
     loader = new THREE.TextureLoader();
     var texture = loader.load( './img/solar/earth/ColorMap.jpg' );
     var bump = loader.load( './img/solar/earth/Bump.jpg' );
-    bump.wrapS = bump.wrapT = THREE.RepeatWrapping;
-    bump.repeat.set( 1, 1 );
     var spec = loader.load( './img/solar/earth/SpecMask.jpg' );
     var material = new THREE.MeshPhongMaterial({
       color: 0xffffff,
@@ -243,19 +242,30 @@ function SolarSystem() {
     });
 
 		var mesh = new THREE.Mesh(geometry, material);
+    mesh.name = "Earth";
 
 		// Create the clouds.
 		var cloudGeometry = new THREE.SphereGeometry(_s.baseRadius + 1, 32, 32);
     loader = new THREE.TextureLoader();
     var alpha = loader.load( "./img/solar/earth/alphaMap.jpg" );
+    alpha.wrapS = alpha.wrapT = THREE.RepeatWrapping;
+    alpha.repeat.set( 1, 1 );
+
     var cloudMaterial = new THREE.MeshPhongMaterial({
       alphaMap: alpha,
     });
     cloudMaterial.transparent = true;
 
 		var cloudMesh = new THREE.Mesh(cloudGeometry, cloudMaterial);
+    cloudMesh.name = "Clouds";
 
-    // Create the moon.
+		_s.planets.earth.planet.add(mesh);
+		_s.planets.earth.planet.add(cloudMesh);
+
+    // Create the moon and its rotation point.
+    moonRotationPoint = new THREE.Object3D();
+    _s.planets.earth.planet.add(moonRotationPoint);
+
     var moonGeometry = new THREE.SphereGeometry(_s.baseRadius/2, 32, 32);
     var moonTexture = loader.load( './img/solar/moon/ColorMap.jpg' );
     var moonBump = loader.load( './img/solar/moon/Bump.jpg' );
@@ -266,27 +276,20 @@ function SolarSystem() {
       specular: "#666666",
       displacementMap: moonBump,
       bumpMap: moonBump,
+      bumpScale: 0.5,
     });
     var moonMesh = new THREE.Mesh(moonGeometry, moonMaterial);
-    moonMesh.position.set(_s.baseRadius * -2, 0, _s.baseRadius * 1.25);
-
-		//!!! axis: check this, likely not correct!
-		//mesh.rotation.y = Math.PI;
-		//mesh.rotation.z = _s.planets.earth.a;
-		//cloudMesh.rotation.z = _s.planets.earth.a;
-
-		_s.planets.earth.planet.add(mesh);
-		_s.planets.earth.planet.add(cloudMesh);
-    _s.planets.earth.planet.add(moonMesh);
+    moonMesh.position.set(_s.baseRadius * -4, 0, _s.baseRadius * 1.25);
+    moonRotationPoint.add(moonMesh);
 
 		// Create the distant sprite.
-		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
+    var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
     var material = new THREE.SpriteMaterial( { map: map, color: 0xffffff } );
     _s.planets.earth.sprite = new THREE.Sprite( material );
 
     _s.system.add(_s.planets.earth.planet);
     _s.system.add(_s.planets.earth.sprite);
-	};
+  };
 
 	_s.createMars = function() {
 		_s.planets.mars.planet.name = _s.planets.mars.name;
