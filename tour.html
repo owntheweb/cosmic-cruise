@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Google Cardboard IN SPACE</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="stylesheet" href="css/style.css" media="screen" />
+	</head>
+	<body>
+		
+		<div id="debug"></div>
+		
+		<canvas id="shipScreen"></canvas>
+
+		<div id="viewerContainer">
+			<canvas id="viewer"></canvas>
+		</div>
+
+		<img src="img/skybox/backSm.jpg" class="hidden" />
+		<img src="img/skybox/frontSm.jpg" class="hidden" />
+		<img src="img/skybox/leftSm.jpg" class="hidden" />
+		<img src="img/skybox/rightSm.jpg" class="hidden" />
+		<img src="img/skybox/topSm.jpg" class="hidden" />
+		<img src="img/skybox/downSm.jpg" class="hidden" />
+		
+		<script src="cordova.js"></script>
+		<script src="js/three.min.js"></script>
+		<script src="js/StereoCamera.js"></script>
+		<script src="js/DeviceOrientationControls.js"></script>
+		<script src="js/OrbitControls.js"></script>
+		<script src="js/Detector.js"></script>
+		<script src="js/Projector.js"></script>
+
+		<script src="js/FXAAShader.js"></script>
+		<script src="js/CopyShader.js"></script>
+
+		<script src="js/EffectComposer.js"></script>
+		<script src="js/MaskPass.js"></script>
+		<script src="js/RenderPass.js"></script>
+		<script src="js/ShaderPass.js"></script>
+		<script src="js/ConvolutionShader.js"></script>
+
+		<script src="js/utils.js"></script>
+		<script src="js/THREEx.utils.js"></script>
+		<script src="js/xRingGeometry.js"></script>
+		<script src="js/Stats.js"></script>
+		<script src="js/CanvasRenderer.js"></script>
+		<script src="js/TweenLite.min.js"></script>
+		<script src="js/TimelineLite.min.js"></script>
+		<script src="js/howler.min.js"></script>
+		<script src="js/Ship5.js"></script>
+		<script src="js/SpaceScene.js"></script>
+		<script src="js/SolarSystem.js"></script>
+		<script src="js/ScoreManager.js"></script>
+	
+		<script type='text/javascript' src='js/dat.gui.min.js'></script>
+
+		<script src="js/app.js"></script>
+	</body>
+</html>

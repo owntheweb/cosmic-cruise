@@ -1,60 +1,185 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<title>Google Cardboard IN SPACE</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<link rel="stylesheet" href="css/style.css" media="screen" />
-	</head>
-	<body>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="css/jquery.mobile-1.3.1.min.css" type="text/css" />
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).bind("mobileinit", function () {
+		    $.mobile.ajaxEnabled = false;
+		});
+	</script>
+	<script type="text/javascript" src="js/jquery.mobile-1.3.1.min.js"></script>
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/home.css" rel="stylesheet">
+</head>
+<body>
+	<div data-role="page" id="vr-tour" data-title="VR Solar System Tour" data-theme="a" class="pages">
+		<div data-role="header" data-theme="a">
+			<img class="logo" src="img/logo.png" alt="Tour the Solar System">
+			<div class="sflogo">
+		    	<a href="http://www.spacefoundation.org/" target="_blank"><img src="img/SFlogoBlack_Horiz.png" alt= "Space Foundation"></a>
+		    </div>
+		</div>
 		
-		<div id="debug"></div>
-		
-		<canvas id="shipScreen"></canvas>
+		<div data-role="content">			
 
-		<div id="viewerContainer">
-			<canvas id="viewer"></canvas>
+			<div id="main-menu">
+				<ul>
+					<li class="bn-row"><a href="#" onclick="togglePanel(this);">Start tour</a></span></li>
+					<li class="bn-row"><a href="#" onclick="togglePanel(this);">Donate</a></li>
+					<li class="bn-row"><a href="#" onclick="togglePanel(this);">Credits</a></span></li>
+					<li class="bn-row"><a href="#" onclick="togglePanel(this);">Options</a></span></li>
+				</ul>
+			</div>
+
+			<div id="start-tour" class="section">
+				<div class="slide-header ">
+					<div class="half-chevron-text">Start tour</div>
+					<div class="half-chevron "></div>
+				</div>
+				<div class="panel">
+					<p>Are you using <a target="_blank" href="https://www.google.com/get/cardboard/">Google Cardboard</a> to enjoy this app?</p>
+				</div>
+				<div class="bn-row">
+					<p><a href="./tour.html?viewMode=cyclops">No</a> <a href="./tour.html?viewMode=cardboard" 
+						>Yes</a></p>
+				</div>
+				<div class="panel-close">CLOSE</div>
+			</div>
+
+			<div id="donate" class="section">
+				<div class="slide-header ">
+					<div class="half-chevron-text">Donate</div>
+					<div class="half-chevron "></div>
+				</div>
+				<div class="panel">
+					<p>Do you believe space exploration is essential to innovation? So do we.</p><p>Your donation helps continue our mission to advance space-related endeavors to inspire, enable, and propel humanity.</p>
+				</div>
+				<div class="bn-row">
+					<a href="#" target="_blank">Donate</a>
+				</div>
+				<div class="panel-close">CLOSE</div>
+			</div>
+
+			<div id="credits" class="section">
+				<div class="slide-header ">
+					<div class="half-chevron-text">Credits</div>
+					<div class="half-chevron "></div>
+				</div>
+				<div class="panel" style="position: relative; height: 100px;">
+					<h2>Planet Textures</h2>
+					<p>This project makes use of textures, normal maps and bump maps from <a href="http://planetpixelemporium.com/planets.html" target="_blank">planetpixelemporium</a> (Venus, Moon, Mars, Saturn, Uranus, Neptune).</p>
+					<p><a href="http://eoimages.gsfc.nasa.gov/images/imagerecords/73000/73580/world.topo.bathy.200401.3x5400x2700.jpg" target="_blank">Earth Color Texture</a> credit: NASA <a href="http://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57747/cloud_combined_2048.jpg" target="_blank">Earth Cloud Map credit: NASA <a href="http://www.shadedrelief.com/natural3/pages/extra.html" target="_blank">Earth Bump Map</a> credit: Tom Patterson, <a href="http://www.shadedrelief.com/" target="_blank">www.shadedrelief.com</a> <a href="http://www.shadedrelief.com/natural3/pages/extra.html" target="_blank">Earth Specular Map</a> credit: Tom Patterson, <a href="http://www.shadedrelief.com/" target="_blank">www.shadedrelief.com</a></p>
+					<p><a href="http://messenger.jhuapl.edu/the_mission/mosaics.html" target="_blank">Mercury image</a> credit: NASA/Johns Hopkins University Applied Physics Laboratory/Carnegie Institution of Washington</p>
+					<p><a href="http://laps.noaa.gov/albers/sos/sos.html#JUPITER" target="_blank">Jupiter image</a> credit: NASA/JPL/Space Science Institute, color balance was adjusted in a subjective attempt (as suggested by Bjorn Jonsson) to better match the visual appearance of Jupiter in a telescope.</p>
+					<p>Pluto texture courtesy of (Snowfall-The-Cat) [<a href="http://ultrus.deviantart.com/art/Pluto-Map-2015-Nov-10-546286799" target="_blank">http://ultrus.deviantart.com/art/Pluto-Map-2015-Nov-10-546286799</a>], made with NASA/JPL/New horizons data.</p>
+					<p>Skybox texture generated and altered from <a href="http://www.eso.org/public/images/eso0932a/" target="_blank">this image</a> courtesy of ESO/S. Brunier.</p>
+					<h2>Audio</h2>
+					<p><a href="http://freemusicarchive.org/music/Psychadelik_Pedestrian/Nocturnia/05_-_Psychadelik_Pedestrian_-_Nocturnia" target="_blank">Nocturnia</a> by <a href="http://www.toucanmusic.co.uk/albums/toulp5.html" target="_blank">Psychadelik Pedestrian</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc/3.0/" target="_blank">Attribution-NonCommercial 3.0 International License</a>. Based on a work at <a href="http://www.toucanmusic.co.uk/albums/toulp5.html" target="_blank">http://www.toucanmusic.co.uk/albums/toulp5.html</a> Permissions beyond the scope of this license may be available at <a href="http://www.toucanmusic.co.uk/licensing.php" target="_blank">http://www.toucanmusic.co.uk/licensing.php</a>.</p>
+					<p>Note: Music selection is still a work-in-progress. Narration is also on the way. Credits will be added inside of the app itself once the app is in a more functional state (prior to posting non-commercial app in markets).</p>
+					<h2>Three.js</h2>
+					<p>This project is powered by <a href="http://threejs.org/" target="_blank">Three.js</a>.</p>
+					<h2>Special Thanks</h2>
+					<p><a href="http://www.spacefoundation.org/" target="_blank"><img src="img/SFlogo-fullcolor.png" alt= "Space Foundation"></a></p>
+					<p>This app is co-sponsored by the <a href="http://www.spacefoundation.org/" target="_blank">Space Foundation</a>.</p>
+					<p>In addition to personal time spent on this project, extra special thanks goes to the <a href="http://www.spacefoundation.org/" target="_blank">Space Foundation</a> team, supplying a Google Cardboard viewer, an iOS developer account (used for other projects and soon this one) and even a few on-the-clock training hours to dedicate towards VR development research. You too can help the Space Foundation achieve their mission to inspire, enable and propel, by contributing to this project. :D</p>
+				</div>
+				<div class="panel-close">CLOSE</div>
+			</div>
+
+			<div id="options" class="section">
+				<div class="slide-header ">
+					<div class="half-chevron-text">Options</div>
+					<div class="half-chevron "></div>
+				</div>
+				<div class="panel">
+					<p>Choose settings</p>
+				</div>
+				<div class="row">
+					<div class="switch">
+						<input data-role="none" id="cmn-toggle-1" class="cmn-toggle" type="checkbox" onclick="toggleOptions(this);" value="subtitles">
+						<label for="cmn-toggle-1"></label>
+					</div>
+					<div class="switch-label">Subtitles</div>
+				</div>
+				<div class="row">
+					<div class="switch">
+						<input data-role="none" id="cmn-toggle-2" class="cmn-toggle" type="checkbox" onclick="toggleOptions(this);" value="commentary">
+						<label for="cmn-toggle-2"></label>
+					</div>
+					<div class="switch-label">Commentary</div>
+				</div>
+				<div class="row">
+					<div class="switch">
+						<input data-role="none" id="cmn-toggle-3" class="cmn-toggle" type="checkbox" onclick="toggleOptions(this);" value="music">
+						<label for="cmn-toggle-3"></label>
+					</div>
+					<div class="switch-label">Music</div>
+				</div>
+				<div class="bn-row">
+					<a href="#" target="_blank">Save</a>
+				</div>
+				<div class="panel-close">CLOSE</div>
+			</div>
+
 		</div>
 
-		<img src="img/skybox/backSm.jpg" class="hidden" />
-		<img src="img/skybox/frontSm.jpg" class="hidden" />
-		<img src="img/skybox/leftSm.jpg" class="hidden" />
-		<img src="img/skybox/rightSm.jpg" class="hidden" />
-		<img src="img/skybox/topSm.jpg" class="hidden" />
-		<img src="img/skybox/downSm.jpg" class="hidden" />
-		
-		<script src="cordova.js"></script>
-		<script src="js/three.min.js"></script>
-		<script src="js/StereoCamera.js"></script>
-		<script src="js/DeviceOrientationControls.js"></script>
-		<script src="js/OrbitControls.js"></script>
-		<script src="js/Detector.js"></script>
-		<script src="js/Projector.js"></script>
+		<div class="ui-bar-a ui-footer-fixed">
+			<a href="http://www.facebook.com/pages/Space-Foundation/101353061895" target="_blank"><img src="img/facebook-5-24.png" alt= "Space Foundation Facebook"></a>
+			<a href="http://www.linkedin.com/company/65755?trk=tyah" target="_blank"><img src="img/linkedin-5-24.png" alt= "Space Foundation LinkedIn"></a>
+			<a href="http://twitter.com/spacefoundation" target="_blank"><img src="img/twitter-5-24.png" alt= "Space Foundation Twitter"></a>
+		</div>
 
-		<script src="js/FXAAShader.js"></script>
-		<script src="js/CopyShader.js"></script>
-
-		<script src="js/EffectComposer.js"></script>
-		<script src="js/MaskPass.js"></script>
-		<script src="js/RenderPass.js"></script>
-		<script src="js/ShaderPass.js"></script>
-		<script src="js/ConvolutionShader.js"></script>
-
-		<script src="js/utils.js"></script>
-		<script src="js/THREEx.utils.js"></script>
-		<script src="js/xRingGeometry.js"></script>
-		<script src="js/Stats.js"></script>
-		<script src="js/CanvasRenderer.js"></script>
-		<script src="js/TweenLite.min.js"></script>
-		<script src="js/TimelineLite.min.js"></script>
-		<script src="js/howler.min.js"></script>
-		<script src="js/Ship5.js"></script>
-		<script src="js/SpaceScene.js"></script>
-		<script src="js/SolarSystem.js"></script>
-		<script src="js/ScoreManager.js"></script>
+	</div>
+	<script type="text/javascript">
 	
-		<script type='text/javascript' src='js/dat.gui.min.js'></script>
+	function togglePanel(pl) {
+		x = 'slideInRight';
+		$('.section').hide();	
+		$('#main-menu').toggle();
+	    if (pl.text === 'Start tour'){ 
+	    	$('#start-tour').show().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+	      	$(this).removeClass(x + ' animated');
+	    	});
+	    } else if (pl.text === 'Donate'){ 
+	    	$('#donate').show().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+	      	$(this).removeClass(x + ' animated');
+	    	}); 
+	    } else if (pl.text === 'Credits'){ 
+	    	$('#credits').show().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+	      	$(this).removeClass(x + ' animated');
+	    	}); 
+	    } else if (pl.text === 'Options'){ 
+	    	$('#options').show().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+	      	$(this).removeClass(x + ' animated');
+	    	}); 
+	    }
+		//testAnim('slideInRight');
+	}
+	function toggleOptions(pl) {
+		//nothing yet
+	}
+	
+	$(".panel-close").click(function(){
+		//$('.section').hide();
+		x = 'slideOutLeft';
+		y = 'fadeIn';
 
-		<script src="js/app.js"></script>
-	</body>
+		$(this).parent('.section').addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+	      	$(this).removeClass(x + ' animated');
+	      	$(this).hide();
+			$('#main-menu').show().addClass(y + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+	      	$(this).removeClass(y + ' animated');
+	    	}); 
+	    });
+
+	});
+	$(document).ready(function(){
+		$('input[type=checkbox]').attr('checked',false);
+		
+	});
+	</script>
+</body>
 </html>
