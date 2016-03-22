@@ -248,6 +248,9 @@ function SolarSystem() {
 		var cloudGeometry = new THREE.SphereGeometry(_s.baseRadius + 1, 32, 32);
     loader = new THREE.TextureLoader();
     var alpha = loader.load( "./img/solar/earth/alphaMap.jpg" );
+    alpha.wrapS = alpha.wrapT = THREE.RepeatWrapping;
+    alpha.repeat.set( 1, 1 );
+
     var cloudMaterial = new THREE.MeshPhongMaterial({
       alphaMap: alpha,
     });
@@ -273,9 +276,10 @@ function SolarSystem() {
       specular: "#666666",
       displacementMap: moonBump,
       bumpMap: moonBump,
+      bumpScale: 0.5,
     });
     var moonMesh = new THREE.Mesh(moonGeometry, moonMaterial);
-    moonMesh.position.set(_s.baseRadius * -2, 0, _s.baseRadius * 1.25);
+    moonMesh.position.set(_s.baseRadius * -4, 0, _s.baseRadius * 1.25);
     moonRotationPoint.add(moonMesh);
 
 		// Create the distant sprite.
