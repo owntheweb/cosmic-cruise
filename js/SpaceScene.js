@@ -1,6 +1,11 @@
-function SpaceScene() {
+function SpaceScene(viewMode) {
+
+	if (viewMode == null) { viewMode = 'cardboard';}
 
 	var _s = this;
+
+	_s.viewMode = viewMode;
+	//!!! Hey Chris, make this do something... viewMode values are 'cardboard' and 'cyclops'
 
 	//files
 	_s.images = {};
@@ -35,8 +40,10 @@ function SpaceScene() {
 	//stats
 	_s.stats;
 
-	//audio/score
-	_s.scoreManager;
+	//audio
+	_s.musicLoaded = false;
+	_s.musicPlaying = false;
+	_s.music;
 
 	//load files for scene
 	_s.loadFiles = function() {
@@ -304,32 +311,11 @@ function SpaceScene() {
 		f2.add(_s.ship.obj.rotation, 'y', 0.0, Math.PI * 2);
 		f2.add(_s.ship.obj.rotation, 'z', 0.0, Math.PI * 2);
 
-		
-		///////////////
-		//AUDIO/SCORE//
-		///////////////
-
-		_s.scoreManager = new ScoreManager();
-		_s.scoreManager.init();
-
-
-
 		//ensure size/scale is set correctly (wasn't during initial tests)
 		_s.onResize();
 
 		//mark scene as initiated
 		_s.sceneInitiated = true;
-
-		
-
-
-
-
-
-
-
-
-
 
 		//!!! TEMP
 		//continuous random planet flight
@@ -339,13 +325,13 @@ function SpaceScene() {
 			if(randomPlanet != lastPlanetInt) {
 				lastPlanetInt = randomPlanet;
 				console.log("We travel to " + randomPlanet.name + "! Weeeee!");
-				_s.scoreManager.playTalk(_s.scoreManager.systemTalkGo, -1);
 				_s.ship.navToPlanet(randomPlanet, endlessFlight, _s.camera);
 			} else {
 				endlessFlight();
 			}
 		};
 		endlessFlight();
+
 
 		//!!! TEMP
 		//toggle between Earth and Murcury
@@ -360,10 +346,9 @@ function SpaceScene() {
 			var randomPlanet = _s.solarSystem.planetArray[planetInt].planet;
 			if(randomPlanet != planetInt) {
 				console.log("We travel to " + randomPlanet.name + "! Weeeee!");
-				//_s.ship.navToPlanet(randomPlanet, endlessToggleFlight, _s.camera);
-				_s.ship.navToPlanet(randomPlanet, function(){}, _s.camera);
+				_s.ship.navToPlanet(randomPlanet, endlessToggleFlight, _s.camera);
 			} else {
-				//endlessToggleFlight(); //disable for the moment
+				endlessToggleFlight();
 			}
 		};
 		endlessToggleFlight();
@@ -384,6 +369,26 @@ function SpaceScene() {
 				testImagesInt = 0;
 			}
 		}, 1000);
+	};
+
+	_s.initMusic = function() {
+		_s.music = new Howl({
+			src: ['audio/Psychadelik_Pedestrian_-_07_-_Pacific.mp3'],
+			autoplay: true,
+			loop: true,
+			volume: 1.0,
+			onload: function() {
+				_s.creativeMusicLoaded = true;
+				console.log('creative music loaded');
+			},
+			onplay: function() {
+				_s.creativeMusicPlaying = true;
+				console.log('creative music started');
+			},
+			onend: function() {
+				console.log('creative music stopped');
+			}
+		});
 	};
 
 	//reset if starting over (!!! may not need this any longer)
@@ -432,6 +437,7 @@ function SpaceScene() {
 		console.log('go forth!');
 
 		_s.loadFiles();
+		_s.initMusic();
 
 		(function drawFrame() {
 			window.requestAnimationFrame(drawFrame, _s.earthCanvas);
