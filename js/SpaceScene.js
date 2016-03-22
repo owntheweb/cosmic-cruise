@@ -109,7 +109,7 @@ function SpaceScene() {
 		var screenH = window.innerHeight;
 		var viewAngle = 90;
 		var aspectRatio = screenW / screenH;
-		var near = 4;
+		var near = 1.1;
 		var far = 7000000;
 		_s.camera = new THREE.PerspectiveCamera(viewAngle, aspectRatio, near, far);
 		_s.camera.position.set(0,0,0);
@@ -117,6 +117,8 @@ function SpaceScene() {
 
 		//stereo camera (use main camera position/angle to produce a stereo L/R camera)
 		_s.stereoCamera = new THREE.StereoCamera();
+		_s.stereoCamera.eyeSeparation = _s.stereoCamera.eyeSeparation * 0.1;
+		_s.stereoCamera.focalLength = _s.stereoCamera.focalLength * 0.1;
 
 		//////////////
 		// RENDERER //
@@ -259,7 +261,7 @@ function SpaceScene() {
 			side: THREE.BackSide
 			});
 
-			_s.skybox = new THREE.Mesh(new THREE.BoxGeometry(4000000, 4000000, 4000000), skyBoxMaterial);
+			_s.skybox = new THREE.Mesh(new THREE.BoxGeometry(400000, 400000, 400000), skyBoxMaterial);
 			_s.skybox.frustumCulled = false;
 
 			_s.scene.add(_s.skybox);
@@ -295,9 +297,9 @@ function SpaceScene() {
 
 		var gui = new dat.GUI();
 		var f1 = gui.addFolder('Ship Position');
-		f1.add(_s.ship.obj.position, 'x', -10000, 10000);
-		f1.add(_s.ship.obj.position, 'y', -10000, 10000);
-		f1.add(_s.ship.obj.position, 'z', -10000, 10000);
+		f1.add(_s.ship.obj.position, 'x', -1000, 1000);
+		f1.add(_s.ship.obj.position, 'y', -1000, 1000);
+		f1.add(_s.ship.obj.position, 'z', -1000, 1000);
 		var f2 = gui.addFolder('Ship Rotation');
 		//!!! I want to see floats here but am seeing integers, how to update?
 		f2.add(_s.ship.obj.rotation, 'x', 0.0, Math.PI * 2);
@@ -311,18 +313,57 @@ function SpaceScene() {
 		_s.sceneInitiated = true;
 
 		//!!! TEMP
+		//continuous random planet flight
 		var lastPlanetInt = -1;
 		var endlessFlight = function() {
 			var randomPlanet = _s.solarSystem.planetArray[Math.floor(Math.random() * _s.solarSystem.planetArray.length)].planet;
 			if(randomPlanet != lastPlanetInt) {
 				lastPlanetInt = randomPlanet;
 				console.log("We travel to " + randomPlanet.name + "! Weeeee!");
-				_s.navToPlanet(randomPlanet, endlessFlight);
+				_s.ship.navToPlanet(randomPlanet, endlessFlight, _s.camera);
 			} else {
 				endlessFlight();
 			}
 		};
 		endlessFlight();
+
+
+		//!!! TEMP
+		//toggle between Earth and Murcury
+		/*
+		var planetInt = -1;
+		var endlessToggleFlight = function() {
+			if(planetInt == 2) {
+				planetInt = 0;
+			} else {
+				planetInt = 2;
+			}
+			var randomPlanet = _s.solarSystem.planetArray[planetInt].planet;
+			if(randomPlanet != planetInt) {
+				console.log("We travel to " + randomPlanet.name + "! Weeeee!");
+				_s.ship.navToPlanet(randomPlanet, endlessToggleFlight, _s.camera);
+			} else {
+				endlessToggleFlight();
+			}
+		};
+		endlessToggleFlight();
+		*/
+
+
+		//!!! TEMP
+		var testImages = [
+			'img/screen/test1.png',
+			'img/screen/test2.png',
+			'img/screen/test3.png'
+		];
+		var testImagesInt = 0;
+		var testImagesInterval = setInterval(function(){ 
+			_s.ship.setScreenImage(testImages[testImagesInt]);
+			testImagesInt++;
+			if(testImagesInt >= testImages.length) {
+				testImagesInt = 0;
+			}
+		}, 1000);
 	};
 
 	_s.initMusic = function() {
@@ -349,98 +390,6 @@ function SpaceScene() {
 	_s.resetSpaceScene = function() {
 		
 	};
-
-	//!!! It works!... sort of. I feel there are still issues here.
-	//!!! Often planet collissions occur as overlapping stopping points
-	_s.navToPlanet = function(to, finishCallback) {
-
-		//!!! offset will likely change per planet, move this soon
-		var exitPoint = new THREE.Vector3(0, -1300, 0);
-		exitPoint.x += _s.ship.obj.position.x;
-		exitPoint.y += _s.ship.obj.position.y;
-		exitPoint.z += _s.ship.obj.position.z;
-		
-		//!!! approach "front" of planet, not bottom, fix this
-		//!!! then need to navigate to desired talking point location
-		//var arrivalOffset = new THREE.Vector3(0, -80, -0);
-		//arrivalOffset.x += to.position.x;
-		//arrivalOffset.y += to.position.y;
-		//arrivalOffset.z += to.position.z;
-
-		arrivalOffset = THREE.Utils.getPointInBetweenByLen(to.position, _s.ship.obj.position, 1550);
-
-		var turnTo = new THREE.Object3D();
-	    turnTo.position.x = exitPoint.x;
-	    turnTo.position.y = exitPoint.y;
-	    turnTo.position.z = exitPoint.z;
-	    turnTo.rotation.order = "YXZ";
-	    _s.ship.obj.rotation.order = "YXZ";
-	    turnTo.lookAt(arrivalOffset);
-
-		var tl = new TimelineLite();
-		var tl2 = new TimelineLite();
-
-		tl.to(_s.ship.obj.position, 6, { 
-			delay: 2,
-			ease: Power2.easeInOut, 
-			x: exitPoint.x, 
-			y: exitPoint.y, 
-			z: exitPoint.z,
-			onStart: function() { 
-
-				console.log('Moving away from departure point...'); 
-
-				tl2.to(_s.ship.obj.rotation, 10, { 
-					ease: Power2.easeInOut, 
-					x: turnTo.rotation.x,
-		    		y: turnTo.rotation.y,
-		    		z: turnTo.rotation.z,
-					onStart: function() { 
-						console.log('Turning towards destination...'); 
-					}
-				}).to( _s.ship.obj.position, 20, { 
-					ease: Power4.easeInOut, 
-					x: (arrivalOffset.x), 
-					y: (arrivalOffset.y), 
-					z: (arrivalOffset.z),
-					onStart: function() { console.log('Engage!');
-
-						//initialize warp effect
-						_s.ship.toggleWarp();
-						var tlWarp = new TimelineLite();
-						tlWarp.to(_s.ship, 6, { 
-							ease: Power2.easeIn,
-							warpAlpha: 1.0,
-							warpSpeed: 60.0
-						}).to(_s.ship, 6, { 
-							ease: Power4.easeOut,
-							delay: 8,
-							warpAlpha: 0.0,
-							warpSpeed: 0.0,
-							onComplete: function() {
-								_s.ship.toggleWarp();
-							}
-						});
-
-						//initialize warp effect for camera (increased field of view)
-						var tlCamera = new TimelineLite();
-						tlCamera.to(_s.camera, 6, { 
-							delay: 1,
-							ease: Power3.easeInOut,
-							fov: 96
-						}).to(_s.camera, 6, { 
-							delay: 5.5,
-							ease: Power4.easeInOut,
-							fov: 90
-						});
-
-					},
-					onComplete: finishCallback
-				});
-
-			},
-		})
-	}
 
 	//update scene elements
 	_s.update = function() {

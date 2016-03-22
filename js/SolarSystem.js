@@ -9,8 +9,8 @@
 function SolarSystem() {
 	var _s = this;
 
-	_s.baseRadius = 1000; //scale of earth for this project, with other planets scaling with multipliers
-	_s.planetThresh = 11000; //distance of planet sprite sphere and where planets appear
+	_s.baseRadius = 100; //scale of earth for this project, with other planets scaling with multipliers
+	_s.planetThresh = 1100; //distance of planet sprite sphere and where planets appear
 
 	_s.system = new THREE.Object3D();
 
@@ -22,72 +22,72 @@ function SolarSystem() {
 	_s.planets = {
 		murcury: {
 			name:'Murcury',
-			x:-46000,
+			x:-4600,
 			y:0,
-			z:28000,
+			z:2800,
 			a:0.0001745329,
 			sprite: new THREE.Sprite(),
 			planet: new THREE.Object3D()
 		},
 		venus: {
 			name:'Venus',
-			x:-46000,
+			x:-4600,
 			y:0,
-			z:79000,
+			z:7900,
 			a:3.08923,
 			sprite: new THREE.Sprite(),
 			planet: new THREE.Object3D()
 		},
 		earth: {
 			name:'Earth',
-			x:-78000,
+			x:-7800,
 			y:0,
-			z:-71000,
+			z:-7100,
 			a:0.401426,
 			sprite: new THREE.Sprite(),
 			planet: new THREE.Object3D()
 		},
 		mars: {
 			name:'Mars',
-			x:-184000,
+			x:-18400,
 			y:0,
-			z:39000,
+			z:3900,
 			a:0.436332,
 			sprite: new THREE.Sprite(),
 			planet: new THREE.Object3D()
 		},
 		jupiter: {
 			name:'Jupiter',
-			x:-594000,
+			x:-59400,
 			y:0,
-			z:-144000,
+			z:-14400,
 			a:0.0523599,
 			sprite: new THREE.Sprite(),
 			planet: new THREE.Object3D()
 		},
 		saturn: {
 			name:'Saturn',
-			x:-403000,
+			x:-40300,
 			y:0,
-			z:1070000,
+			z:107000,
 			a:0.471239,
 			sprite: new THREE.Sprite(),
 			planet: new THREE.Object3D()
 		},
 		uranus: {
 			name:'Uranus',
-			x:2131000,
+			x:213100,
 			y:0,
-			z:-746000,
+			z:-74600,
 			a:1.71042,
 			sprite: new THREE.Sprite(),
 			planet: new THREE.Object3D()
 		},
 		neptune: {
 			name:'Neptune',
-			x:3169000,
+			x:316900,
 			y:0,
-			z:1220000,
+			z:122000,
 			a:0.523599,
 			sprite: new THREE.Sprite(),
 			planet: new THREE.Object3D()
@@ -96,9 +96,9 @@ function SolarSystem() {
 		//I know... but they just flew by this king of the dwarfs and took pictures!
 		pluto: {
 			name:'Pluto',
-			x:4954000,
-			y:500000,
-			z:-61200,
+			x:495400,
+			y:50000,
+			z:-6120,
 			a:0, //??
 			sprite: new THREE.Sprite(),
 			planet: new THREE.Object3D()
@@ -368,7 +368,6 @@ function SolarSystem() {
     _s.system.add(_s.planets.jupiter.sprite);
 	};
 
-	//!!! add rings!
 	//!!! add moons!
 	//!!! add glow?
 	_s.createSaturn = function() {
@@ -458,7 +457,6 @@ function SolarSystem() {
 
 	};
 
-	//!!! add ring(s)?
 	//!!! add glow?
 	_s.createNeptune = function() {
 		_s.planets.neptune.planet.name = _s.planets.neptune.name;
@@ -544,12 +542,12 @@ function SolarSystem() {
 			planetDist = ship.position.distanceTo(_s.planets[item].planet.position);
 
 			//place and scale planet sprites
-			if(planetDist > _s.planetThresh - 200) {
+			if(planetDist > _s.planetThresh - 20) {
 				_s.planets[item].sprite.visible = true;
 				_s.planets[item].sprite.position.copy(spritePos);
-				_s.planets[item].sprite.scale.x = 150;
-				_s.planets[item].sprite.scale.y = 150;
-				_s.planets[item].sprite.scale.z = 150;
+				_s.planets[item].sprite.scale.x = 15;
+				_s.planets[item].sprite.scale.y = 15;
+				_s.planets[item].sprite.scale.z = 15;
 			} else {
 				_s.planets[item].sprite.visible = false;
 			}
@@ -557,7 +555,7 @@ function SolarSystem() {
 			//scale planets
 			if(planetDist < _s.planetThresh) {
 				_s.planets[item].planet.visible = true;
-				scale = 1 - ((planetDist - _s.baseRadius - 200) / _s.planetThresh);
+				scale = 1 - ((planetDist - _s.baseRadius - 20) / _s.planetThresh);
 
 				_s.planets[item].planet.scale.x = scale;
 				_s.planets[item].planet.scale.y = scale;
