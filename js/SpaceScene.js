@@ -423,13 +423,21 @@ function SpaceScene(viewMode) {
 	_s.render = function() {
 		//_s.renderer.clear();
 
-		_s.renderer.setViewport( 0, 0, window.innerWidth / 2, window.innerHeight);
-		_s.renderPass.camera = _s.stereoCamera.left; //note: breaking rule by settings Class.camera directly xO
-		_s.composer.render();
+		if(_s.viewMode == "cardboard") {
+			//stereo Google Cardboard view
+			_s.renderer.setViewport( 0, 0, window.innerWidth / 2, window.innerHeight);
+			_s.renderPass.camera = _s.stereoCamera.left; //note: breaking rule by settings Class.camera directly xO
+			_s.composer.render();
 
-		_s.renderer.setViewport( window.innerWidth / 2, 0, window.innerWidth / 2, window.innerHeight);
-		_s.renderPass.camera = _s.stereoCamera.right; //note: breaking rule by settings Class.camera directly xO
-		_s.composer.render();
+			_s.renderer.setViewport( window.innerWidth / 2, 0, window.innerWidth / 2, window.innerHeight);
+			_s.renderPass.camera = _s.stereoCamera.right; //note: breaking rule by settings Class.camera directly xO
+			_s.composer.render();
+		} else {
+			//"cyclops mode" (single view)
+			_s.renderer.setViewport( 0, 0, window.innerWidth, window.innerHeight);
+			_s.renderPass.camera = _s.camera;
+			_s.composer.render();
+		}
 	};
 
 	//"Go forth with forthness, into the depths of depthness."" --crazy web guy
