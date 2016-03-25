@@ -22,6 +22,7 @@ function SolarSystem() {
 	_s.planets = {
 		murcury: {
 			name:'Murcury',
+			screenImg: 'img/screen/mercury/destination_mercury.png',
 			x:-4600,
 			y:0,
 			z:2800,
@@ -31,6 +32,7 @@ function SolarSystem() {
 		},
 		venus: {
 			name:'Venus',
+			screenImg: 'img/screen/venus/destination_venus.png',
 			x:-4600,
 			y:0,
 			z:7900,
@@ -40,6 +42,7 @@ function SolarSystem() {
 		},
 		earth: {
 			name:'Earth',
+			screenImg: 'img/screen/earth/destination_earth.png',
 			x:-7800,
 			y:0,
 			z:-7100,
@@ -49,6 +52,7 @@ function SolarSystem() {
 		},
 		mars: {
 			name:'Mars',
+			screenImg: 'img/screen/mars/destination_mars.png',
 			x:-18400,
 			y:0,
 			z:3900,
@@ -58,6 +62,7 @@ function SolarSystem() {
 		},
 		jupiter: {
 			name:'Jupiter',
+			screenImg: 'img/screen/jupiter/destination_jupiter.png',
 			x:-59400,
 			y:0,
 			z:-14400,
@@ -67,6 +72,7 @@ function SolarSystem() {
 		},
 		saturn: {
 			name:'Saturn',
+			screenImg: 'img/screen/saturn/destination_saturn.png',
 			x:-40300,
 			y:0,
 			z:107000,
@@ -76,6 +82,7 @@ function SolarSystem() {
 		},
 		uranus: {
 			name:'Uranus',
+			screenImg: 'img/screen/uranus/destination_uranus.png',
 			x:213100,
 			y:0,
 			z:-74600,
@@ -85,6 +92,7 @@ function SolarSystem() {
 		},
 		neptune: {
 			name:'Neptune',
+			screenImg: 'img/screen/neptune/destination_neptune.png',
 			x:316900,
 			y:0,
 			z:122000,
@@ -96,6 +104,7 @@ function SolarSystem() {
 		//I know... but they just flew by this king of the dwarfs and took pictures!
 		pluto: {
 			name:'Pluto',
+			screenImg: 'img/screen/pluto/destination_pluto.png',
 			x:495400,
 			y:50000,
 			z:-6120,

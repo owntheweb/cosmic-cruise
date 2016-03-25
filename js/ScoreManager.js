@@ -144,7 +144,7 @@ function ScoreManager() {
 		{
 			id:'engaged',
 			file:'audio/voice/system/acknowledged.mp3',
-			delay:2000,
+			delay:0,
 			playOnlyOnce:false,
 			timesPlayed:0,
 			scoreEvents:[]
@@ -152,7 +152,7 @@ function ScoreManager() {
 		{
 			id:'understood',
 			file:'audio/voice/system/affirmative.mp3',
-			delay:2000,
+			delay:0,
 			playOnlyOnce:false,
 			timesPlayed:0,
 			scoreEvents:[]
@@ -160,7 +160,7 @@ function ScoreManager() {
 		{
 			id:'driveActivated',
 			file:'audio/voice/system/driveActivated.mp3',
-			delay:2000,
+			delay:0,
 			playOnlyOnce:false,
 			timesPlayed:0,
 			scoreEvents:[]
@@ -168,7 +168,7 @@ function ScoreManager() {
 		{
 			id:'affirmative',
 			file:'audio/voice/system/engaged.mp3',
-			delay:2000,
+			delay:0,
 			playOnlyOnce:false,
 			timesPlayed:0,
 			scoreEvents:[]
@@ -176,7 +176,7 @@ function ScoreManager() {
 		{
 			id:'fasterThanLight',
 			file:'audio/voice/system/fasterThanLightSpeedDriveInitiated.mp3',
-			delay:2000,
+			delay:0,
 			playOnlyOnce:true,
 			timesPlayed:0,
 			scoreEvents:[]
@@ -184,7 +184,7 @@ function ScoreManager() {
 		{
 			id:'fasterThanLight',
 			file:'audio/voice/system/understood.mp3',
-			delay:2000,
+			delay:0,
 			playOnlyOnce:true,
 			timesPlayed:0,
 			scoreEvents:[]
@@ -243,7 +243,7 @@ function ScoreManager() {
 				src: file,
 				autoplay: true,
 				loop: loop,
-				volume: 0.5,
+				volume: 0.4,
 				onload: function() {
 					_s.musicLoaded = true;
 					console.log('music loaded');

@@ -41,9 +41,7 @@ function SpaceScene(viewMode) {
 	_s.stats;
 
 	//audio
-	_s.musicLoaded = false;
-	_s.musicPlaying = false;
-	_s.music;
+	_s.soundManager;
 
 	//load files for scene
 	_s.loadFiles = function() {
@@ -314,14 +312,24 @@ function SpaceScene(viewMode) {
 		//ensure size/scale is set correctly (wasn't during initial tests)
 		_s.onResize();
 
+		//audio/score manager
+		_s.scoreManager = new ScoreManager();
+		_s.scoreManager.init();
+
+		//share with ship controls (??? better way to do this?)
+		_s.ship.scoreManager = _s.scoreManager;
+
 		//mark scene as initiated
 		_s.sceneInitiated = true;
+
+
+
 
 		//!!! TEMP
 		//continuous random planet flight
 		var lastPlanetInt = -1;
 		var endlessFlight = function() {
-			var randomPlanet = _s.solarSystem.planetArray[Math.floor(Math.random() * _s.solarSystem.planetArray.length)].planet;
+			var randomPlanet = _s.solarSystem.planetArray[Math.floor(Math.random() * _s.solarSystem.planetArray.length)];
 			if(randomPlanet != lastPlanetInt) {
 				lastPlanetInt = randomPlanet;
 				console.log("We travel to " + randomPlanet.name + "! Weeeee!");
@@ -330,8 +338,7 @@ function SpaceScene(viewMode) {
 				endlessFlight();
 			}
 		};
-		endlessFlight();
-
+		var startDelay = setTimeout(function() { endlessFlight(); },10000);
 
 		//!!! TEMP
 		//toggle between Earth and Murcury
@@ -356,6 +363,7 @@ function SpaceScene(viewMode) {
 
 
 		//!!! TEMP
+		/*
 		var testImages = [
 			'img/screen/test1.png',
 			'img/screen/test2.png',
@@ -369,26 +377,15 @@ function SpaceScene(viewMode) {
 				testImagesInt = 0;
 			}
 		}, 1000);
-	};
+		*/
 
-	_s.initMusic = function() {
-		_s.music = new Howl({
-			src: ['audio/Psychadelik_Pedestrian_-_07_-_Pacific.mp3'],
-			autoplay: true,
-			loop: true,
-			volume: 1.0,
-			onload: function() {
-				_s.creativeMusicLoaded = true;
-				console.log('creative music loaded');
-			},
-			onplay: function() {
-				_s.creativeMusicPlaying = true;
-				console.log('creative music started');
-			},
-			onend: function() {
-				console.log('creative music stopped');
-			}
-		});
+
+		//!!! TEMP
+		/*
+		var toggleNavInterval = setInterval(function(){
+			_s.ship.toggleNavMenu();
+		}, 5000);
+		*/
 	};
 
 	//reset if starting over (!!! may not need this any longer)
@@ -407,14 +404,15 @@ function SpaceScene(viewMode) {
 
 		_s.solarSystem.update(_s.camera, _s.ship.obj);
 
+    //!!! move this to SolarSystem.js
     // Rotate Earth's Clouds.
-    _s.solarSystem.planetArray[2].planet.children[1].rotation.y += 0.0005;
+    _s.solarSystem.planetArray[2].planet.children[1].rotation.y += 0.00005;
 
     // Rotate the Earth.
-    _s.solarSystem.planetArray[2].planet.children[0].rotation.y += 0.00025;
+    _s.solarSystem.planetArray[2].planet.children[0].rotation.y += 0.000025;
 
     // Rotate the moon around the Earth.
-    _s.solarSystem.planetArray[2].planet.children[2].rotation.y += 0.01;
+    //_s.solarSystem.planetArray[2].planet.children[2].rotation.y += 0.01;
 
 		_s.stats.update();
 	};
@@ -445,7 +443,6 @@ function SpaceScene(viewMode) {
 		console.log('go forth!');
 
 		_s.loadFiles();
-		_s.initMusic();
 
 		(function drawFrame() {
 			window.requestAnimationFrame(drawFrame, _s.earthCanvas);

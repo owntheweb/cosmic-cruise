@@ -9,10 +9,12 @@ function Ship5() {
     _s.screen;
     _s.screenFace;
     _s.chair;
+    _s.navMenu;
     _s.chassisLoaded = false;
     _s.screenLoaded = false;
     _s.screenFaceLoaded = false
     _s.chairLoaded = false;
+    _s.navMenuLoaded = false
     _s.obj = new THREE.Object3D();
 
     _s.warpField;
@@ -23,6 +25,9 @@ function Ship5() {
     //!!! need to set these with set/get methods
     _s.warpSpeed = 0.0;
     _s.warpAlpha = 0.0;
+
+    _s.navMenuActive = false;
+    _s.navMenuAlpha = 0.0;
 
     //screen
     _s.screenCanvas = document.getElementById("shipScreen");
@@ -35,6 +40,9 @@ function Ship5() {
 		_s.screenContext.drawImage(_s.screenImage, 0, 149);
 		_s.screenTexture.needsUpdate = true;
 	};
+
+	//audio
+	_s.scoreManager;
 
 
     _s.assignShipMaterials = function(materials) {
@@ -74,6 +82,17 @@ function Ship5() {
 	                shading: THREE.FlatShading,
 	                emissiveMap: THREE.ImageUtils.loadTexture('img/shipChairMap.png'),
 	                name: 'chair'
+	            });
+	        } else if(materials[i].name == 'navMenuBack') {
+	            materials[i] = new THREE.MeshPhongMaterial({
+	                color: 0x3fbde6,
+	                emissive: 0x3fbde6,
+	                transparent: true,
+	                opacity: 0.7,
+	                shading: THREE.SmoothShading,
+	                specular: 0.0,
+	                name: 'navMenuBack',
+	                depthWrite: false
 	            });
 	        }
 	    }
@@ -123,7 +142,7 @@ function Ship5() {
 			_s.screenFace = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
 			_s.screenFace.scale.x = _s.screenFace.scale.y = _s.screenFace.scale.z = scale;
 			_s.screenFace.rotation.y = 0;
-			_s.screenFace.position.y -= .54;
+			_s.screenFace.position.y -= .51;
 
 			_s.screenFaceLoaded = true;
 			_s.areAllModelsLoaded();
@@ -142,10 +161,26 @@ function Ship5() {
 			_s.chairLoaded = true;
 			_s.areAllModelsLoaded();
 		});
+
+		//load the nav menu
+	    loader.load( 'models/navMenu.json', function ( geometry, materials ) {
+
+			materials = _s.assignShipMaterials(materials);
+
+			_s.navMenu = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
+			_s.navMenu.scale.x = _s.navMenu.scale.y = _s.navMenu.scale.z = scale;
+			_s.navMenu.rotation.y = 0;
+			_s.navMenu.position.y -= .5;
+
+			_s.navMenu.visible = false;
+
+			_s.navMenuLoaded = true;
+			_s.areAllModelsLoaded();
+		});
 	};
 
 	_s.areAllModelsLoaded = function() {	
-	    if(_s.chassisLoaded == true && _s.screenLoaded == true && _s.chairLoaded == true && _s.screenFaceLoaded == true) {
+	    if(_s.chassisLoaded == true && _s.screenLoaded == true && _s.chairLoaded == true && _s.screenFaceLoaded == true && _s.navMenuLoaded == true) {
 	        _s.init();
 	    }
 	}
@@ -157,7 +192,7 @@ function Ship5() {
 
 		//create and merge individual warp "beams"
 		map = new THREE.TextureLoader().load( "img/warpBeam.png" );
-		material = new THREE.MeshBasicMaterial( {map: map, opacity: 0.0, transparent: true, color: 0x007eff, blending: THREE.AdditiveBlending } );
+		material = new THREE.MeshBasicMaterial( {map: map, opacity: 0.0, transparent: true, color: 0x007eff, blending: THREE.AdditiveBlending, depthWrite: false } );
 
 		for(i=0; i<150; i++) {
 			
@@ -207,7 +242,7 @@ function Ship5() {
 		_s.warpField = new THREE.Mesh(mergedWarpGeometry, material);
 		_s.obj.add(_s.warpField);
 
-	}
+	};
 
 	_s.toggleWarp = function() {
 		var i;
@@ -238,10 +273,64 @@ function Ship5() {
 
 	_s.setScreenImage = function(uri) {
 		_s.screenImage.src = uri;
-	}
+	};
+
+	_s.toggleNavMenu = function() {
+		var tl = new TimelineLite();
+		var tl2 = new TimelineLite();
+
+		if(_s.navMenuActive == false) {
+			//console.log(_s.navMenu.material);
+
+			_s.navMenuActive = true;
+			_s.navMenuAlpha = 0.0;
+			_s.navMenu.position.y = -2.0;
+			_s.navMenu.visible = true;
+
+			tl.to(_s.navMenu.position, 1, { 
+				ease: Power2.easeOut, 
+				y: 0.0, 
+			});
+
+			tl2.to(_s, 1, { 
+				ease: Power2.easeOut, 
+				navMenuAlpha: 0.7, 
+			});
+
+		} else {
+			_s.navMenuAlpha = 0.7;
+			_s.navMenu.position.y = 0.0;
+
+			tl.to(_s.navMenu.position, 1, { 
+				ease: Power2.easeOut, 
+				y: -2.0,
+			});
+
+			tl2.to(_s, 1, { 
+				ease: Power2.easeOut, 
+				navMenuAlpha: 0.0,
+				onComplete: function() {
+					_s.navMenu.visible = false;
+					_s.navMenuActive = false;
+				}
+			});
+		}
+	};
+
+	_s.updateNavMenu = function() {
+		if(_s.navMenuActive == true) {
+			_s.navMenu.material.materials[0].opacity = _s.navMenuAlpha;
+		}
+	};
 
 	//travel to a new planet destination
 	_s.navToPlanet = function(to, finishCallback, camera) {
+
+		//update screen image
+		_s.setScreenImage(to.screenImg);
+
+		//ship voice: nav activated
+		_s.scoreManager.playTalk(_s.scoreManager.systemTalkGo, -1);
 
 		//!!! offset will likely change per planet, move this soon
 		var exitPoint = new THREE.Vector3(0, -130, 0);
@@ -256,7 +345,7 @@ function Ship5() {
 		//arrivalOffset.y += to.position.y;
 		//arrivalOffset.z += to.position.z;
 
-		arrivalOffset = THREE.Utils.getPointInBetweenByLen(to.position, _s.obj.position, 155);
+		arrivalOffset = THREE.Utils.getPointInBetweenByLen(to.planet.position, _s.obj.position, 155);
 
 		var turnTo = new THREE.Object3D();
 	    turnTo.position.x = exitPoint.x;
@@ -336,10 +425,13 @@ function Ship5() {
 		_s.obj.add(_s.chair);
 		_s.obj.add(_s.screen);
 		_s.obj.add(_s.screenFace);
+		_s.obj.add(_s.navMenu);
+		_s.setScreenImage('img/screen/logo_screen.png');
 		_s.setupWarpEffect();
 	};
 
 	_s.update = function() {
 		_s.updateWarpEffect();
+		_s.updateNavMenu();
 	};
 }
