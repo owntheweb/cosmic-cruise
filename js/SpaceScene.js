@@ -320,6 +320,7 @@ function SpaceScene(viewMode) {
 		_s.ship.obj.add(_s.camera); //if ship rotates, so does camera (as if you were in the ship)
 		_s.solarSystem.system.add(_s.ship.obj);
 
+		/*
 		var gui = new dat.GUI();
 		var f1 = gui.addFolder('Ship Position');
 		f1.add(_s.ship.obj.position, 'x', -1000, 1000);
@@ -330,6 +331,7 @@ function SpaceScene(viewMode) {
 		f2.add(_s.ship.obj.rotation, 'x', 0.0, Math.PI * 2);
 		f2.add(_s.ship.obj.rotation, 'y', 0.0, Math.PI * 2);
 		f2.add(_s.ship.obj.rotation, 'z', 0.0, Math.PI * 2);
+		*/
 
 		//ensure size/scale is set correctly (wasn't during initial tests)
 		_s.onResize();
