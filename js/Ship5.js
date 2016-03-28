@@ -443,7 +443,7 @@ function Ship5() {
 
 				console.log('Moving away from departure point...'); 
 
-				tl2.to(_s.obj.rotation, 10, { 
+				tl2.to(_s.obj.rotation, 8, { 
 					ease: Power2.easeInOut, 
 					x: turnTo.rotation.x,
 		    		y: turnTo.rotation.y,
@@ -461,13 +461,13 @@ function Ship5() {
 						//initialize warp effect
 						_s.toggleWarp();
 						var tlWarp = new TimelineLite();
-						tlWarp.to(_s, 6, { 
+						tlWarp.to(_s, 3, { 
 							ease: Power2.easeIn,
 							warpAlpha: 1.0,
-							warpSpeed: 6.0
+							warpSpeed: 4.0
 						}).to(_s, 6, { 
 							ease: Power4.easeOut,
-							delay: 8,
+							delay: 11,
 							warpAlpha: 0.0,
 							warpSpeed: 0.0,
 							onComplete: function() {
