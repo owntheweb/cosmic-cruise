@@ -10,12 +10,18 @@ function Ship5() {
     _s.screenFace;
     _s.chair;
     _s.navMenu;
+    _s.navMenuIcon;
     _s.chassisLoaded = false;
     _s.screenLoaded = false;
     _s.screenFaceLoaded = false
     _s.chairLoaded = false;
-    _s.navMenuLoaded = false
+    _s.navMenuLoaded = false;
+    _s.navMenuIconLoaded = false;
     _s.obj = new THREE.Object3D();
+    _s.pointer;
+
+    _s.navMenuIcons = [];
+    _s.navMenuIconsObj = new THREE.Object3D();
 
     _s.warpField;
     _s.warpFieldDiameter = 400;
@@ -85,14 +91,26 @@ function Ship5() {
 	            });
 	        } else if(materials[i].name == 'navMenuBack') {
 	            materials[i] = new THREE.MeshPhongMaterial({
-	                color: 0x3fbde6,
-	                emissive: 0x3fbde6,
+	                color: 0x1774ff,
+	                emissive: 0x1774ff,
 	                transparent: true,
-	                opacity: 0.7,
+	                opacity: 0.3,
 	                shading: THREE.SmoothShading,
 	                specular: 0.0,
 	                name: 'navMenuBack',
-	                depthWrite: false
+	                depthWrite: false,
+	            });
+	        } else if(materials[i].name == 'navIcon') {
+	            materials[i] = new THREE.MeshPhongMaterial({
+	                emissive: 0xffffff,
+	                map: THREE.ImageUtils.loadTexture('img/nav/earth_nav2.png'),
+	                emissiveMap: THREE.ImageUtils.loadTexture('img/nav/earth_nav2.png'),
+	                transparent: true,
+	                opacity: 0.6,
+	                shading: THREE.FlatShading,
+	                specular: 0.0,
+	                name: 'navMenuIcon',
+	                depthWrite: false,
 	            });
 	        }
 	    }
@@ -177,10 +195,26 @@ function Ship5() {
 			_s.navMenuLoaded = true;
 			_s.areAllModelsLoaded();
 		});
+
+		//load the nav menu icon template
+	    loader.load( 'models/navMenuIcon.json', function ( geometry, materials ) {
+
+			materials = _s.assignShipMaterials(materials);
+
+			_s.navMenuIcon = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial( materials ) );
+			_s.navMenuIcon.scale.x = _s.navMenuIcon.scale.y = _s.navMenuIcon.scale.z = scale;
+			_s.navMenuIcon.rotation.y = 0;
+			_s.navMenuIcon.position.y += .2;
+
+			//_s.navMenuIcon.visible = false;
+
+			_s.navMenuIconLoaded = true;
+			_s.areAllModelsLoaded();
+		});
 	};
 
 	_s.areAllModelsLoaded = function() {	
-	    if(_s.chassisLoaded == true && _s.screenLoaded == true && _s.chairLoaded == true && _s.screenFaceLoaded == true && _s.navMenuLoaded == true) {
+	    if(_s.chassisLoaded == true && _s.screenLoaded == true && _s.chairLoaded == true && _s.screenFaceLoaded == true && _s.navMenuLoaded == true && _s.navMenuIconLoaded == true) {
 	        _s.init();
 	    }
 	}
@@ -278,30 +312,44 @@ function Ship5() {
 	_s.toggleNavMenu = function() {
 		var tl = new TimelineLite();
 		var tl2 = new TimelineLite();
+		var tl3 = new TimelineLite();
 
 		if(_s.navMenuActive == false) {
-			//console.log(_s.navMenu.material);
+			_s.resetNavMenuRollovers
 
 			_s.navMenuActive = true;
 			_s.navMenuAlpha = 0.0;
 			_s.navMenu.position.y = -2.0;
 			_s.navMenu.visible = true;
+			_s.navMenuIconsObj.position.y = -2.0;
+			_s.navMenuIconsObj.visible = true;
 
 			tl.to(_s.navMenu.position, 1, { 
 				ease: Power2.easeOut, 
 				y: 0.0, 
 			});
 
+			tl3.to(_s.navMenuIconsObj.position, 1, { 
+				ease: Power2.easeOut, 
+				y: 0.0, 
+			});
+
 			tl2.to(_s, 1, { 
 				ease: Power2.easeOut, 
-				navMenuAlpha: 0.7, 
+				navMenuAlpha: 0.6, 
 			});
 
 		} else {
-			_s.navMenuAlpha = 0.7;
+			_s.navMenuAlpha = 0.6;
 			_s.navMenu.position.y = 0.0;
+			_s.navMenuIconsObj.position.y = 0.0;
 
 			tl.to(_s.navMenu.position, 1, { 
+				ease: Power2.easeOut, 
+				y: -2.0,
+			});
+
+			tl3.to(_s.navMenuIconsObj.position, 1, { 
 				ease: Power2.easeOut, 
 				y: -2.0,
 			});
@@ -311,17 +359,35 @@ function Ship5() {
 				navMenuAlpha: 0.0,
 				onComplete: function() {
 					_s.navMenu.visible = false;
+					_s.navMenuIconsObj.visible = false;
 					_s.navMenuActive = false;
 				}
 			});
 		}
 	};
 
-	_s.updateNavMenu = function() {
-		if(_s.navMenuActive == true) {
-			_s.navMenu.material.materials[0].opacity = _s.navMenuAlpha;
+	_s.resetNavMenuRollovers = function() {
+		for(i=0; i<_s.navMenuIcons.length; i++) {
+			_s.navMenuIcons[i].active = false;
 		}
 	};
+
+	_s.updateNavMenu = function() {
+		var i;
+		if(_s.navMenuActive == true) {
+			//set alpha transitions
+			_s.navMenu.material.materials[0].opacity = _s.navMenuAlpha;
+			for(i=0; i<_s.navMenuIcons.length; i++) {
+				if(_s.navMenuIcons[i].active == true) {
+					_s.navMenuIcons[i].material.materials[0].opacity = 1.5;
+				} else {
+					_s.navMenuIcons[i].material.materials[0].opacity = _s.navMenuAlpha;
+				}	
+			}
+
+		}
+	};
+
 
 	//travel to a new planet destination
 	_s.navToPlanet = function(to, finishCallback, camera) {
@@ -331,6 +397,15 @@ function Ship5() {
 
 		//ship voice: nav activated
 		_s.scoreManager.playTalk(_s.scoreManager.systemTalkGo, -1);
+
+		//play flight sound
+		_s.scoreManager.playFlightSound();
+
+		//close menu
+		_s.toggleNavMenu();
+
+		//prevent further action on menu
+		//_s.navMenuActive = false;
 
 		//!!! offset will likely change per planet, move this soon
 		var exitPoint = new THREE.Vector3(0, -130, 0);
@@ -420,12 +495,135 @@ function Ship5() {
 		})
 	};
 
+	//return a unique clone without shared attributes
+	_s.cloneNavItem = function(item) {
+		var clone = item.clone();
+
+		return clone;
+	}
+
+	_s.initNavMenu = function() {
+		var icon, i;
+
+		//add the nav menu backdrop
+		//_s.obj.add(_s.navMenuIcon);
+
+		//Mercury icon
+		var icon = _s.navMenuIcon.clone();
+		icon.material = icon.material.clone();
+		icon.name = 'Mercury';
+		icon.active = false;
+		icon.material.materials[0].map = THREE.ImageUtils.loadTexture('img/nav/mercury_nav2.png');
+		icon.material.materials[0].emissiveMap = THREE.ImageUtils.loadTexture('img/nav/mercury_nav2.png');
+		icon.rotation.y = (Math.PI / 9) * 4;
+		_s.navMenuIcons.push(icon);
+
+		//Venus icon
+		var icon = _s.navMenuIcon.clone();
+		icon.material = icon.material.clone();
+		icon.name = 'Venus';
+		icon.active = false;
+		icon.material.materials[0].map = THREE.ImageUtils.loadTexture('img/nav/venus_nav2.png');
+		icon.material.materials[0].emissiveMap = THREE.ImageUtils.loadTexture('img/nav/venus_nav2.png');
+		icon.rotation.y = (Math.PI / 9) * 3;
+		_s.navMenuIcons.push(icon);
+
+		//Earth icon
+		var icon = _s.navMenuIcon.clone();
+		icon.material = icon.material.clone();
+		icon.name = 'Earth';
+		icon.active = false;
+		icon.material.materials[0].map = THREE.ImageUtils.loadTexture('img/nav/earth_nav2.png');
+		icon.material.materials[0].emissiveMap = THREE.ImageUtils.loadTexture('img/nav/earth_nav2.png');
+		icon.rotation.y = (Math.PI / 9) * 2;
+		_s.navMenuIcons.push(icon);
+
+		//Mars icon
+		var icon = _s.navMenuIcon.clone();
+		icon.material = icon.material.clone();
+		icon.name = 'Mars';
+		icon.active = false;
+		icon.material.materials[0].map = THREE.ImageUtils.loadTexture('img/nav/mars_nav2.png');
+		icon.material.materials[0].emissiveMap = THREE.ImageUtils.loadTexture('img/nav/mars_nav2.png');
+		icon.rotation.y = (Math.PI / 9) * 1;
+		_s.navMenuIcons.push(icon);
+
+		//Jupiter icon
+		var icon = _s.navMenuIcon.clone();
+		icon.material = icon.material.clone();
+		icon.name = 'Jupiter';
+		icon.active = false;
+		icon.material.materials[0].map = THREE.ImageUtils.loadTexture('img/nav/jupiter_nav2.png');
+		icon.material.materials[0].emissiveMap = THREE.ImageUtils.loadTexture('img/nav/jupiter_nav2.png');
+		//icon.rotation.y = -(Math.PI / 9) * 2;
+		_s.navMenuIcons.push(icon);
+
+		//Saturn icon
+		var icon = _s.navMenuIcon.clone();
+		icon.material = icon.material.clone();
+		icon.name = 'Saturn';
+		icon.active = false;
+		icon.material.materials[0].map = THREE.ImageUtils.loadTexture('img/nav/saturn_nav2.png');
+		icon.material.materials[0].emissiveMap = THREE.ImageUtils.loadTexture('img/nav/saturn_nav2.png');
+		icon.rotation.y = -(Math.PI / 9) * 1;
+		_s.navMenuIcons.push(icon);
+
+		//Uranus icon
+		var icon = _s.navMenuIcon.clone();
+		icon.material = icon.material.clone();
+		icon.name = 'Uranus';
+		icon.active = false;
+		icon.material.materials[0].map = THREE.ImageUtils.loadTexture('img/nav/uranus_nav2.png');
+		icon.material.materials[0].emissiveMap = THREE.ImageUtils.loadTexture('img/nav/uranus_nav2.png');
+		icon.rotation.y = -(Math.PI / 9) * 2;
+		_s.navMenuIcons.push(icon);
+
+		//Neptune icon
+		var icon = _s.navMenuIcon.clone();
+		icon.material = icon.material.clone();
+		icon.name = 'Neptune';
+		icon.active = false;
+		icon.material.materials[0].map = THREE.ImageUtils.loadTexture('img/nav/neptune_nav2.png');
+		icon.material.materials[0].emissiveMap = THREE.ImageUtils.loadTexture('img/nav/neptune_nav2.png');
+		icon.rotation.y = -(Math.PI / 9) * 3;
+		_s.navMenuIcons.push(icon);
+
+		//Pluto icon
+		var icon = _s.navMenuIcon.clone();
+		icon.material = icon.material.clone();
+		icon.name = 'Pluto';
+		icon.active = false;
+		icon.material.materials[0].map = THREE.ImageUtils.loadTexture('img/nav/pluto_nav2.png');
+		icon.material.materials[0].emissiveMap = THREE.ImageUtils.loadTexture('img/nav/pluto_nav2.png');
+		icon.rotation.y = -(Math.PI / 9) * 4;
+		_s.navMenuIcons.push(icon);
+
+		_s.obj.add(_s.navMenuIconsObj);
+
+		for(i=0; i<_s.navMenuIcons.length; i++) {
+			_s.navMenuIconsObj.add(_s.navMenuIcons[i]);
+		}
+
+		//!!! this is currently causing issues, doing odd things with nav menu icons
+		//_s.obj.add(_s.navMenu);
+
+		//!!! TEMP
+		_s.toggleNavMenu();
+
+		/*
+		var toggleNavInterval = setInterval(function(){
+			_s.toggleNavMenu();
+		}, 5000);
+		*/
+
+	};
+
 	_s.init = function() {
 		_s.obj.add(_s.chassis);
 		_s.obj.add(_s.chair);
 		_s.obj.add(_s.screen);
 		_s.obj.add(_s.screenFace);
-		_s.obj.add(_s.navMenu);
+		_s.initNavMenu();
 		_s.setScreenImage('img/screen/logo_screen.png');
 		_s.setupWarpEffect();
 	};

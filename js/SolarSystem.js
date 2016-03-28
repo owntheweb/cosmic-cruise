@@ -21,7 +21,7 @@ function SolarSystem() {
 	//not exactly scientific YET, but estimated by art guy based on mad science representations by other artists... Yeah!
 	_s.planets = {
 		murcury: {
-			name:'Murcury',
+			name:'Mercury',
 			screenImg: 'img/screen/mercury/destination_mercury.png',
 			x:-4600,
 			y:0,

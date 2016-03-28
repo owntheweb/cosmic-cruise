@@ -21,6 +21,10 @@ function ScoreManager() {
 	_s.musicPlaying = false;
 	_s.musicPlaylistInt = 0;
 
+	_s.flightSound;
+	_s.flightSoundLoaded = false;
+	_s.flightSoundPlaying = false;
+
 	_s.idleDelay = 12;
 
 	_s.destinationTalk = [
@@ -334,8 +338,37 @@ function ScoreManager() {
 
 	};
 
+	_s.prepFlightSound = function() {
+		_s.flightSound = new Howl({
+			src: 'audio/flight.mp3',
+			autoplay: false,
+			loop: false,
+			volume: 1.2,
+			onload: function() {
+				_s.playSoundLoaded = true;
+				console.log('flight sound loaded');
+			},
+			onplay: function() {
+				_s.playSoundPlaying = true;
+				console.log('flight sound started');
+			},
+			onend: function() {
+				_s.playSoundPlaying = false;
+				_s.playSoundLoaded = false;
+				console.log('flight sound stopped');
+			}
+		});
+	};
+
+	_s.playFlightSound = function() {
+		_s.flightSound.pos(0);
+		_s.flightSound.play();
+	};
+
 	//get it started!
 	_s.init = function() {
+		//prepare flight sound for takeoff
+		_s.prepFlightSound();
 
 		//start music
 		if(_s.playMusic == true) {

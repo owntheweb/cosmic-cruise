@@ -1,0 +1,38 @@
+{
+    "metadata": {
+        "uvs": 1,
+        "version": 3,
+        "generator": "io_three",
+        "faces": 1,
+        "vertices": 4,
+        "normals": 2,
+        "materials": 1,
+        "type": "Geometry"
+    },
+    "uvs": [[1,1,2e-06,1,0,0,0.999998,0]],
+    "vertices": [-0.515527,0.501982,2.95246,-0.515527,-0.501982,2.95246,0.514644,0.501982,2.95231,0.514644,-0.501982,2.95231],
+    "normals": [-0.000122,0,-1,-0.000122,0,-0.999969],
+    "faces": [43,0,2,3,1,0,0,1,2,3,0,0,1,0],
+    "materials": [{
+        "shading": "phong",
+        "DbgColor": 15658734,
+        "mapDiffuseWrap": ["RepeatWrapping","RepeatWrapping"],
+        "DbgIndex": 0,
+        "specularCoef": 50,
+        "colorSpecular": [0.5,0.5,0.5],
+        "wireframe": false,
+        "transparent": false,
+        "mapDiffuseRepeat": [1,1],
+        "depthWrite": true,
+        "blending": "NormalBlending",
+        "visible": true,
+        "opacity": 1,
+        "colorEmissive": [0,0,0],
+        "mapDiffuse": "../img/nav/earth_nav2.png",
+        "DbgName": "navIcon",
+        "colorDiffuse": [0.64,0.64,0.64],
+        "depthTest": true,
+        "mapDiffuseAnisotropy": 1
+    }],
+    "name": "Cylinder.001Geometry.1"
+}

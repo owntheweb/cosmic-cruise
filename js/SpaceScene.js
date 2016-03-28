@@ -13,6 +13,10 @@ function SpaceScene(viewMode) {
 	_s.filesLoaded = 0;
 	_s.allFilesLoaded = false;
 
+	_s.targetPlanetName = '';
+	_s.curPlanetName = '';
+	_s.navRolloverActive = false;
+
 	//three.js scene
 	_s.container;
 	_s.scene;
@@ -167,6 +171,13 @@ function SpaceScene(viewMode) {
 		_s.controls.enablePan = false;
 		_s.controls.enableZoom = false;
 
+		///////////////////////////
+		// ray trace/hover detect//
+		///////////////////////////
+
+		_s.projector = new THREE.Projector();
+		_s.centerVector = new THREE.Vector3();
+
 		////////////
 		// EVENTS //
 		////////////
@@ -193,13 +204,24 @@ function SpaceScene(viewMode) {
 
 		//click event (screen touch OR magnetic button press)
 		_s.onClick = function() {
+			var i;
 			console.log('click!');
 
-			//!!! do something with the click
+			if(_s.ship.navMenuActive == true && _s.navRolloverActive == true && _s.curPlanetName != _s.targetPlanetName) {
+
+				//go there!
+				for(i=0; i<_s.solarSystem.planetArray.length; i++) {
+					if(_s.targetPlanetName == _s.solarSystem.planetArray[i].name) {
+						_s.ship.navToPlanet(_s.solarSystem.planetArray[i], function() { _s.ship.toggleNavMenu(); }, _s.camera);
+						break;
+					}
+				}
+			}
 		};
 		window.addEventListener('click', function() {
 			_s.onClick();
 		});
+
 
 		///////////
 		// STATS //
@@ -325,8 +347,10 @@ function SpaceScene(viewMode) {
 
 
 
+
 		//!!! TEMP
 		//continuous random planet flight
+		/*
 		var lastPlanetInt = -1;
 		var endlessFlight = function() {
 			var randomPlanet = _s.solarSystem.planetArray[Math.floor(Math.random() * _s.solarSystem.planetArray.length)];
@@ -339,6 +363,7 @@ function SpaceScene(viewMode) {
 			}
 		};
 		var startDelay = setTimeout(function() { endlessFlight(); },10000);
+		*/
 
 		//!!! TEMP
 		//toggle between Earth and Murcury
@@ -379,18 +404,59 @@ function SpaceScene(viewMode) {
 		}, 1000);
 		*/
 
-
 		//!!! TEMP
 		/*
 		var toggleNavInterval = setInterval(function(){
 			_s.ship.toggleNavMenu();
 		}, 5000);
 		*/
+
+		//!!! TEMP
+		//_s.ship.toggleNavMenu();
+		
+
 	};
 
 	//reset if starting over (!!! may not need this any longer)
 	_s.resetSpaceScene = function() {
 
+	};
+
+	//make menu hover effects possible
+	_s.centerTrace = function() {
+		var intersects, i, intersection, obj, img;
+
+		if(_s.ship.navMenuActive == true) {
+			
+			_s.raycaster = new THREE.Raycaster(); // create once
+
+			//set center of view vector
+			centerVector = new THREE.Vector3();
+			_s.centerVector.y = (window.innerHeight / 2 / window.innerHeight) * 2 - 1;
+
+			if(_s.viewMode == "cardboard") {
+				_s.centerVector.x = (window.innerWidth / 4 / window.innerWidth) * 2 - 1;
+				_s.raycaster.setFromCamera(_s.centerVector, _s.stereoCamera.left);
+			} else {
+				_s.centerVector.x = (window.innerWidth / 2 / window.innerWidth) * 2 - 1;
+				_s.raycaster.setFromCamera(_s.centerVector, _s.camera);
+			}
+
+			//reset rollover status
+			_s.ship.resetNavMenuRollovers();
+
+			//check for intersecting menu icons and set them as active
+			intersects = _s.raycaster.intersectObjects(_s.ship.navMenuIconsObj.children);
+			if(intersects.length > 0) {
+				_s.navRolloverActive = true;
+				for(i=0; i<intersects.length; i++) {
+					intersects[i].object.active = true;
+					_s.targetPlanetName = intersects[i].object.name;
+				}
+			} else {
+				_s.navRolloverActive = false;
+			}
+		}
 	};
 
 	//update scene elements
@@ -404,15 +470,15 @@ function SpaceScene(viewMode) {
 
 		_s.solarSystem.update(_s.camera, _s.ship.obj);
 
-    //!!! move this to SolarSystem.js
-    // Rotate Earth's Clouds.
-    _s.solarSystem.planetArray[2].planet.children[1].rotation.y += 0.00005;
+		//!!! move this to SolarSystem.js
+		// Rotate Earth's Clouds.
+		_s.solarSystem.planetArray[2].planet.children[1].rotation.y += 0.00005;
+		// Rotate the Earth.
+		_s.solarSystem.planetArray[2].planet.children[0].rotation.y += 0.000025;
+		// Rotate the moon around the Earth.
+		//_s.solarSystem.planetArray[2].planet.children[2].rotation.y += 0.01;
 
-    // Rotate the Earth.
-    _s.solarSystem.planetArray[2].planet.children[0].rotation.y += 0.000025;
-
-    // Rotate the moon around the Earth.
-    //_s.solarSystem.planetArray[2].planet.children[2].rotation.y += 0.01;
+		_s.centerTrace();
 
 		_s.stats.update();
 	};
