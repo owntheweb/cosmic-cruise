@@ -435,7 +435,7 @@ function SpaceScene(viewMode) {
 			_s.centerVector.y = (window.innerHeight / 2 / window.innerHeight) * 2 - 1;
 
 			if(_s.viewMode == "cardboard") {
-				_s.centerVector.x = (window.innerWidth / 4 / window.innerWidth) * 2 - 1;
+				_s.centerVector.x = (window.innerWidth / 2 / window.innerWidth) * 2 - 1;
 				_s.raycaster.setFromCamera(_s.centerVector, _s.stereoCamera.left);
 			} else {
 				_s.centerVector.x = (window.innerWidth / 2 / window.innerWidth) * 2 - 1;
