@@ -367,13 +367,16 @@ function ScoreManager() {
 
 	//get it started!
 	_s.init = function() {
-		//prepare flight sound for takeoff
-		_s.prepFlightSound();
+		//!!! let's see if a delay helps resolve odd sound issues that seem random on the phone (crazy slow-mo music or no sound at times on iPhone)
+		var setupDelay = setTimeout(function() { 
+			//prepare flight sound for takeoff
+			_s.prepFlightSound();
 
-		//start music
-		if(_s.playMusic == true) {
-			_s.startMusic();
-		}
+			//start music
+			if(_s.playMusic == true) {
+				_s.startMusic();
+			}
+		}, 5000);
 	};
 
 	_s.update = function() {
