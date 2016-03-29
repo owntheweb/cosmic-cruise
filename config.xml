@@ -19,7 +19,7 @@
   <preference name="android-installLocation" value="auto"/>
   
   <!-- !!! When debugging: -->
-  <!--<gap:plugin name="org.apache.cordova.console"/>-->
+  <gap:plugin name="org.apache.cordova.console"/>
 
   <gap:plugin name="org.apache.cordova.device"/>
   <gap:plugin name="org.apache.cordova.device-motion"/>

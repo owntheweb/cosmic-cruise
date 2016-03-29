@@ -28,7 +28,7 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 	
 	document.addEventListener("deviceready", function() { 
 		//force landscape mode
-		var so = cordova.plugins.screenorientation;
+		var so = window.plugins.screenorientation;
        	so.setOrientation(so.Orientation.LANDSCAPE);
 		
 		//keep awake
