@@ -1,7 +1,3 @@
-//STATUS:
-//Working on distant planetary sprites and navigation concepts,
-//temporarily disabling planetary bodies
-
 //inspired by and referenced from Planets.js:
 //https://github.com/jeromeetienne/threex.planets
 //took an altered development route to address solar system travel and new shaders
@@ -21,7 +17,8 @@ function SolarSystem() {
 	//not exactly scientific YET, but estimated by art guy based on mad science representations by other artists... Yeah!
 	_s.planets = {
 		murcury: {
-			name:'Murcury',
+			name:'Mercury',
+			screenImg: 'img/screen/mercury/destination_mercury.png',
 			x:-4600,
 			y:0,
 			z:2800,
@@ -31,6 +28,7 @@ function SolarSystem() {
 		},
 		venus: {
 			name:'Venus',
+			screenImg: 'img/screen/venus/destination_venus.png',
 			x:-4600,
 			y:0,
 			z:7900,
@@ -40,6 +38,7 @@ function SolarSystem() {
 		},
 		earth: {
 			name:'Earth',
+			screenImg: 'img/screen/earth/destination_earth.png',
 			x:-7800,
 			y:0,
 			z:-7100,
@@ -49,6 +48,7 @@ function SolarSystem() {
 		},
 		mars: {
 			name:'Mars',
+			screenImg: 'img/screen/mars/destination_mars.png',
 			x:-18400,
 			y:0,
 			z:3900,
@@ -58,6 +58,7 @@ function SolarSystem() {
 		},
 		jupiter: {
 			name:'Jupiter',
+			screenImg: 'img/screen/jupiter/destination_jupiter.png',
 			x:-59400,
 			y:0,
 			z:-14400,
@@ -67,6 +68,7 @@ function SolarSystem() {
 		},
 		saturn: {
 			name:'Saturn',
+			screenImg: 'img/screen/saturn/destination_saturn.png',
 			x:-40300,
 			y:0,
 			z:107000,
@@ -76,6 +78,7 @@ function SolarSystem() {
 		},
 		uranus: {
 			name:'Uranus',
+			screenImg: 'img/screen/uranus/destination_uranus.png',
 			x:213100,
 			y:0,
 			z:-74600,
@@ -85,6 +88,7 @@ function SolarSystem() {
 		},
 		neptune: {
 			name:'Neptune',
+			screenImg: 'img/screen/neptune/destination_neptune.png',
 			x:316900,
 			y:0,
 			z:122000,
@@ -96,6 +100,7 @@ function SolarSystem() {
 		//I know... but they just flew by this king of the dwarfs and took pictures!
 		pluto: {
 			name:'Pluto',
+			screenImg: 'img/screen/pluto/destination_pluto.png',
 			x:495400,
 			y:50000,
 			z:-6120,
@@ -590,9 +595,14 @@ function SolarSystem() {
 
 	_s.update = function(camera, ship) {
 		_s.scalePlanets(ship);
-		//_s.scalePlanets();
+		
+		if(_s.planetArray[2].planet.visible == true) {
+			// Rotate Earth's Clouds.
+			_s.planetArray[2].planet.children[1].rotation.y += 0.00005;
+			// Rotate the Earth.
+			_s.planetArray[2].planet.children[0].rotation.y += 0.000025;
+		}
 
-		//_s.atmosphereFaceCamera(_s.marsAtmosphere, camera);
 	};
 
 }

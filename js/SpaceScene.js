@@ -1,12 +1,21 @@
-function SpaceScene() {
+function SpaceScene(viewMode) {
+
+	if (viewMode == null) { viewMode = 'cardboard';}
 
 	var _s = this;
+
+	_s.viewMode = viewMode;
+	//!!! Hey Chris, make this do something... viewMode values are 'cardboard' and 'cyclops'
 
 	//files
 	_s.images = {};
 	_s.fileCount = 0; //gets tallied later
 	_s.filesLoaded = 0;
 	_s.allFilesLoaded = false;
+
+	_s.targetPlanetName = '';
+	_s.curPlanetName = '';
+	_s.navRolloverActive = false;
 
 	//three.js scene
 	_s.container;
@@ -32,13 +41,18 @@ function SpaceScene() {
 	_s.ship;
 	_s.solarSystem;
 
+	//cursor
+	_s.cursorCanvas;
+	_s.cursorContext;
+	_s.cursorCurRad = 2.0;
+	_s.cursorMinRad = 1.0;
+	_s.cursorMaxRad = 7.0;
+
 	//stats
 	_s.stats;
 
 	//audio
-	_s.musicLoaded = false;
-	_s.musicPlaying = false;
-	_s.music;
+	_s.soundManager;
 
 	//load files for scene
 	_s.loadFiles = function() {
@@ -84,6 +98,9 @@ function SpaceScene() {
 		_s.effectFXAA.uniforms.resolution.value = new THREE.Vector2(1 / width, 1 / height);
 		_s.composer.setSize(width, height);
 		_s.composer.reset();
+
+		_s.cursorContext.canvas.width = width;
+		_s.cursorContext.canvas.height = height;
 	};
 
 	//put the scene together
@@ -164,6 +181,13 @@ function SpaceScene() {
 		_s.controls.enablePan = false;
 		_s.controls.enableZoom = false;
 
+		///////////////////////////
+		// ray trace/hover detect//
+		///////////////////////////
+
+		_s.projector = new THREE.Projector();
+		_s.centerVector = new THREE.Vector3();
+
 		////////////
 		// EVENTS //
 		////////////
@@ -190,13 +214,24 @@ function SpaceScene() {
 
 		//click event (screen touch OR magnetic button press)
 		_s.onClick = function() {
+			var i;
 			console.log('click!');
 
-			//!!! do something with the click
+			if(_s.ship.navMenuActive == true && _s.navRolloverActive == true && _s.curPlanetName != _s.targetPlanetName) {
+
+				//go there!
+				for(i=0; i<_s.solarSystem.planetArray.length; i++) {
+					if(_s.targetPlanetName == _s.solarSystem.planetArray[i].name) {
+						_s.ship.navToPlanet(_s.solarSystem.planetArray[i], function() { _s.ship.toggleNavMenu(); }, _s.camera);
+						break;
+					}
+				}
+			}
 		};
 		window.addEventListener('click', function() {
 			_s.onClick();
 		});
+
 
 		///////////
 		// STATS //
@@ -295,6 +330,11 @@ function SpaceScene() {
 		_s.ship.obj.add(_s.camera); //if ship rotates, so does camera (as if you were in the ship)
 		_s.solarSystem.system.add(_s.ship.obj);
 
+		//cursor
+		_s.cursorCanvas = document.getElementById("cursor");
+		_s.cursorContext = _s.cursorCanvas.getContext('2d');
+
+		/*
 		var gui = new dat.GUI();
 		var f1 = gui.addFolder('Ship Position');
 		f1.add(_s.ship.obj.position, 'x', -1000, 1000);
@@ -305,18 +345,31 @@ function SpaceScene() {
 		f2.add(_s.ship.obj.rotation, 'x', 0.0, Math.PI * 2);
 		f2.add(_s.ship.obj.rotation, 'y', 0.0, Math.PI * 2);
 		f2.add(_s.ship.obj.rotation, 'z', 0.0, Math.PI * 2);
+		*/
 
 		//ensure size/scale is set correctly (wasn't during initial tests)
 		_s.onResize();
 
+		//audio/score manager
+		_s.scoreManager = new ScoreManager();
+		_s.scoreManager.init();
+
+		//share with ship controls (??? better way to do this?)
+		_s.ship.scoreManager = _s.scoreManager;
+
 		//mark scene as initiated
 		_s.sceneInitiated = true;
 
+
+
+
+
 		//!!! TEMP
 		//continuous random planet flight
+		/*
 		var lastPlanetInt = -1;
 		var endlessFlight = function() {
-			var randomPlanet = _s.solarSystem.planetArray[Math.floor(Math.random() * _s.solarSystem.planetArray.length)].planet;
+			var randomPlanet = _s.solarSystem.planetArray[Math.floor(Math.random() * _s.solarSystem.planetArray.length)];
 			if(randomPlanet != lastPlanetInt) {
 				lastPlanetInt = randomPlanet;
 				console.log("We travel to " + randomPlanet.name + "! Weeeee!");
@@ -325,8 +378,8 @@ function SpaceScene() {
 				endlessFlight();
 			}
 		};
-		endlessFlight();
-
+		var startDelay = setTimeout(function() { endlessFlight(); },10000);
+		*/
 
 		//!!! TEMP
 		//toggle between Earth and Murcury
@@ -351,6 +404,7 @@ function SpaceScene() {
 
 
 		//!!! TEMP
+		/*
 		var testImages = [
 			'img/screen/test1.png',
 			'img/screen/test2.png',
@@ -364,31 +418,94 @@ function SpaceScene() {
 				testImagesInt = 0;
 			}
 		}, 1000);
+		*/
+
+		//!!! TEMP
+		/*
+		var toggleNavInterval = setInterval(function(){
+			_s.ship.toggleNavMenu();
+		}, 5000);
+		*/
+
+		//!!! TEMP
+		//_s.ship.toggleNavMenu();
+		
+
 	};
 
-	_s.initMusic = function() {
-		_s.music = new Howl({
-			src: ['audio/Psychadelik_Pedestrian_-_07_-_Pacific.mp3'],
-			autoplay: true,
-			loop: true,
-			volume: 1.0,
-			onload: function() {
-				_s.creativeMusicLoaded = true;
-				console.log('creative music loaded');
-			},
-			onplay: function() {
-				_s.creativeMusicPlaying = true;
-				console.log('creative music started');
-			},
-			onend: function() {
-				console.log('creative music stopped');
+	//draw cursor
+	_s.drawCursor = function() {
+		_s.cursorContext.clearRect(0, 0, _s.cursorCanvas.width, _s.cursorCanvas.height);
+		_s.cursorContext.save();
+		_s.cursorContext.strokeStyle = '#FFFFFF';
+		_s.cursorContext.lineWidth = 1.5;
+		_s.cursorContext.beginPath();
+		
+		//resize animate based on menu rollover status
+		if(_s.navRolloverActive == true && _s.ship.navMenuActive == true) {
+			_s.cursorCurRad += 1.0;
+			if(_s.cursorCurRad > _s.cursorMaxRad) {
+				_s.cursorCurRad = _s.cursorMaxRad;
 			}
-		});
+		} else {
+			_s.cursorCurRad -= 1.0;
+			if(_s.cursorCurRad < _s.cursorMinRad) {
+				_s.cursorCurRad = _s.cursorMinRad;
+			}
+		}
+
+		if(_s.viewMode == "cardboard") {
+			//!!! trial and error, may need revised (22 seems to place cursor just over the nav)
+			var aspectMult = window.innerWidth / window.innerHeight * 22;
+
+			_s.cursorContext.arc((window.innerWidth / 4) - (window.innerWidth / aspectMult), window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
+			_s.cursorContext.stroke();
+			_s.cursorContext.moveTo((window.innerWidth / 4) + (window.innerWidth / 2) + (window.innerWidth / aspectMult), window.innerHeight / 2);
+			_s.cursorContext.beginPath();
+			_s.cursorContext.arc((window.innerWidth / 4) + (window.innerWidth / 2) + (window.innerWidth / aspectMult), window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
+		} else {
+			_s.cursorContext.arc(window.innerWidth / 2, window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
+		}
+		
+		_s.cursorContext.stroke();
+		_s.cursorContext.restore();
 	};
 
-	//reset if starting over (!!! may not need this any longer)
-	_s.resetSpaceScene = function() {
+	//make menu hover effects possible
+	_s.centerTrace = function() {
+		var intersects, i, intersection, obj, img;
 
+		if(_s.ship.navMenuActive == true) {
+			
+			_s.raycaster = new THREE.Raycaster(); // create once
+
+			//set center of view vector
+			centerVector = new THREE.Vector3();
+			_s.centerVector.y = (window.innerHeight / 2 / window.innerHeight) * 2 - 1;
+
+			if(_s.viewMode == "cardboard") {
+				_s.centerVector.x = (window.innerWidth / 2 / window.innerWidth) * 2 - 1;
+				_s.raycaster.setFromCamera(_s.centerVector, _s.stereoCamera.left);
+			} else {
+				_s.centerVector.x = (window.innerWidth / 2 / window.innerWidth) * 2 - 1;
+				_s.raycaster.setFromCamera(_s.centerVector, _s.camera);
+			}
+
+			//reset rollover status
+			_s.ship.resetNavMenuRollovers();
+
+			//check for intersecting menu icons and set them as active
+			intersects = _s.raycaster.intersectObjects(_s.ship.navMenuIconsObj.children);
+			if(intersects.length > 0) {
+				_s.navRolloverActive = true;
+				for(i=0; i<intersects.length; i++) {
+					intersects[i].object.active = true;
+					_s.targetPlanetName = intersects[i].object.name;
+				}
+			} else {
+				_s.navRolloverActive = false;
+			}
+		}
 	};
 
 	//update scene elements
@@ -402,14 +519,9 @@ function SpaceScene() {
 
 		_s.solarSystem.update(_s.camera, _s.ship.obj);
 
-    // Rotate Earth's Clouds.
-    _s.solarSystem.planetArray[2].planet.children[1].rotation.y += 0.0005;
+		_s.centerTrace();
 
-    // Rotate the Earth.
-    _s.solarSystem.planetArray[2].planet.children[0].rotation.y += 0.00025;
-
-    // Rotate the moon around the Earth.
-    _s.solarSystem.planetArray[2].planet.children[2].rotation.y += 0.01;
+		_s.drawCursor();
 
 		_s.stats.update();
 	};
@@ -418,13 +530,21 @@ function SpaceScene() {
 	_s.render = function() {
 		//_s.renderer.clear();
 
-		_s.renderer.setViewport( 0, 0, window.innerWidth / 2, window.innerHeight);
-		_s.renderPass.camera = _s.stereoCamera.left; //note: breaking rule by settings Class.camera directly xO
-		_s.composer.render();
+		if(_s.viewMode == "cardboard") {
+			//stereo Google Cardboard view
+			_s.renderer.setViewport( 0, 0, window.innerWidth / 2, window.innerHeight);
+			_s.renderPass.camera = _s.stereoCamera.left; //note: breaking rule by settings Class.camera directly xO
+			_s.composer.render();
 
-		_s.renderer.setViewport( window.innerWidth / 2, 0, window.innerWidth / 2, window.innerHeight);
-		_s.renderPass.camera = _s.stereoCamera.right; //note: breaking rule by settings Class.camera directly xO
-		_s.composer.render();
+			_s.renderer.setViewport( window.innerWidth / 2, 0, window.innerWidth / 2, window.innerHeight);
+			_s.renderPass.camera = _s.stereoCamera.right; //note: breaking rule by settings Class.camera directly xO
+			_s.composer.render();
+		} else {
+			//"cyclops mode" (single view)
+			_s.renderer.setViewport( 0, 0, window.innerWidth, window.innerHeight);
+			_s.renderPass.camera = _s.camera;
+			_s.composer.render();
+		}
 	};
 
 	//"Go forth with forthness, into the depths of depthness."" --crazy web guy
@@ -432,7 +552,6 @@ function SpaceScene() {
 		console.log('go forth!');
 
 		_s.loadFiles();
-		_s.initMusic();
 
 		(function drawFrame() {
 			window.requestAnimationFrame(drawFrame, _s.earthCanvas);
