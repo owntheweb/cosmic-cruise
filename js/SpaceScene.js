@@ -456,7 +456,7 @@ function SpaceScene(viewMode) {
 
 		if(_s.viewMode == "cardboard") {
 			//!!! trial and error, may need revised (22 seems to place cursor just over the nav)
-			var aspectMult = window.innerWidth / window.innerHeight * 22;
+			var aspectMult = window.innerWidth / window.innerHeight * 25;
 
 			_s.cursorContext.arc((window.innerWidth / 4) - (window.innerWidth / aspectMult), window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
 			_s.cursorContext.stroke();
