@@ -28,8 +28,7 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 	
 	document.addEventListener("deviceready", function() { 
 		//force landscape mode
-		var so = window.plugins.screenorientation;
-       	so.setOrientation(so.Orientation.LANDSCAPE);
+		screen.lockOrientation('landscape');
 		
 		//keep awake
 		window.plugins.insomnia.keepAwake(); 
