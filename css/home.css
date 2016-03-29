@@ -27,7 +27,12 @@
   background-color: rgb(77,77,78);
 }
 .ui-bar-a {
-  background-color: rgba(26,26,26,.8);
+  background-color: rgba(26,26,40,.8);
+  border: 1px solid rgb(26,26,40);
+}
+.ui-header.ui-bar-a {
+  background-color: transparent;
+  border: none;
 }
 .ui-bar-a .ui-shadow, .ui-bar-b .ui-shadow, .ui-bar-c .ui-shadow, .ui-icon {
     -moz-box-shadow: none;
@@ -41,7 +46,7 @@
   font-size: 10px;
 }
 .ui-body-a .ui-link {
-    color: #3ea3d6;
+    color: #06c2c2;
     font-weight: 300;
 }
 
@@ -56,7 +61,7 @@ html, body, .ui-content {
   line-height: 1.3em;
 }
 #vr-tour {
-  background: url('../img/skybox/downSm.jpg') no-repeat;
+  background: url('../img/skybox/downMed.jpg') no-repeat;
   background-size: cover;
 }
 .row {
@@ -76,8 +81,8 @@ html, body, .ui-content {
 .ui-body-a .bn-row a.ui-link {
   text-decoration: none;
   cursor: pointer;
-  background-color: #3ea3d6;
-  color: #fff;
+  background-color: #06c2c2;
+  color: #000;
   border: 0;
   padding: 6px 25px;
   min-width: 80px;
@@ -90,15 +95,18 @@ html, body, .ui-content {
 #main-menu ul a:hover,
 .ui-body-a .bn-row a.ui-link:hover {
   background-color: white;
-  color: #3ea3d6;
+  color: #06c2c2;
 }
 
 /* Header
 ----------------------------------------*/
-.ui-header .logo {
+.app-logo {
+
+}
+.applogo img {
   display: block;
-  margin: 10px auto 5px;
-  max-width: 220px;
+  margin: 0 auto;
+  max-width: 100%;
 }
 .sflogo {
   margin-top: 0;
@@ -122,7 +130,7 @@ html, body, .ui-content {
   display: table;
   width: 100%;
   padding: 30px 0 30px;
-  margin: -10px 0;
+  margin: -10px 0 10px;
   text-align: center;
   padding: 25px 0 0; 
 }
@@ -145,13 +153,21 @@ div.panel-close {
 }
 .section {
   display: none; 
-  background-color: rgba(26,26,26,.8);
-  border-bottom: 1px solid #333;
+  background-color: rgba(26,26,40,.8);
+  border-bottom: 1px solid #221457;
 }
 .section form,
 .section .cb-row,
 .section .bn-row {
   text-align: center;
+}
+#place-in-viewer {
+}
+#place-in-viewer img {
+  width: 190px;
+  max-width: 100%;
+  display: block;
+  margin: auto;
 }
 
 /* Chevrons
@@ -178,7 +194,7 @@ div.panel-close {
   left: 0;
   height: 100%;
   width: 50%;
-  background: #3ea3d6;
+  background: #117f82;
   -webkit-transform: skew(0deg, 3deg);
   -moz-transform: skew(0deg, 3deg);
   -ms-transform: skew(0deg, 3deg);
@@ -192,7 +208,7 @@ div.panel-close {
   right: 0;
   height: 100%;
   width: calc(50% + 1px);
-  background: #3ea3d6;
+  background: #117f82;
   -webkit-transform: skew(0deg, -3deg);
   -moz-transform: skew(0deg, -3deg);
   -ms-transform: skew(0deg, -3deg);
@@ -200,7 +216,7 @@ div.panel-close {
   transform: skew(0deg, -3deg);
 }
 .half-chevron-text {
-  background-color: #3ea3d6;
+  background-color: #117f82;
   padding-top: 10px;
   position: absolute;
   top: 0;
@@ -271,7 +287,7 @@ div.panel-close {
   transition: margin 0.4s;
 }
 .cmn-toggle:checked + label:before {
-  background-color: #3ea3d6;
+  background-color: #06c2c2;
 }
 .cmn-toggle:checked + label:after {
   margin-left: 16px;
