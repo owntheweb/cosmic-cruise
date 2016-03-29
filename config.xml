@@ -4,7 +4,7 @@
   <author href="http://www.spacefoundation.org" email="cstevens@spacefoundation.org">Christopher Stevens</author>
   <content src="index.html"/>
   <preference name="permissions" value="none"/>
-  <preference name="orientation" value="landscape"/>
+  <!--<preference name="orientation" value="landscape"/>-->
   <preference name="target-device" value="universal"/>
   <preference name="fullscreen" value="true"/>
   <preference name="webviewbounce" value="false"/>
@@ -13,7 +13,7 @@
   <preference name="detect-data-types" value="true"/>
   <preference name="exit-on-suspend" value="false"/>
   <preference name="show-splash-screen-spinner" value="true"/>
-  <preference name="auto-hide-splash-screen" value="true"/>
+  <preference name="auto-hide-splash-screen" value="true"/> 
   <preference name="disable-cursor" value="false"/>
   <preference name="android-minSdkVersion" value="22"/>
   <preference name="android-installLocation" value="auto"/>
@@ -23,7 +23,7 @@
 
   <gap:plugin name="org.apache.cordova.device"/>
   <gap:plugin name="org.apache.cordova.device-motion"/>
-  <!--<gap:plugin name="org.apache.cordova.screen-orientation"/>-->
+  <gap:plugin name="org.apache.cordova.screen-orientation"/>
   <gap:plugin name="org.apache.cordova.dialogs"/>
   <gap:plugin name="org.apache.cordova.inappbrowser"/>
   <gap:plugin name="cordova-plugin-statusbar" source="npm" />
