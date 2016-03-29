@@ -41,6 +41,13 @@ function SpaceScene(viewMode) {
 	_s.ship;
 	_s.solarSystem;
 
+	//cursor
+	_s.cursorCanvas;
+	_s.cursorContext;
+	_s.cursorCurRad = 2.0;
+	_s.cursorMinRad = 1.5;
+	_s.cursorMaxRad = 10.0;
+
 	//stats
 	_s.stats;
 
@@ -91,6 +98,9 @@ function SpaceScene(viewMode) {
 		_s.effectFXAA.uniforms.resolution.value = new THREE.Vector2(1 / width, 1 / height);
 		_s.composer.setSize(width, height);
 		_s.composer.reset();
+
+		_s.cursorContext.canvas.width = width;
+		_s.cursorContext.canvas.height = height;
 	};
 
 	//put the scene together
@@ -320,6 +330,10 @@ function SpaceScene(viewMode) {
 		_s.ship.obj.add(_s.camera); //if ship rotates, so does camera (as if you were in the ship)
 		_s.solarSystem.system.add(_s.ship.obj);
 
+		//cursor
+		_s.cursorCanvas = document.getElementById("cursor");
+		_s.cursorContext = _s.cursorCanvas.getContext('2d');
+
 		/*
 		var gui = new dat.GUI();
 		var f1 = gui.addFolder('Ship Position');
@@ -419,9 +433,41 @@ function SpaceScene(viewMode) {
 
 	};
 
-	//reset if starting over (!!! may not need this any longer)
-	_s.resetSpaceScene = function() {
+	//draw cursor
+	_s.drawCursor = function() {
+		_s.cursorContext.clearRect(0, 0, _s.cursorCanvas.width, _s.cursorCanvas.height);
+		_s.cursorContext.save();
+		_s.cursorContext.strokeStyle = '#FFFFFF';
+		_s.cursorContext.lineWidth = 2;
+		_s.cursorContext.beginPath();
+		
+		//resize animate based on menu rollover status
+		if(_s.navRolloverActive == true && _s.ship.navMenuActive == true) {
+			console.log('it is true');
+			_s.cursorCurRad += 1.0;
+			if(_s.cursorCurRad > _s.cursorMaxRad) {
+				_s.cursorCurRad = _s.cursorMaxRad;
+			}
+		} else {
+			_s.cursorCurRad -= 1.0;
+			if(_s.cursorCurRad < _s.cursorMinRad) {
+				_s.cursorCurRad = _s.cursorMinRad;
+			}
+		}
 
+		if(_s.viewMode == "cardboard") {
+			//!!! the 30 is a wild guess... seems to work
+			_s.cursorContext.arc((window.innerWidth / 4), window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
+			_s.cursorContext.stroke();
+			_s.cursorContext.moveTo((window.innerWidth / 4) + (window.innerWidth / 2), window.innerHeight / 2);
+			_s.cursorContext.beginPath();
+			_s.cursorContext.arc((window.innerWidth / 4) + (window.innerWidth / 2), window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
+		} else {
+			_s.cursorContext.arc(window.innerWidth / 2, window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
+		}
+		
+		_s.cursorContext.stroke();
+		_s.cursorContext.restore();
 	};
 
 	//make menu hover effects possible
@@ -481,6 +527,8 @@ function SpaceScene(viewMode) {
 		//_s.solarSystem.planetArray[2].planet.children[2].rotation.y += 0.01;
 
 		_s.centerTrace();
+
+		_s.drawCursor();
 
 		_s.stats.update();
 	};
