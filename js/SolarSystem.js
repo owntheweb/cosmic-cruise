@@ -1,7 +1,3 @@
-//STATUS:
-//Working on distant planetary sprites and navigation concepts,
-//temporarily disabling planetary bodies
-
 //inspired by and referenced from Planets.js:
 //https://github.com/jeromeetienne/threex.planets
 //took an altered development route to address solar system travel and new shaders
@@ -599,9 +595,14 @@ function SolarSystem() {
 
 	_s.update = function(camera, ship) {
 		_s.scalePlanets(ship);
-		//_s.scalePlanets();
+		
+		if(_s.planetArray[2].planet.visible == true) {
+			// Rotate Earth's Clouds.
+			_s.planetArray[2].planet.children[1].rotation.y += 0.00005;
+			// Rotate the Earth.
+			_s.planetArray[2].planet.children[0].rotation.y += 0.000025;
+		}
 
-		//_s.atmosphereFaceCamera(_s.marsAtmosphere, camera);
 	};
 
 }

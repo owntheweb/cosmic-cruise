@@ -455,7 +455,7 @@ function SpaceScene(viewMode) {
 		}
 
 		if(_s.viewMode == "cardboard") {
-			//!!! trial and error, may need revised (22.5 seems to place cursor just over nav, lowering number brings it "closer"?)
+			//!!! trial and error, may need revised (22 seems to place cursor just over the nav)
 			var aspectMult = window.innerWidth / window.innerHeight * 22;
 
 			_s.cursorContext.arc((window.innerWidth / 4) - (window.innerWidth / aspectMult), window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
@@ -518,14 +518,6 @@ function SpaceScene(viewMode) {
 		_s.stereoCamera.update(_s.scene, _s.camera, window.innerWidth, window.innerHeight);
 
 		_s.solarSystem.update(_s.camera, _s.ship.obj);
-
-		//!!! move this to SolarSystem.js
-		// Rotate Earth's Clouds.
-		_s.solarSystem.planetArray[2].planet.children[1].rotation.y += 0.00005;
-		// Rotate the Earth.
-		_s.solarSystem.planetArray[2].planet.children[0].rotation.y += 0.000025;
-		// Rotate the moon around the Earth.
-		//_s.solarSystem.planetArray[2].planet.children[2].rotation.y += 0.01;
 
 		_s.centerTrace();
 
