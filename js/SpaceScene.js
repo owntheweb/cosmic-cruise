@@ -443,7 +443,6 @@ function SpaceScene(viewMode) {
 		
 		//resize animate based on menu rollover status
 		if(_s.navRolloverActive == true && _s.ship.navMenuActive == true) {
-			console.log('it is true');
 			_s.cursorCurRad += 1.0;
 			if(_s.cursorCurRad > _s.cursorMaxRad) {
 				_s.cursorCurRad = _s.cursorMaxRad;
@@ -456,12 +455,14 @@ function SpaceScene(viewMode) {
 		}
 
 		if(_s.viewMode == "cardboard") {
-			//!!! the 30 is a wild guess... seems to work
-			_s.cursorContext.arc((window.innerWidth / 4), window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
+			//!!! trial and error, may need revised:
+			var aspectMult = window.innerWidth / window.innerHeight * 22.5;
+
+			_s.cursorContext.arc((window.innerWidth / 4) - (window.innerWidth / aspectMult), window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
 			_s.cursorContext.stroke();
-			_s.cursorContext.moveTo((window.innerWidth / 4) + (window.innerWidth / 2), window.innerHeight / 2);
+			_s.cursorContext.moveTo((window.innerWidth / 4) + (window.innerWidth / 2) + (window.innerWidth / aspectMult), window.innerHeight / 2);
 			_s.cursorContext.beginPath();
-			_s.cursorContext.arc((window.innerWidth / 4) + (window.innerWidth / 2), window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
+			_s.cursorContext.arc((window.innerWidth / 4) + (window.innerWidth / 2) + (window.innerWidth / aspectMult), window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
 		} else {
 			_s.cursorContext.arc(window.innerWidth / 2, window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
 		}
