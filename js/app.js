@@ -25,9 +25,20 @@ var onDeviceReady = function() {
 //thanks: http://stackoverflow.com/questions/8068052/phonegap-detect-if-running-on-desktop-browser
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
 	console.log('running in app...');
-	screen.lockOrientation('landscape');
-	document.addEventListener("deviceready", function() { window.plugins.insomnia.keepAwake(); onDeviceReady(); }, false);
+	
+	document.addEventListener("deviceready", function() { 
+		//force landscape mode
+		var so = cordova.plugins.screenorientation;
+       	so.setOrientation(so.Orientation.LANDSCAPE);
+		
+		//keep awake
+		window.plugins.insomnia.keepAwake(); 
+
+		//get going
+		onDeviceReady(); 
+	}, false);
 } else {
 	console.log('running in browser...');
+	
 	onDeviceReady(); //this is the browser
 }
