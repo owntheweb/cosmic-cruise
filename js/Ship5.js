@@ -379,7 +379,7 @@ function Ship5() {
 			_s.navMenu.material.materials[0].opacity = _s.navMenuAlpha;
 			for(i=0; i<_s.navMenuIcons.length; i++) {
 				if(_s.navMenuIcons[i].active == true) {
-					_s.navMenuIcons[i].material.materials[0].opacity = 1.5;
+					_s.navMenuIcons[i].material.materials[0].opacity = 1.0;
 				} else {
 					_s.navMenuIcons[i].material.materials[0].opacity = _s.navMenuAlpha;
 				}	

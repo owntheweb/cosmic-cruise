@@ -45,8 +45,8 @@ function SpaceScene(viewMode) {
 	_s.cursorCanvas;
 	_s.cursorContext;
 	_s.cursorCurRad = 2.0;
-	_s.cursorMinRad = 1.5;
-	_s.cursorMaxRad = 10.0;
+	_s.cursorMinRad = 1.0;
+	_s.cursorMaxRad = 7.0;
 
 	//stats
 	_s.stats;
@@ -438,7 +438,7 @@ function SpaceScene(viewMode) {
 		_s.cursorContext.clearRect(0, 0, _s.cursorCanvas.width, _s.cursorCanvas.height);
 		_s.cursorContext.save();
 		_s.cursorContext.strokeStyle = '#FFFFFF';
-		_s.cursorContext.lineWidth = 2;
+		_s.cursorContext.lineWidth = 1.5;
 		_s.cursorContext.beginPath();
 		
 		//resize animate based on menu rollover status
@@ -455,8 +455,8 @@ function SpaceScene(viewMode) {
 		}
 
 		if(_s.viewMode == "cardboard") {
-			//!!! trial and error, may need revised:
-			var aspectMult = window.innerWidth / window.innerHeight * 22.5;
+			//!!! trial and error, may need revised (22.5 seems to place cursor just over nav, lowering number brings it "closer"?)
+			var aspectMult = window.innerWidth / window.innerHeight * 22;
 
 			_s.cursorContext.arc((window.innerWidth / 4) - (window.innerWidth / aspectMult), window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
 			_s.cursorContext.stroke();
