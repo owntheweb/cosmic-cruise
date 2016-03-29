@@ -17,10 +17,9 @@
 <body>
 	<div data-role="page" id="vr-tour" data-title="VR Solar System Tour" data-theme="a" class="pages">
 		<div data-role="header" data-theme="a">
-			<img class="logo" src="img/logo.png" alt="Tour the Solar System">
-			<div class="sflogo">
-		    	<a href="http://www.spacefoundation.org/" target="_blank"><img src="img/SFlogoBlack_Horiz.png" alt= "Space Foundation"></a>
-		    </div>
+			<div class="applogo">
+				<img src="img/cosmic-cruise-logo.png" alt="Tour the Solar System">
+			</div>
 		</div>
 		
 		<div data-role="content">			
@@ -28,10 +27,12 @@
 			<div id="main-menu">
 				<ul>
 					<li class="bn-row"><a href="#" onclick="togglePanel(this);">Start tour</a></span></li>
-					<li class="bn-row"><a href="#" onclick="togglePanel(this);">Donate</a></li>
-					<li class="bn-row"><a href="#" onclick="togglePanel(this);">Credits</a></span></li>
 					<li class="bn-row"><a href="#" onclick="togglePanel(this);">Options</a></span></li>
+					<li class="bn-row"><a href="#" onclick="togglePanel(this);">Credits</a></span></li>
 				</ul>
+				<div class="sflogo">
+			    	<a href="http://www.spacefoundation.org/" target="_blank"><img src="img/SFlogoBlack_Horiz.png" alt= "Space Foundation"></a>
+			    </div>
 			</div>
 
 			<div id="start-tour" class="section">
@@ -43,22 +44,22 @@
 					<p>Are you using <a target="_blank" href="https://www.google.com/get/cardboard/">Google Cardboard</a> to enjoy this app?</p>
 				</div>
 				<div class="bn-row">
-					<p><a href="./tour.html?viewMode=cyclops">No</a> <a href="./tour.html?viewMode=cardboard" 
+					<p><a href="./tour.html?viewMode=cyclops">No</a> <a href="#" onclick="placeInViewer();"
 						>Yes</a></p>
 				</div>
 				<div class="panel-close">CLOSE</div>
 			</div>
 
-			<div id="donate" class="section">
+			<div id="place-in-viewer" class="section">
 				<div class="slide-header ">
-					<div class="half-chevron-text">Donate</div>
+					<div class="half-chevron-text">Place in Viewer</div>
 					<div class="half-chevron "></div>
 				</div>
 				<div class="panel">
-					<p>Do you believe space exploration is essential to innovation? So do we.</p><p>Your donation helps continue our mission to advance space-related endeavors to inspire, enable, and propel humanity.</p>
+					<img src="img/place-in-viewer.png" alt= "Please place your phone into your Google Cardboard-compatible viewer.">
 				</div>
 				<div class="bn-row">
-					<a href="#" target="_blank">Donate</a>
+					<a href="./tour.html?viewMode=cardboard">Go Forth</a>
 				</div>
 				<div class="panel-close">CLOSE</div>
 			</div>
@@ -128,8 +129,10 @@
 
 		<div class="ui-bar-a ui-footer-fixed">
 			<a href="http://www.facebook.com/pages/Space-Foundation/101353061895" target="_blank"><img src="img/facebook-5-24.png" alt= "Space Foundation Facebook"></a>
-			<a href="http://www.linkedin.com/company/65755?trk=tyah" target="_blank"><img src="img/linkedin-5-24.png" alt= "Space Foundation LinkedIn"></a>
 			<a href="http://twitter.com/spacefoundation" target="_blank"><img src="img/twitter-5-24.png" alt= "Space Foundation Twitter"></a>
+			<a href="http://instagram.com/spacefoundation" target="_blank"><img src="img/instagram-5-24.png" alt= "Space Foundation Instagram"></a>
+			<a href="http://www.linkedin.com/company/65755?trk=tyah" target="_blank"><img src="img/linkedin-5-24.png" alt= "Space Foundation LinkedIn"></a>
+			<a href="https://www.flickr.com/photos/132057587@N04/" target="_blank"><img src="img/flickr-5-24.png" alt= "Space Foundation Flickr"></a>
 		</div>
 
 	</div>
@@ -143,10 +146,6 @@
 	    	$('#start-tour').show().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 	      	$(this).removeClass(x + ' animated');
 	    	});
-	    } else if (pl.text === 'Donate'){ 
-	    	$('#donate').show().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-	      	$(this).removeClass(x + ' animated');
-	    	}); 
 	    } else if (pl.text === 'Credits'){ 
 	    	$('#credits').show().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 	      	$(this).removeClass(x + ' animated');
@@ -160,6 +159,17 @@
 	}
 	function toggleOptions(pl) {
 		//nothing yet
+	}
+	function placeInViewer() {
+		//$('#place-in-viewer').show();
+		//href="./tour.html?viewMode=cardboard"
+		//togglePanel("Place in Viewer");
+		x = 'slideInRight';
+		$('.section').hide();
+    	$('#place-in-viewer').show().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+      	$(this).removeClass(x + ' animated');
+    	}); 
+	    
 	}
 	
 	$(".panel-close").click(function(){
