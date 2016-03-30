@@ -30,7 +30,7 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 		//keep awake
 		window.plugins.insomnia.keepAwake(); 
 
-		alert(screen.orientation);
+		navigator.notification.alert(screen.orientation, function(){}, "Screen Orientation", "Swell!");
 
 		if(screen.orientation == "portrait") {
 			//hide Cardboard instructions
