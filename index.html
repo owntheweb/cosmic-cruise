@@ -44,22 +44,7 @@
 					<p>Are you using <a target="_blank" href="https://www.google.com/get/cardboard/">Google Cardboard</a> to enjoy this app?</p>
 				</div>
 				<div class="bn-row">
-					<p><a href="./tour.html?viewMode=cyclops">No</a> <a href="#" onclick="placeInViewer();"
-						>Yes</a></p>
-				</div>
-				<div class="panel-close">CLOSE</div>
-			</div>
-
-			<div id="place-in-viewer" class="section">
-				<div class="slide-header ">
-					<div class="half-chevron-text">Place in Viewer</div>
-					<div class="half-chevron "></div>
-				</div>
-				<div class="panel">
-					<img src="img/place-in-viewer.png" alt= "Please place your phone into your Google Cardboard-compatible viewer.">
-				</div>
-				<div class="bn-row">
-					<a href="./tour.html?viewMode=cardboard">Go Forth</a>
+					<p><a href="./tour.html?viewMode=cyclops">No</a> <a href="./tour.html?viewMode=cardboard">Yes</a></p>
 				</div>
 				<div class="panel-close">CLOSE</div>
 			</div>
@@ -159,17 +144,6 @@
 	}
 	function toggleOptions(pl) {
 		//nothing yet
-	}
-	function placeInViewer() {
-		//$('#place-in-viewer').show();
-		//href="./tour.html?viewMode=cardboard"
-		//togglePanel("Place in Viewer");
-		x = 'slideInRight';
-		$('.section').hide();
-    	$('#place-in-viewer').show().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-      	$(this).removeClass(x + ' animated');
-    	}); 
-	    
 	}
 	
 	$(".panel-close").click(function(){
