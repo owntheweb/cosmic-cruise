@@ -34,9 +34,9 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 			//hide Cardboard instructions
 			document.getElementById("cardboardInstructions").style.display = "block";
 
-			//watch for orientation change
+			//watch for orientation change (cordova plugin bug?: orientation won't change, watch for width changes instead)
 			var watchForOrientationChange = setInterval(function() {
-				if(screen.orientation.indexOf("landscape") > -1) {
+				if(window.innerWidth >= window.innerHeight) { //assume landscape mode
 					//hide Cardboard instructions
 					document.getElementById("cardboardInstructions").style.display = "none";
 
