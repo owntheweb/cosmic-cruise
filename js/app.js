@@ -34,16 +34,23 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 			//hide Cardboard instructions
 			document.getElementById("cardboardInstructions").style.display = "block";
 
-			window.addEventListener("orientationchange", function(){
-				//hide Cardboard instructions
-				document.getElementById("cardboardInstructions").style.display = "none";
+			//watch for orientation change
+			var watchForOrientationChange = setInterval(function() {
+				if(screen.orientation.indexOf("landscape") > -1) {
+					//hide Cardboard instructions
+					document.getElementById("cardboardInstructions").style.display = "none";
 
-				//force landscape mode
-				screen.lockOrientation('landscape');
-				
-				//get going
-				var delay = setTimeout(onDeviceReady, 1000); //let orientation settle in before resize methods start getting called
-			});
+					//force landscape mode
+					screen.lockOrientation('landscape');
+					
+					//get going
+					var delay = setTimeout(onDeviceReady, 1000); //let orientation settle in before resize methods start getting called
+
+					//stop watching orientation
+					clearInterval(watchForOrientationChange);
+				}
+			}, 200);
+
 		} else {
 			//force landscape mode
 			screen.lockOrientation('landscape');
