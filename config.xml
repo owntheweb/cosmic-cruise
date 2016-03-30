@@ -4,7 +4,7 @@
   <author href="http://www.spacefoundation.org" email="cstevens@spacefoundation.org">Christopher Stevens</author>
   <content src="index.html"/>
   <preference name="permissions" value="none"/>
-  <preference name="orientation" value="default"/> <!-- default = both landscape and portait -->
+  <!--<preference name="orientation" value="default"/>-->
   <preference name="target-device" value="universal"/>
   <preference name="fullscreen" value="true"/>
   <preference name="webviewbounce" value="false"/>
@@ -24,7 +24,6 @@
   <gap:plugin name="org.apache.cordova.device"/>
   <gap:plugin name="org.apache.cordova.device-motion"/>
   <gap:plugin name="cordova-plugin-screen-orientation" source="npm" />
-  <gap:plugin spec="https://github.com/Adlotto/cordova-plugin-recheck-screen-orientation.git" source="git" />
   <gap:plugin name="org.apache.cordova.dialogs"/>
   <gap:plugin name="org.apache.cordova.inappbrowser"/>
   <gap:plugin name="cordova-plugin-statusbar" source="npm" />

@@ -30,40 +30,22 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 		//keep awake
 		window.plugins.insomnia.keepAwake(); 
 
-		if(screen.orientation.indexOf("portrait") > -1) {
+		document.getElementById("cardboardInstructions").style.display = "block";
+
+		var onScreenClick = function() {
 			//hide Cardboard instructions
-			document.getElementById("cardboardInstructions").style.display = "block";
+			document.getElementById("cardboardInstructions").style.display = "none";
 
-			//watch for orientation change (cordova plugin bug?: orientation won't change, watch for width changes instead)
-			var watchForOrientationChange = setInterval(function() {
-				document.getElementById('debug').innerHTML = screen.orientation + ", width: " + window.innerWidth + ", height: " + window.innerHeight; 
-
-				//force a re-check of shouldRotateToOrientation
-				cordova.recheckScreenOrientation();
-
-				if(window.innerWidth >= window.innerHeight) { //assume landscape mode
-					//hide Cardboard instructions
-					document.getElementById("cardboardInstructions").style.display = "none";
-
-					//force landscape mode
-					screen.lockOrientation('landscape');
-					
-					//get going
-					var delay = setTimeout(onDeviceReady, 1000); //let orientation settle in before resize methods start getting called
-
-					//stop watching orientation
-					clearInterval(watchForOrientationChange);
-				}
-
-			}, 200);
-
-		} else {
 			//force landscape mode
 			screen.lockOrientation('landscape');
 			
 			//get going
 			var delay = setTimeout(onDeviceReady, 1000); //let orientation settle in before resize methods start getting called
-		}
+
+			window.removeEventListener('click', onScreenClick, false);
+		};
+
+		window.addEventListener('click', onScreenClick);
 	
 	}, false);
 } else {
