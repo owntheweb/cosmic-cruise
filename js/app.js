@@ -35,9 +35,9 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 			document.getElementById("cardboardInstructions").style.display = "block";
 
 			//watch for orientation change (cordova plugin bug?: orientation won't change, watch for width changes instead)
-			var debugInt = 0;
 			var watchForOrientationChange = setInterval(function() {
-				document.getElementById("debug").innerHTML = "width: " + window.innerWidth + ", height: " + window.innerHeight + ", int: " + debugInt;
+				//force a re-check of shouldRotateToOrientation
+				cordova.recheckScreenOrientation();
 
 				if(window.innerWidth >= window.innerHeight) { //assume landscape mode
 					//hide Cardboard instructions
@@ -53,7 +53,6 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 					clearInterval(watchForOrientationChange);
 				}
 
-				debugInt += 1;
 			}, 200);
 
 		} else {

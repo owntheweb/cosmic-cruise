@@ -30,14 +30,13 @@ html, body {
 	pointer-events: none;
 	background-color: #000;
 	opacity: 1.0;
-	text-align: center;
-	margin-top: 50px;
 }
 
 #cardboardInstructions {
-	width: 266px;
-	height: 170px;
+	width: 170px;
+	height: 266px;
 	display: none;
+	margin: 0 auto;
 }
 
 #cursor {
