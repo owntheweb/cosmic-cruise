@@ -343,7 +343,7 @@ function ScoreManager() {
 			src: 'audio/flight.mp3',
 			autoplay: false,
 			loop: false,
-			volume: 1.2,
+			volume: 1.0,
 			onload: function() {
 				_s.playSoundLoaded = true;
 				console.log('flight sound loaded');
