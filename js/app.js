@@ -30,6 +30,8 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 		//keep awake
 		window.plugins.insomnia.keepAwake(); 
 
+		alert(screen.orientation);
+
 		if(screen.orientation == "portrait") {
 			//hide Cardboard instructions
 			document.getElementById("cardboardInstructions").style.display = "block";
