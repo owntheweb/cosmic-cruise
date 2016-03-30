@@ -36,6 +36,7 @@ html, body {
 	height: 266px;
 	display: none;
 	margin: 0 auto;
+	pointer-events: none;
 }
 
 #cursor {

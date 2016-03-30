@@ -32,7 +32,7 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 
 		document.getElementById("cardboardInstructions").style.display = "block";
 
-		window.addEventListener('click', function(event) {
+		document.getElementById('veil').addEventListener('click', function(event) {
 			//hide Cardboard instructions
 			document.getElementById("cardboardInstructions").style.display = "none";
 
