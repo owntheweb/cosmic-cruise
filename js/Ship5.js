@@ -346,17 +346,17 @@ function Ship5() {
 			_s.navMenu.position.y = 0.0;
 			_s.navMenuIconsObj.position.y = 0.0;
 
-			tl.to(_s.navMenu.position, 1, { 
+			tl.to(_s.navMenu.position, 0.5, { 
 				ease: Power2.easeOut, 
 				y: -2.0,
 			});
 
-			tl3.to(_s.navMenuIconsObj.position, 1, { 
+			tl3.to(_s.navMenuIconsObj.position, 0.5, { 
 				ease: Power2.easeOut, 
 				y: -2.0,
 			});
 
-			tl2.to(_s, 1, { 
+			tl2.to(_s, 0.5, { 
 				ease: Power2.easeOut, 
 				navMenuAlpha: 0.0,
 				onComplete: function() {
@@ -614,13 +614,17 @@ function Ship5() {
 			_s.navMenuIconsObj.add(_s.navMenuIcons[i]);
 		}
 
+		//hide menu to start
+		_s.navMenuIconsObj.visible = false;
+
 		//!!! this is currently causing issues, doing odd things with nav menu icons
 		//_s.obj.add(_s.navMenu);
 
-		//!!! TEMP
-		_s.toggleNavMenu();
+		//open the nav at the beginning, after a delay
+		var navDelay = setTimeout(function() { _s.toggleNavMenu(); }, 7000);
 
 		/*
+		//!!! TEMP
 		var toggleNavInterval = setInterval(function(){
 			_s.toggleNavMenu();
 		}, 5000);

@@ -376,7 +376,7 @@ function ScoreManager() {
 			if(_s.playMusic == true) {
 				_s.startMusic();
 			}
-		}, 5000);
+		}, 2000);
 	};
 
 	_s.update = function() {

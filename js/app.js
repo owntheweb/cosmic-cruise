@@ -27,14 +27,31 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 	console.log('running in app...');
 	
 	document.addEventListener("deviceready", function() { 
-		//force landscape mode
-		screen.lockOrientation('landscape');
-		
 		//keep awake
 		window.plugins.insomnia.keepAwake(); 
 
-		//get going
-		var delay = setTimeout(onDeviceReady, 1000); //let orientation settle in before resize methods start getting called
+		if(screen.orientation == "portrait") {
+			//hide Cardboard instructions
+			document.getElementById("cardboardInstructions").style.display = "block";
+
+			window.addEventListener("orientationchange", function(){
+				//hide Cardboard instructions
+				document.getElementById("cardboardInstructions").style.display = "none";
+
+				//force landscape mode
+				screen.lockOrientation('landscape');
+				
+				//get going
+				var delay = setTimeout(onDeviceReady, 1000); //let orientation settle in before resize methods start getting called
+			});
+		} else {
+			//force landscape mode
+			screen.lockOrientation('landscape');
+			
+			//get going
+			var delay = setTimeout(onDeviceReady, 1000); //let orientation settle in before resize methods start getting called
+		}
+	
 	}, false);
 } else {
 	console.log('running in browser...');

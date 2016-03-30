@@ -48,6 +48,10 @@ function SpaceScene(viewMode) {
 	_s.cursorMinRad = 1.0;
 	_s.cursorMaxRad = 7.0;
 
+	//veil/cover
+	_s.veilActive = true;
+	_s.veilOpacity = 1.0;
+
 	//stats
 	_s.stats;
 
@@ -509,6 +513,19 @@ function SpaceScene(viewMode) {
 		}
 	};
 
+	//fade in the scene
+	_s.uncoverVeil = function() {
+		if(_s.veilActive == true) {
+			_s.veilOpacity -= 0.005;
+			if(_s.veilOpacity <= 0.0) {
+				_s.veilOpacity = 0.0;
+				_s.veilActive = false;
+			}
+
+			document.getElementById('veil').style.opacity = _s.veilOpacity;
+		}
+	};
+
 	//update scene elements
 	_s.update = function() {
 		var i, object, r;
@@ -523,6 +540,8 @@ function SpaceScene(viewMode) {
 		_s.centerTrace();
 
 		_s.drawCursor();
+
+		_s.uncoverVeil();
 
 		_s.stats.update();
 	};
