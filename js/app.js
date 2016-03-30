@@ -36,6 +36,8 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 
 			//watch for orientation change (cordova plugin bug?: orientation won't change, watch for width changes instead)
 			var watchForOrientationChange = setInterval(function() {
+				document.getElementById('debug').innerHTML = screen.orientation + ", width: " + window.innerWidth + ", height: " + window.innerHeight; 
+
 				//force a re-check of shouldRotateToOrientation
 				cordova.recheckScreenOrientation();
 
