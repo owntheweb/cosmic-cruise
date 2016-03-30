@@ -24,7 +24,7 @@
   <gap:plugin name="org.apache.cordova.device"/>
   <gap:plugin name="org.apache.cordova.device-motion"/>
   <gap:plugin name="cordova-plugin-screen-orientation" source="npm" />
-  <gap:plugin name="https://github.com/Adlotto/cordova-plugin-recheck-screen-orientation.git" source="git" />
+  <gap:plugin spec="https://github.com/Adlotto/cordova-plugin-recheck-screen-orientation.git" source="git" />
   <gap:plugin name="org.apache.cordova.dialogs"/>
   <gap:plugin name="org.apache.cordova.inappbrowser"/>
   <gap:plugin name="cordova-plugin-statusbar" source="npm" />
