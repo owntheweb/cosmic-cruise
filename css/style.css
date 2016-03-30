@@ -30,15 +30,13 @@ html, body {
 	pointer-events: none;
 	background-color: #000;
 	opacity: 1.0;
+	text-align: center;
+	margin-top: 50px;
 }
 
 #cardboardInstructions {
-	z-index: 40;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin-top: -266px;
-	margin-left: -170px;
+	width: 266px;
+	height: 170px;
 	display: none;
 }
 
