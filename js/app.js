@@ -34,7 +34,7 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 		window.plugins.insomnia.keepAwake(); 
 
 		//get going
-		onDeviceReady(); 
+		var delay = setTimeout(onDeviceReady, 1000); //let orientation settle in before resize methods start getting called
 	}, false);
 } else {
 	console.log('running in browser...');
