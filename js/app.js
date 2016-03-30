@@ -52,6 +52,8 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 					//stop watching orientation
 					clearInterval(watchForOrientationChange);
 				}
+
+				debugInt += 1;
 			}, 200);
 
 		} else {
