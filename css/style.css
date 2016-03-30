@@ -32,10 +32,10 @@ html, body {
 }
 
 #cardboardInstructions {
-	width: 170px;
-	height: 266px;
+	width: 152px;
+	height: 278px;
 	display: none;
-	margin: 0 auto;
+	margin: 100px auto 0 auto;
 	pointer-events: none;
 }
 

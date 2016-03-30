@@ -32,7 +32,21 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 
 		document.getElementById("cardboardInstructions").style.display = "block";
 
-		document.getElementById('veil').addEventListener('click', function(event) {
+		if(getParameterByName('viewMode') == "cardboard") {
+			document.getElementById('veil').addEventListener('click', function(event) {
+				//hide Cardboard instructions
+				document.getElementById("cardboardInstructions").style.display = "none";
+
+				//force landscape mode
+				screen.lockOrientation('landscape');
+				
+				//get going
+				var delay = setTimeout(onDeviceReady, 1000); //let orientation settle in before resize methods start getting called
+
+				//remove listener
+				this.removeEventListener('click',arguments.callee,false);
+			});
+		} else {
 			//hide Cardboard instructions
 			document.getElementById("cardboardInstructions").style.display = "none";
 
@@ -41,10 +55,8 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 			
 			//get going
 			var delay = setTimeout(onDeviceReady, 1000); //let orientation settle in before resize methods start getting called
-
-			//remove listener
-			this.removeEventListener('click',arguments.callee,false);
-		});
+		}
+			
 	
 	}, false);
 } else {
