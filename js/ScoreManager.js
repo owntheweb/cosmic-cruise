@@ -361,8 +361,11 @@ function ScoreManager() {
 	};
 
 	_s.playFlightSound = function() {
-		_s.flightSound.pos(0);
-		_s.flightSound.play();
+		//!!! see how iOS reacts to playing multiple audio files at once with a delay
+		var flightDelay = setTimeout(function() {
+			_s.flightSound.pos(0);
+			_s.flightSound.play();
+		}, 500);
 	};
 
 	//get it started!
@@ -376,7 +379,7 @@ function ScoreManager() {
 			if(_s.playMusic == true) {
 				_s.startMusic();
 			}
-		}, 2000);
+		}, 1000);
 	};
 
 	_s.update = function() {
