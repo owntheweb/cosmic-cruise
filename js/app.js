@@ -32,7 +32,7 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 
 		document.getElementById("cardboardInstructions").style.display = "block";
 
-		var onScreenClick = function() {
+		window.addEventListener('click', function(event) {
 			//hide Cardboard instructions
 			document.getElementById("cardboardInstructions").style.display = "none";
 
@@ -42,10 +42,9 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 			//get going
 			var delay = setTimeout(onDeviceReady, 1000); //let orientation settle in before resize methods start getting called
 
-			window.removeEventListener('click', onScreenClick, false);
-		};
-
-		window.addEventListener('click', onScreenClick);
+			//remove listener
+			this.removeEventListener('click',arguments.callee,false);
+		});
 	
 	}, false);
 } else {
