@@ -37,6 +37,8 @@ function Ship5() {
 
     _s.maxAnisotropy = 1; //increase sharpness by setting this higher (set from SpaceScene.js)
 
+    _s.lastPlanetName = 'nowhere'; //don't go to the same planet twice in a row.
+
     //screen
     _s.screenCanvas = document.getElementById("shipScreen");
     _s.screenCanvas.width = 512;
@@ -396,108 +398,122 @@ function Ship5() {
 
 	//travel to a new planet destination
 	_s.navToPlanet = function(to, finishCallback, camera) {
+		console.log(to.name + " " + _s.lastPlanetName);
+		if(to.name != _s.lastPlanetName) {
+			//update screen image
+			_s.setScreenImage(to.screenImg);
 
-		//update screen image
-		_s.setScreenImage(to.screenImg);
+			//ship voice: nav activated
+			_s.scoreManager.playTalk(_s.scoreManager.systemTalkGo, -1);
 
-		//ship voice: nav activated
-		_s.scoreManager.playTalk(_s.scoreManager.systemTalkGo, -1);
+			//play flight sound
+			_s.scoreManager.playFlightSound();
 
-		//play flight sound
-		_s.scoreManager.playFlightSound();
+			//close menu
+			_s.toggleNavMenu();
 
-		//close menu
-		_s.toggleNavMenu();
+			//prevent further action on menu
+			//_s.navMenuActive = false;
 
-		//prevent further action on menu
-		//_s.navMenuActive = false;
+			//!!! offset will likely change per planet, move this soon
+			var exitPoint = new THREE.Vector3(0, -130, 0);
+			exitPoint.x += _s.obj.position.x;
+			exitPoint.y += _s.obj.position.y;
+			exitPoint.z += _s.obj.position.z;
+			
+			//!!! approach "front" of planet, not bottom, fix this
+			//!!! then need to navigate to desired talking point location
+			//var arrivalOffset = new THREE.Vector3(0, -80, -0);
+			//arrivalOffset.x += to.position.x;
+			//arrivalOffset.y += to.position.y;
+			//arrivalOffset.z += to.position.z;
 
-		//!!! offset will likely change per planet, move this soon
-		var exitPoint = new THREE.Vector3(0, -130, 0);
-		exitPoint.x += _s.obj.position.x;
-		exitPoint.y += _s.obj.position.y;
-		exitPoint.z += _s.obj.position.z;
-		
-		//!!! approach "front" of planet, not bottom, fix this
-		//!!! then need to navigate to desired talking point location
-		//var arrivalOffset = new THREE.Vector3(0, -80, -0);
-		//arrivalOffset.x += to.position.x;
-		//arrivalOffset.y += to.position.y;
-		//arrivalOffset.z += to.position.z;
+			//!!! temp adjustment:
+			// Traveling from Jupiter to Saturn makes Saturn's rings cut the ship in half!
+			var offset = 155;
+			if(to.name == "Saturn" && _s.lastPlanetName == "Jupiter") {
+				var offset = 200; //stay away!
+			}
 
-		arrivalOffset = THREE.Utils.getPointInBetweenByLen(to.planet.position, _s.obj.position, 155);
+			//prevent travel to same location twice
+			_s.lastPlanetName = to.name;
 
-		var turnTo = new THREE.Object3D();
-	    turnTo.position.x = exitPoint.x;
-	    turnTo.position.y = exitPoint.y;
-	    turnTo.position.z = exitPoint.z;
-	    turnTo.rotation.order = "YXZ";
-	    _s.obj.rotation.order = "YXZ";
-	    turnTo.lookAt(arrivalOffset);
+			arrivalOffset = THREE.Utils.getPointInBetweenByLen(to.planet.position, _s.obj.position, offset);
 
-		var tl = new TimelineLite();
-		var tl2 = new TimelineLite();
+			var turnTo = new THREE.Object3D();
+		    turnTo.position.x = exitPoint.x;
+		    turnTo.position.y = exitPoint.y;
+		    turnTo.position.z = exitPoint.z;
+		    turnTo.rotation.order = "YXZ";
+		    _s.obj.rotation.order = "YXZ";
+		    turnTo.lookAt(arrivalOffset);
 
-		tl.to(_s.obj.position, 6, { 
-			delay: 2,
-			ease: Power2.easeInOut, 
-			x: exitPoint.x, 
-			y: exitPoint.y, 
-			z: exitPoint.z,
-			onStart: function() { 
+			var tl = new TimelineLite();
+			var tl2 = new TimelineLite();
 
-				console.log('Moving away from departure point...'); 
+			tl.to(_s.obj.position, 6, { 
+				delay: 2,
+				ease: Power2.easeInOut, 
+				x: exitPoint.x, 
+				y: exitPoint.y, 
+				z: exitPoint.z,
+				onStart: function() { 
 
-				tl2.to(_s.obj.rotation, 8, { 
-					ease: Power2.easeInOut, 
-					x: turnTo.rotation.x,
-		    		y: turnTo.rotation.y,
-		    		z: turnTo.rotation.z,
-					onStart: function() { 
-						console.log('Turning towards destination...'); 
-					}
-				}).to( _s.obj.position, 20, { 
-					ease: Power4.easeInOut, 
-					x: (arrivalOffset.x), 
-					y: (arrivalOffset.y), 
-					z: (arrivalOffset.z),
-					onStart: function() { console.log('Engage!');
+					console.log('Moving away from departure point...'); 
 
-						//initialize warp effect
-						_s.toggleWarp();
-						var tlWarp = new TimelineLite();
-						tlWarp.to(_s, 3, { 
-							ease: Power2.easeIn,
-							warpAlpha: 1.0,
-							warpSpeed: 4.0
-						}).to(_s, 6, { 
-							ease: Power4.easeOut,
-							delay: 11,
-							warpAlpha: 0.0,
-							warpSpeed: 0.0,
-							onComplete: function() {
-								_s.toggleWarp();
-							}
-						});
+					tl2.to(_s.obj.rotation, 8, { 
+						ease: Power2.easeInOut, 
+						x: turnTo.rotation.x,
+			    		y: turnTo.rotation.y,
+			    		z: turnTo.rotation.z,
+						onStart: function() { 
+							console.log('Turning towards destination...'); 
+						}
+					}).to( _s.obj.position, 20, { 
+						ease: Power4.easeInOut, 
+						x: (arrivalOffset.x), 
+						y: (arrivalOffset.y), 
+						z: (arrivalOffset.z),
+						onStart: function() { console.log('Engage!');
 
-						//initialize warp effect for camera (increased field of view)
-						var tlCamera = new TimelineLite();
-						tlCamera.to(camera, 6, { 
-							delay: 1,
-							ease: Power3.easeInOut,
-							fov: 96
-						}).to(camera, 6, { 
-							delay: 5.5,
-							ease: Power4.easeInOut,
-							fov: 90
-						});
+							//initialize warp effect
+							_s.toggleWarp();
+							var tlWarp = new TimelineLite();
+							tlWarp.to(_s, 3, { 
+								ease: Power2.easeIn,
+								warpAlpha: 1.0,
+								warpSpeed: 4.0
+							}).to(_s, 6, { 
+								ease: Power4.easeOut,
+								delay: 11,
+								warpAlpha: 0.0,
+								warpSpeed: 0.0,
+								onComplete: function() {
+									_s.toggleWarp();
+								}
+							});
 
-					},
-					onComplete: finishCallback
-				});
+							//initialize warp effect for camera (increased field of view)
+							var tlCamera = new TimelineLite();
+							tlCamera.to(camera, 6, { 
+								delay: 1,
+								ease: Power3.easeInOut,
+								fov: 96
+							}).to(camera, 6, { 
+								delay: 5.5,
+								ease: Power4.easeInOut,
+								fov: 90
+							});
 
-			},
-		})
+						},
+						onComplete: finishCallback
+					});
+
+				},
+			});
+		} else {
+			//!!! notify user that no navigation will take place...
+		}
 	};
 
 	//return a unique clone without shared attributes

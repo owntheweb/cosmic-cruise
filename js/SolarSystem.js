@@ -369,12 +369,12 @@ function SolarSystem() {
 
 		// Distant Sprite.
 		var map = new THREE.TextureLoader().load( "img/planetSprite.png" );
-    var material = new THREE.SpriteMaterial( { map: map, color: 0xffffff } );
-    _s.planets.jupiter.sprite = new THREE.Sprite( material );
+		var material = new THREE.SpriteMaterial( { map: map, color: 0xffffff } );
+		_s.planets.jupiter.sprite = new THREE.Sprite( material );
 
-    // Add Jupiter.
-    _s.system.add(_s.planets.jupiter.planet);
-    _s.system.add(_s.planets.jupiter.sprite);
+		// Add Jupiter.
+		_s.system.add(_s.planets.jupiter.planet);
+		_s.system.add(_s.planets.jupiter.sprite);
 	};
 
 	//!!! add moons!

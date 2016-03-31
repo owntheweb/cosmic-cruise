@@ -526,12 +526,13 @@ function SpaceScene(viewMode) {
 	//fade in the scene
 	_s.uncoverVeil = function() {
 		if(_s.veilActive == true) {
+			document.getElementById('veil').style.pointerEvents = "none";
+			
 			_s.veilOpacity -= 0.01;
 			if(_s.veilOpacity <= 0.0) {
 				_s.veilOpacity = 0.0;
 				_s.veilActive = false;
 				document.getElementById('veil').style.display = 'none';
-				document.getElementById('veil').style.pointerEvents = "none";
 			}
 
 			document.getElementById('veil').style.opacity = _s.veilOpacity;
