@@ -26,8 +26,8 @@
   <gap:plugin name="cordova-plugin-screen-orientation" source="npm" />
   <gap:plugin name="org.apache.cordova.dialogs"/>
   <gap:plugin name="org.apache.cordova.inappbrowser"/>
-  <gap:plugin name="org.apache.cordova.audiohandler" />
   <gap:plugin name="cordova-plugin-statusbar" source="npm" />
+  <gap:plugin name="cordova-plugin-media" source="npm" />
   <gap:config-file platform="ios" parent="UIStatusBarHidden">
     <true/>
   </gap:config-file>
