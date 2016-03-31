@@ -11,6 +11,11 @@
 		});
 	</script>
 	<script type="text/javascript" src="js/jquery.mobile-1.3.1.min.js"></script>
+	<script type="text/javascript" src="js/GALocalStorage.js"></script>
+	<script>
+	    ga_storage._setAccount('UA-XXXXXXXX-1'); //Replace with your own
+	    ga_storage._trackPageview('/index.html');
+	</script>
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/home.css" rel="stylesheet">
 </head>
@@ -27,7 +32,7 @@
 			<div id="main-menu">
 				<ul>
 					<li class="bn-row"><a href="#" onclick="togglePanel(this);">Start tour</a></span></li>
-					<li class="bn-row"><a href="#" onclick="togglePanel(this);">Options</a></span></li>
+					<!--<li class="bn-row"><a href="#" onclick="togglePanel(this);">Options</a></span></li>-->
 					<li class="bn-row"><a href="#" onclick="togglePanel(this);">Credits</a></span></li>
 				</ul>
 				<div class="sflogo">
@@ -75,6 +80,7 @@
 				<div class="panel-close">CLOSE</div>
 			</div>
 
+			<!--
 			<div id="options" class="section">
 				<div class="slide-header ">
 					<div class="half-chevron-text">Options</div>
@@ -109,6 +115,7 @@
 				</div>
 				<div class="panel-close">CLOSE</div>
 			</div>
+		    -->
 
 		</div>
 
@@ -131,23 +138,22 @@
 	    	$('#start-tour').show().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 	      	$(this).removeClass(x + ' animated');
 	    	});
+	    	ga_storage._trackEvent('menu', 'select', 'start');
 	    } else if (pl.text === 'Credits'){ 
 	    	$('#credits').show().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 	      	$(this).removeClass(x + ' animated');
 	    	}); 
+	    	//ga_storage._trackEvent('category', 'action', 'label', 'value');
+	    	ga_storage._trackEvent('menu', 'select', 'credits');
 	    } else if (pl.text === 'Options'){ 
 	    	$('#options').show().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 	      	$(this).removeClass(x + ' animated');
 	    	}); 
 	    }
-		//testAnim('slideInRight');
 	}
-	function toggleOptions(pl) {
-		//nothing yet
-	}
+	//function toggleOptions(pl) { }
 	
 	$(".panel-close").click(function(){
-		//$('.section').hide();
 		x = 'slideOutLeft';
 		y = 'fadeIn';
 
