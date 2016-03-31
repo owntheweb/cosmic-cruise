@@ -360,7 +360,6 @@ function ScoreManager() {
 
 	_s.playFlightSound = function() {
 		if(runningIn == "Android") {
-			navigator.notification.alert('We are going to try to play some local audio here...', function() {}, "Andoid User!", "Just Swell...");
 
 			//!!! Android stock browser can only play one file at a time. PhoneGap's media api to handle more at a time.
 			var onSuccess = function() {
