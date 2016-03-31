@@ -516,7 +516,7 @@ function SpaceScene(viewMode) {
 	//fade in the scene
 	_s.uncoverVeil = function() {
 		if(_s.veilActive == true) {
-			_s.veilOpacity -= 0.005;
+			_s.veilOpacity -= 0.01;
 			if(_s.veilOpacity <= 0.0) {
 				_s.veilOpacity = 0.0;
 				_s.veilActive = false;
