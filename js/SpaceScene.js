@@ -31,6 +31,7 @@ function SpaceScene(viewMode) {
 	_s.clock;
 	_s.composer;
 	_s.renderPass;
+	_s.maxAnisotropy;
 
 	_s.debug = true;
 	_s.debugPaintText = '';
@@ -150,6 +151,8 @@ function SpaceScene(viewMode) {
 		_s.renderer = new THREE.WebGLRenderer({antialias:true, canvas:canvas, alpha: true, clearColor: 0x000000 });
 		_s.renderer.autoClear = false;
 		_s.element = _s.renderer.domElement;
+
+		_s.maxAnisotropy = _s.renderer.getMaxAnisotropy();
 
 		///////////
 		//EFFECTS//
@@ -330,6 +333,7 @@ function SpaceScene(viewMode) {
 
 		//ship
 		_s.ship = new Ship5();
+		_s.ship.maxAnisotropy = _s.maxAnisotropy; //make textures look sharper
 		_s.ship.loadModels();
 		_s.ship.obj.add(_s.camera); //if ship rotates, so does camera (as if you were in the ship)
 		_s.solarSystem.system.add(_s.ship.obj);

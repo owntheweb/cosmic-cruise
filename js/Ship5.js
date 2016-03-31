@@ -35,6 +35,8 @@ function Ship5() {
     _s.navMenuActive = false;
     _s.navMenuAlpha = 0.0;
 
+    _s.maxAnisotropy = 1; //increase sharpness by setting this higher (set from SpaceScene.js)
+
     //screen
     _s.screenCanvas = document.getElementById("shipScreen");
     _s.screenCanvas.width = 512;
@@ -43,6 +45,7 @@ function Ship5() {
 	_s.screenTexture = new THREE.Texture(_s.screenCanvas);
 	_s.screenTexture.magFilter = THREE.NearestFilter;
 	_s.screenTexture.minFilter = THREE.LinearMipMapLinearFilter;
+	_s.screenTexture.anisotropy = _s.maxAnisotropy;
 	_s.screenImage = new Image();
 	_s.screenImage.onload = function() {
 		_s.screenContext.drawImage(_s.screenImage, 0, 149);
@@ -515,8 +518,9 @@ function Ship5() {
 
 		//Mercury icon
 		navTextures.mercury = THREE.ImageUtils.loadTexture('img/nav/mercury_nav2.png');
-		navTextures.mercury.magFilter = THREE.NearestFilter;
-		navTextures.mercury.minFilter = THREE.LinearMipMapLinearFilter;
+		//navTextures.mercury.magFilter = THREE.NearestFilter;
+		//navTextures.mercury.minFilter = THREE.LinearMipMapLinearFilter;
+		navTextures.mercury.anisotropy = _s.maxAnisotropy;
 		//navTextures.mercury.scale.x = 100;
 		//navTextures.mercury.scale.y = 100;
 		var icon = _s.navMenuIcon.clone();
