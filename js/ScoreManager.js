@@ -245,9 +245,10 @@ function ScoreManager() {
 		if(_s.music == undefined) {
 			_s.music = new Howl({
 				src: file,
-				autoplay: true,
+				autoplay: false,
 				loop: loop,
 				volume: 0.4,
+				buffer: true,
 				onload: function() {
 					_s.musicLoaded = true;
 					console.log('music loaded');
@@ -264,6 +265,7 @@ function ScoreManager() {
 					_s.startMusic();
 				}
 			});
+			_s.music.play();
 		}
 			
 		_s.musicPlaylistInt++;
@@ -317,9 +319,10 @@ function ScoreManager() {
 			}
 			_s.talk = new Howl({
 				src: talkItem.file,
-				autoplay: true,
+				autoplay: false,
 				loop: false,
 				volume: 1.0,
+				buffer: true,
 				onload: function() {
 					_s.talkLoaded = true;
 					console.log('talk loaded');
@@ -334,17 +337,18 @@ function ScoreManager() {
 					console.log('talk stopped');
 				}
 			});
+			_s.talk.play();
 		}, talkItem.delay);
 
 	};
 
-	_s.prepFlightSound = function() {
-		/*
+	_s.playFlightSound = function() {
 		_s.flightSound = new Howl({
 			src: 'audio/flight.mp3',
 			autoplay: false,
 			loop: false,
 			volume: 1.0,
+			buffer: true,
 			onload: function() {
 				_s.playSoundLoaded = true;
 				console.log('flight sound loaded');
@@ -359,45 +363,13 @@ function ScoreManager() {
 				console.log('flight sound stopped');
 			}
 		});
-		*/
-	};
-
-	_s.playFlightSound = function() {
-		//!!! see how iOS reacts to playing multiple audio files at once with a delay
-		/*
-		var flightDelay = setTimeout(function() {
-			_s.flightSound.pos(0);
-			_s.flightSound.play();
-		}, 500);
-		*/
-		_s.flightSound = new Howl({
-			src: 'audio/flight.mp3',
-			autoplay: true,
-			loop: false,
-			volume: 1.0,
-			onload: function() {
-				_s.playSoundLoaded = true;
-				console.log('flight sound loaded');
-			},
-			onplay: function() {
-				_s.playSoundPlaying = true;
-				console.log('flight sound started');
-			},
-			onend: function() {
-				_s.playSoundPlaying = false;
-				_s.playSoundLoaded = false;
-				console.log('flight sound stopped');
-			}
-		});
+		_s.flightSound.play();
 	};
 
 	//get it started!
 	_s.init = function() {
 		//!!! let's see if a delay helps resolve odd sound issues that seem random on the phone (crazy slow-mo music or no sound at times on iPhone)
 		var setupDelay = setTimeout(function() { 
-			//prepare flight sound for takeoff
-			_s.prepFlightSound();
-
 			//start music
 			if(_s.playMusic == true) {
 				_s.startMusic();
