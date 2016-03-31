@@ -521,7 +521,7 @@ function SpaceScene(viewMode) {
 				_s.veilOpacity = 0.0;
 				_s.veilActive = false;
 				document.getElementById('veil').style.display = 'none';
-				document.getElementById('veil').style.left = '100%';
+				document.getElementById('veil').style.pointerEvents = "none";
 			}
 
 			document.getElementById('veil').style.opacity = _s.veilOpacity;
