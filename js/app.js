@@ -25,8 +25,42 @@ var onDeviceReady = function() {
 //thanks: http://stackoverflow.com/questions/8068052/phonegap-detect-if-running-on-desktop-browser
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
 	console.log('running in app...');
-	document.addEventListener("deviceready", function() { window.plugins.insomnia.keepAwake(); onDeviceReady(); }, false);
+	
+	document.addEventListener("deviceready", function() { 
+		//keep awake
+		window.plugins.insomnia.keepAwake(); 
+
+		document.getElementById("cardboardInstructions").style.display = "block";
+
+		if(getParameterByName('viewMode') == "cardboard") {
+			document.getElementById('veil').addEventListener('click', function(event) {
+				//hide Cardboard instructions
+				document.getElementById("cardboardInstructions").style.display = "none";
+
+				//force landscape mode
+				screen.lockOrientation('landscape');
+				
+				//get going
+				var delay = setTimeout(onDeviceReady, 1000); //let orientation settle in before resize methods start getting called
+
+				//remove listener
+				this.removeEventListener('click',arguments.callee,false);
+			});
+		} else {
+			//hide Cardboard instructions
+			document.getElementById("cardboardInstructions").style.display = "none";
+
+			//force landscape mode
+			screen.lockOrientation('landscape');
+			
+			//get going
+			var delay = setTimeout(onDeviceReady, 1000); //let orientation settle in before resize methods start getting called
+		}
+			
+	
+	}, false);
 } else {
 	console.log('running in browser...');
+	
 	onDeviceReady(); //this is the browser
 }

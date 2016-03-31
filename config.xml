@@ -1,52 +1,31 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="org.spacefoundation.compass" version="1.0.0">
-  <name>VR Solar System Tour</name>
-  <description>Take a narrated tour of the solar system!</description>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="org.spacefoundation.cosmic.cruise" version="1.0.0">
+  <name>Cosmic Cruise</name>
+  <description>Take a VR tour of the solar system!</description>
   <author href="http://www.spacefoundation.org" email="cstevens@spacefoundation.org">Christopher Stevens</author>
   <content src="index.html"/>
   <preference name="permissions" value="none"/>
-  <preference name="orientation" value="landscape"/>
+  <!--<preference name="orientation" value="default"/>-->
   <preference name="target-device" value="universal"/>
   <preference name="fullscreen" value="true"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="prerendered-icon" value="true"/>
   <preference name="stay-in-webview" value="false"/>
-  <!--<preference name="ios-statusbarstyle" value="black-opaque"/>-->
   <preference name="detect-data-types" value="true"/>
   <preference name="exit-on-suspend" value="false"/>
   <preference name="show-splash-screen-spinner" value="true"/>
-  <preference name="auto-hide-splash-screen" value="true"/>
+  <preference name="auto-hide-splash-screen" value="true"/> 
   <preference name="disable-cursor" value="false"/>
-  <preference name="android-minSdkVersion" value="22"/>
+  <preference name="android-minSdkVersion" value="18"/>
   <preference name="android-installLocation" value="auto"/>
-  <!--<gap:plugin name="org.apache.cordova.battery-status"/>-->
-  <!--<gap:plugin name="org.apache.cordova.camera"/>-->
-  <!--<gap:plugin name="org.apache.cordova.media-capture"/>-->
+  
+  <!-- !!! When debugging: -->
   <gap:plugin name="org.apache.cordova.console"/>
-  <!--<gap:plugin name="org.apache.cordova.contacts"/>-->
+
   <gap:plugin name="org.apache.cordova.device"/>
   <gap:plugin name="org.apache.cordova.device-motion"/>
-  <!--<gap:plugin name="org.apache.cordova.device-orientation"/>-->
+  <gap:plugin name="cordova-plugin-screen-orientation" source="npm" />
   <gap:plugin name="org.apache.cordova.dialogs"/>
-  <!--<gap:plugin name="org.apache.cordova.file"/>-->
-  <!--<gap:plugin name="org.apache.cordova.file-transfer"/>-->
-  <!--<gap:plugin name="org.apache.cordova.geolocation"/>-->
-  <!--<gap:plugin name="org.apache.cordova.globalization"/>-->
   <gap:plugin name="org.apache.cordova.inappbrowser"/>
-  <!--<gap:plugin name="org.apache.cordova.media"/>-->
-  <!--<gap:plugin name="org.apache.cordova.network-information"/>-->
-  <!--<gap:plugin name="org.apache.cordova.splashscreen"/>-->
-  <!--<gap:plugin name="org.apache.cordova.vibration"/>-->
-  
-  <!-- make status bar w/ white text -->
-  <!--
-  <gap:plugin name="org.apache.cordova.statusbar" />
-  <preference name="StatusBarOverlaysWebView" value="true" />
-  <preference name="StatusBarStyle" value="lightcontent" />
-  <preference name="StatusBarBackgroundColor" value="#000b1c" />
-  -->
-
-  <!--hide iOS status bar -->
-  <!--<gap:plugin name="com.phonegap.plugin.statusbar" />-->
   <gap:plugin name="cordova-plugin-statusbar" source="npm" />
   <gap:config-file platform="ios" parent="UIStatusBarHidden">
     <true/>
@@ -85,12 +64,6 @@
   <gap:splash src="res/screen/ios/screen-ipad-portrait.png" gap:platform="ios" width="768" height="1024"/>
   <gap:splash src="res/screen/ios/screen-ipad-landscape.png" gap:platform="ios" width="1024" height="768"/>
 
-  <!-- new splash screen requirements for ios9 -->
-  <!-- ACTUALLY not sure on these -->
-  <!-- <gap:splash src="www/res/screen/ios/750.png" gap:platform="ios" width="750" height="1334" /> -->
-  <!-- <gap:splash src="www/res/screen/ios/1242.png" gap:platform="ios" width="1242" height="2208" /> -->
-  <!-- <gap:splash src="www/res/screen/ios/2208.png" gap:platform="ios" width="2208" height="1242" /> -->
-
   <!-- iPhone 6+ addition (file names may be important as well?) -->
   <splash src="res/screen/ios/Default-736h.png" gap:platform="ios" width="1242" height="2208"/>
   <splash src="res/screen/ios/Default-Landscape-736h.png" gap:platform="ios" width="2208" height="1242"/>
@@ -99,10 +72,6 @@
   <plugin name="cordova-plugin-whitelist" version="1"/>
   <allow-intent href="http://*/*"/>
   <allow-intent href="https://*/*"/>
-  <!--<allow-intent href="tel:*"/>-->
-  <!--<allow-intent href="sms:*"/>-->
-  <!--<allow-intent href="mailto:*"/>-->
-  <!--<allow-intent href="geo:*"/>-->
   <platform name="android">
     <allow-intent href="market:*"/>
   </platform>

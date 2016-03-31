@@ -21,6 +21,10 @@ function ScoreManager() {
 	_s.musicPlaying = false;
 	_s.musicPlaylistInt = 0;
 
+	_s.flightSound;
+	_s.flightSoundLoaded = false;
+	_s.flightSoundPlaying = false;
+
 	_s.idleDelay = 12;
 
 	_s.destinationTalk = [
@@ -144,7 +148,7 @@ function ScoreManager() {
 		{
 			id:'engaged',
 			file:'audio/voice/system/acknowledged.mp3',
-			delay:2000,
+			delay:0,
 			playOnlyOnce:false,
 			timesPlayed:0,
 			scoreEvents:[]
@@ -152,7 +156,7 @@ function ScoreManager() {
 		{
 			id:'understood',
 			file:'audio/voice/system/affirmative.mp3',
-			delay:2000,
+			delay:0,
 			playOnlyOnce:false,
 			timesPlayed:0,
 			scoreEvents:[]
@@ -160,7 +164,7 @@ function ScoreManager() {
 		{
 			id:'driveActivated',
 			file:'audio/voice/system/driveActivated.mp3',
-			delay:2000,
+			delay:0,
 			playOnlyOnce:false,
 			timesPlayed:0,
 			scoreEvents:[]
@@ -168,7 +172,7 @@ function ScoreManager() {
 		{
 			id:'affirmative',
 			file:'audio/voice/system/engaged.mp3',
-			delay:2000,
+			delay:0,
 			playOnlyOnce:false,
 			timesPlayed:0,
 			scoreEvents:[]
@@ -176,7 +180,7 @@ function ScoreManager() {
 		{
 			id:'fasterThanLight',
 			file:'audio/voice/system/fasterThanLightSpeedDriveInitiated.mp3',
-			delay:2000,
+			delay:0,
 			playOnlyOnce:true,
 			timesPlayed:0,
 			scoreEvents:[]
@@ -184,7 +188,7 @@ function ScoreManager() {
 		{
 			id:'fasterThanLight',
 			file:'audio/voice/system/understood.mp3',
-			delay:2000,
+			delay:0,
 			playOnlyOnce:true,
 			timesPlayed:0,
 			scoreEvents:[]
@@ -241,9 +245,10 @@ function ScoreManager() {
 		if(_s.music == undefined) {
 			_s.music = new Howl({
 				src: file,
-				autoplay: true,
+				autoplay: false,
 				loop: loop,
-				volume: 0.5,
+				volume: 0.4,
+				buffer: true,
 				onload: function() {
 					_s.musicLoaded = true;
 					console.log('music loaded');
@@ -260,6 +265,7 @@ function ScoreManager() {
 					_s.startMusic();
 				}
 			});
+			_s.music.play();
 		}
 			
 		_s.musicPlaylistInt++;
@@ -313,9 +319,10 @@ function ScoreManager() {
 			}
 			_s.talk = new Howl({
 				src: talkItem.file,
-				autoplay: true,
+				autoplay: false,
 				loop: false,
 				volume: 1.0,
+				buffer: true,
 				onload: function() {
 					_s.talkLoaded = true;
 					console.log('talk loaded');
@@ -330,17 +337,44 @@ function ScoreManager() {
 					console.log('talk stopped');
 				}
 			});
+			_s.talk.play();
 		}, talkItem.delay);
 
 	};
 
+	_s.playFlightSound = function() {
+		_s.flightSound = new Howl({
+			src: 'audio/flight.mp3',
+			autoplay: false,
+			loop: false,
+			volume: 1.0,
+			buffer: true,
+			onload: function() {
+				_s.playSoundLoaded = true;
+				console.log('flight sound loaded');
+			},
+			onplay: function() {
+				_s.playSoundPlaying = true;
+				console.log('flight sound started');
+			},
+			onend: function() {
+				_s.playSoundPlaying = false;
+				_s.playSoundLoaded = false;
+				console.log('flight sound stopped');
+			}
+		});
+		_s.flightSound.play();
+	};
+
 	//get it started!
 	_s.init = function() {
-
-		//start music
-		if(_s.playMusic == true) {
-			_s.startMusic();
-		}
+		//!!! let's see if a delay helps resolve odd sound issues that seem random on the phone (crazy slow-mo music or no sound at times on iPhone)
+		var setupDelay = setTimeout(function() { 
+			//start music
+			if(_s.playMusic == true) {
+				_s.startMusic();
+			}
+		}, 1000);
 	};
 
 	_s.update = function() {
