@@ -99,6 +99,7 @@ function SpaceScene(viewMode) {
 
 		_s.camera.aspect = width / height;
 		_s.camera.updateProjectionMatrix();
+		_s.renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
 		_s.renderer.setSize(width, height);
 		_s.effectFXAA.uniforms.resolution.value = new THREE.Vector2(1 / width, 1 / height);
 		_s.composer.setSize(width, height);
