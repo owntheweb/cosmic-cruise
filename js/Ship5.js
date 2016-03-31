@@ -620,8 +620,8 @@ function Ship5() {
 		//!!! this is currently causing issues, doing odd things with nav menu icons
 		//_s.obj.add(_s.navMenu);
 
-		//open the nav at the beginning, after a delay
-		var navDelay = setTimeout(function() { _s.toggleNavMenu(); }, 7000);
+		//open the nav at the beginning
+		_s.toggleNavMenu();
 
 		/*
 		//!!! TEMP
