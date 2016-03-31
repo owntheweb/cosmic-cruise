@@ -252,7 +252,7 @@ function ScoreManager() {
 				console.log('Android: music error');
 			};
 
-			_s.music = new Media(file, onSuccess, onError);
+			_s.music = new Media('cdvfile://localhost/' + file, onSuccess, onError);
 			_s.music.play();
 
 		} else {
@@ -360,6 +360,8 @@ function ScoreManager() {
 
 	_s.playFlightSound = function() {
 		if(runningIn == "Android") {
+			navigator.notification.alert('We are going to try to play some local audio here...', function() {}, "Andoid User!", "Just Swell...");
+
 			//!!! Android stock browser can only play one file at a time. PhoneGap's media api to handle more at a time.
 			var onSuccess = function() {
 				console.log('Android: flight sound completed');
@@ -369,7 +371,7 @@ function ScoreManager() {
 				console.log('Android: flight sound error');
 			};
 
-			_s.flightSound = new Media('audio/flight.mp3', onSuccess, onError);
+			_s.flightSound = new Media('cdvfile://localhost/' + 'audio/flight.mp3', onSuccess, onError);
 			_s.flightSound.play();
 
 		} else {
