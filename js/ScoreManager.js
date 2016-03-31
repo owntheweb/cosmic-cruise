@@ -252,7 +252,7 @@ function ScoreManager() {
 				console.log('Android: music error');
 			};
 
-			_s.music = new Media('cdvfile://localhost/' + file, onSuccess, onError);
+			_s.music = new Media('/android_asset/www/' + file, onSuccess, onError);
 			_s.music.play();
 
 		} else {
@@ -371,7 +371,7 @@ function ScoreManager() {
 				console.log('Android: flight sound error');
 			};
 
-			_s.flightSound = new Media('cdvfile://localhost/' + 'audio/flight.mp3', onSuccess, onError);
+			_s.flightSound = new Media('/android_asset/www/' + 'audio/flight.mp3', onSuccess, onError);
 			_s.flightSound.play();
 
 		} else {
