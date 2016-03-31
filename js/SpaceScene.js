@@ -373,6 +373,9 @@ function SpaceScene(viewMode) {
 
 
 
+		///////////
+		//TESTING//
+		///////////
 
 
 		//!!! TEMP
@@ -552,7 +555,7 @@ function SpaceScene(viewMode) {
 
 		_s.uncoverVeil();
 
-		_s.stats.update();
+		//_s.stats.update();
 	};
 
 	//render three.js scene

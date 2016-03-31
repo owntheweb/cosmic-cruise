@@ -1,4 +1,6 @@
 
+var runningIn = "unknown";
+
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     url = url.toLowerCase(); // This is just to avoid case sensitiveness  
@@ -25,6 +27,11 @@ var onDeviceReady = function() {
 //thanks: http://stackoverflow.com/questions/8068052/phonegap-detect-if-running-on-desktop-browser
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
 	console.log('running in app...');
+	if(navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
+		runningIn = "iOS";
+	} else if(navigator.userAgent.match(/(Android)/)) {
+		runningIn = "Android";
+	}
 	
 	document.addEventListener("deviceready", function() { 
 		//keep awake
@@ -61,6 +68,6 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
 	}, false);
 } else {
 	console.log('running in browser...');
-	
+	runningIn = "browser";
 	onDeviceReady(); //this is the browser
 }

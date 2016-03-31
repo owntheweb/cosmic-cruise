@@ -241,31 +241,47 @@ function ScoreManager() {
 			loop = true;
 		}
 
-		//init if not already
-		if(_s.music == undefined) {
-			_s.music = new Howl({
-				src: file,
-				autoplay: false,
-				loop: loop,
-				volume: 0.4,
-				buffer: true,
-				onload: function() {
-					_s.musicLoaded = true;
-					console.log('music loaded');
-				},
-				onplay: function() {
-					_s.musicPlaying = true;
-					console.log('music started');
-				},
-				onend: function() {
-					_s.musicPlaying = false;
-					console.log('music stopped');
-					
-					//play the next song
-					_s.startMusic();
-				}
-			});
+		if(runningIn == "Android") {
+			//!!! Android stock browser can only play one file at a time. PhoneGap's media api to handle more at a time.
+			var onSuccess = function() {
+				console.log('Android: music completed');
+				_s.startMusic();
+			};
+
+			var onError = function() {
+				console.log('Android: music error');
+			};
+
+			_s.music = new Media(file, onSuccess, onError);
 			_s.music.play();
+
+		} else {
+			//init if not already
+			if(_s.music == undefined) {
+				_s.music = new Howl({
+					src: file,
+					autoplay: false,
+					loop: loop,
+					volume: 0.4,
+					buffer: true,
+					onload: function() {
+						_s.musicLoaded = true;
+						console.log('music loaded');
+					},
+					onplay: function() {
+						_s.musicPlaying = true;
+						console.log('music started');
+					},
+					onend: function() {
+						_s.musicPlaying = false;
+						console.log('music stopped');
+						
+						//play the next song
+						_s.startMusic();
+					}
+				});
+				_s.music.play();
+			}
 		}
 			
 		_s.musicPlaylistInt++;
@@ -343,27 +359,44 @@ function ScoreManager() {
 	};
 
 	_s.playFlightSound = function() {
-		_s.flightSound = new Howl({
-			src: 'audio/flight.mp3',
-			autoplay: false,
-			loop: false,
-			volume: 1.0,
-			buffer: true,
-			onload: function() {
-				_s.playSoundLoaded = true;
-				console.log('flight sound loaded');
-			},
-			onplay: function() {
-				_s.playSoundPlaying = true;
-				console.log('flight sound started');
-			},
-			onend: function() {
-				_s.playSoundPlaying = false;
-				_s.playSoundLoaded = false;
-				console.log('flight sound stopped');
-			}
-		});
-		_s.flightSound.play();
+		if(runningIn == "Android") {
+			//!!! Android stock browser can only play one file at a time. PhoneGap's media api to handle more at a time.
+			var onSuccess = function() {
+				console.log('Android: flight sound completed');
+			};
+
+			var onError = function() {
+				console.log('Android: flight sound error');
+			};
+
+			_s.flightSound = new Media('audio/flight.mp3', onSuccess, onError);
+			_s.flightSound.play();
+
+		} else {
+			//!!! need to fully reload for iOS, otherwise it "forgets" file before played
+			//!!! maybe make a runningIn == "browser" version that just seeks to the beginning and plays again
+			_s.flightSound = new Howl({
+				src: 'audio/flight.mp3',
+				autoplay: false,
+				loop: false,
+				volume: 1.0,
+				buffer: true,
+				onload: function() {
+					_s.playSoundLoaded = true;
+					console.log('flight sound loaded');
+				},
+				onplay: function() {
+					_s.playSoundPlaying = true;
+					console.log('flight sound started');
+				},
+				onend: function() {
+					_s.playSoundPlaying = false;
+					_s.playSoundLoaded = false;
+					console.log('flight sound stopped');
+				}
+			});
+			_s.flightSound.play();
+		}
 	};
 
 	//get it started!
