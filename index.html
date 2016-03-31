@@ -138,10 +138,13 @@
 	    	$('#start-tour').show().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 	      	$(this).removeClass(x + ' animated');
 	    	});
+	    	ga_storage._trackEvent('menu', 'select', 'start');
 	    } else if (pl.text === 'Credits'){ 
 	    	$('#credits').show().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 	      	$(this).removeClass(x + ' animated');
 	    	}); 
+	    	//ga_storage._trackEvent('category', 'action', 'label', 'value');
+	    	ga_storage._trackEvent('menu', 'select', 'credits');
 	    } else if (pl.text === 'Options'){ 
 	    	$('#options').show().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 	      	$(this).removeClass(x + ' animated');
