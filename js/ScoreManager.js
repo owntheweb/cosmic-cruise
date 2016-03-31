@@ -339,7 +339,6 @@ function ScoreManager() {
 	};
 
 	_s.prepFlightSound = function() {
-		/*
 		_s.flightSound = new Howl({
 			src: 'audio/flight.mp3',
 			autoplay: false,
@@ -359,36 +358,14 @@ function ScoreManager() {
 				console.log('flight sound stopped');
 			}
 		});
-		*/
 	};
 
 	_s.playFlightSound = function() {
 		//!!! see how iOS reacts to playing multiple audio files at once with a delay
-		/*
 		var flightDelay = setTimeout(function() {
-			_s.flightSound.pos(0);
+			_s.flightSound.seek(0);
 			_s.flightSound.play();
 		}, 500);
-		*/
-		_s.flightSound = new Howl({
-			src: 'audio/flight.mp3',
-			autoplay: true,
-			loop: false,
-			volume: 1.0,
-			onload: function() {
-				_s.playSoundLoaded = true;
-				console.log('flight sound loaded');
-			},
-			onplay: function() {
-				_s.playSoundPlaying = true;
-				console.log('flight sound started');
-			},
-			onend: function() {
-				_s.playSoundPlaying = false;
-				_s.playSoundLoaded = false;
-				console.log('flight sound stopped');
-			}
-		});
 	};
 
 	//get it started!
