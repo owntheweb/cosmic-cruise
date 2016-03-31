@@ -521,8 +521,6 @@ function Ship5() {
 		//navTextures.mercury.magFilter = THREE.NearestFilter;
 		//navTextures.mercury.minFilter = THREE.LinearMipMapLinearFilter;
 		navTextures.mercury.anisotropy = _s.maxAnisotropy;
-		//navTextures.mercury.scale.x = 100;
-		//navTextures.mercury.scale.y = 100;
 		var icon = _s.navMenuIcon.clone();
 		icon.material = icon.material.clone();
 		icon.name = 'Mercury';
@@ -533,82 +531,98 @@ function Ship5() {
 		_s.navMenuIcons.push(icon);
 
 		//Venus icon
+		navTextures.venus = THREE.ImageUtils.loadTexture('img/nav/venus_nav2.png');
+		navTextures.venus.anisotropy = _s.maxAnisotropy;
 		var icon = _s.navMenuIcon.clone();
 		icon.material = icon.material.clone();
 		icon.name = 'Venus';
 		icon.active = false;
-		icon.material.materials[0].map = THREE.ImageUtils.loadTexture('img/nav/venus_nav2.png');
-		icon.material.materials[0].emissiveMap = THREE.ImageUtils.loadTexture('img/nav/venus_nav2.png');
+		icon.material.materials[0].map = navTextures.venus;
+		icon.material.materials[0].emissiveMap = navTextures.venus;
 		icon.rotation.y = (Math.PI / 9) * 3;
 		_s.navMenuIcons.push(icon);
 
 		//Earth icon
+		navTextures.earth = THREE.ImageUtils.loadTexture('img/nav/earth_nav2.png');
+		navTextures.earth.anisotropy = _s.maxAnisotropy;
 		var icon = _s.navMenuIcon.clone();
 		icon.material = icon.material.clone();
 		icon.name = 'Earth';
 		icon.active = false;
-		icon.material.materials[0].map = THREE.ImageUtils.loadTexture('img/nav/earth_nav2.png');
-		icon.material.materials[0].emissiveMap = THREE.ImageUtils.loadTexture('img/nav/earth_nav2.png');
+		icon.material.materials[0].map = navTextures.earth;
+		icon.material.materials[0].emissiveMap = navTextures.earth;
 		icon.rotation.y = (Math.PI / 9) * 2;
 		_s.navMenuIcons.push(icon);
 
 		//Mars icon
+		navTextures.mars = THREE.ImageUtils.loadTexture('img/nav/mars_nav2.png');
+		navTextures.mars.anisotropy = _s.maxAnisotropy;
 		var icon = _s.navMenuIcon.clone();
 		icon.material = icon.material.clone();
 		icon.name = 'Mars';
 		icon.active = false;
-		icon.material.materials[0].map = THREE.ImageUtils.loadTexture('img/nav/mars_nav2.png');
-		icon.material.materials[0].emissiveMap = THREE.ImageUtils.loadTexture('img/nav/mars_nav2.png');
+		icon.material.materials[0].map = navTextures.mars;
+		icon.material.materials[0].emissiveMap = navTextures.mars;
 		icon.rotation.y = (Math.PI / 9) * 1;
 		_s.navMenuIcons.push(icon);
 
 		//Jupiter icon
+		navTextures.jupiter = THREE.ImageUtils.loadTexture('img/nav/jupiter_nav2.png');
+		navTextures.jupiter.anisotropy = _s.maxAnisotropy;
 		var icon = _s.navMenuIcon.clone();
 		icon.material = icon.material.clone();
 		icon.name = 'Jupiter';
 		icon.active = false;
-		icon.material.materials[0].map = THREE.ImageUtils.loadTexture('img/nav/jupiter_nav2.png');
-		icon.material.materials[0].emissiveMap = THREE.ImageUtils.loadTexture('img/nav/jupiter_nav2.png');
+		icon.material.materials[0].map = navTextures.jupiter;
+		icon.material.materials[0].emissiveMap = navTextures.jupiter;
 		//icon.rotation.y = -(Math.PI / 9) * 2;
 		_s.navMenuIcons.push(icon);
 
 		//Saturn icon
+		navTextures.saturn = THREE.ImageUtils.loadTexture('img/nav/saturn_nav2.png');
+		navTextures.saturn.anisotropy = _s.maxAnisotropy;
 		var icon = _s.navMenuIcon.clone();
 		icon.material = icon.material.clone();
 		icon.name = 'Saturn';
 		icon.active = false;
-		icon.material.materials[0].map = THREE.ImageUtils.loadTexture('img/nav/saturn_nav2.png');
-		icon.material.materials[0].emissiveMap = THREE.ImageUtils.loadTexture('img/nav/saturn_nav2.png');
+		icon.material.materials[0].map = navTextures.saturn;
+		icon.material.materials[0].emissiveMap = navTextures.saturn;
 		icon.rotation.y = -(Math.PI / 9) * 1;
 		_s.navMenuIcons.push(icon);
 
 		//Uranus icon
+		navTextures.uranus = THREE.ImageUtils.loadTexture('img/nav/uranus_nav2.png');
+		navTextures.uranus.anisotropy = _s.maxAnisotropy;
 		var icon = _s.navMenuIcon.clone();
 		icon.material = icon.material.clone();
 		icon.name = 'Uranus';
 		icon.active = false;
-		icon.material.materials[0].map = THREE.ImageUtils.loadTexture('img/nav/uranus_nav2.png');
-		icon.material.materials[0].emissiveMap = THREE.ImageUtils.loadTexture('img/nav/uranus_nav2.png');
+		icon.material.materials[0].map = navTextures.uranus;
+		icon.material.materials[0].emissiveMap = navTextures.uranus;
 		icon.rotation.y = -(Math.PI / 9) * 2;
 		_s.navMenuIcons.push(icon);
 
 		//Neptune icon
+		navTextures.neptune = THREE.ImageUtils.loadTexture('img/nav/neptune_nav2.png');
+		navTextures.neptune.anisotropy = _s.maxAnisotropy;
 		var icon = _s.navMenuIcon.clone();
 		icon.material = icon.material.clone();
 		icon.name = 'Neptune';
 		icon.active = false;
-		icon.material.materials[0].map = THREE.ImageUtils.loadTexture('img/nav/neptune_nav2.png');
-		icon.material.materials[0].emissiveMap = THREE.ImageUtils.loadTexture('img/nav/neptune_nav2.png');
+		icon.material.materials[0].map = navTextures.neptune;
+		icon.material.materials[0].emissiveMap = navTextures.neptune;
 		icon.rotation.y = -(Math.PI / 9) * 3;
 		_s.navMenuIcons.push(icon);
 
 		//Pluto icon
+		navTextures.pluto = THREE.ImageUtils.loadTexture('img/nav/pluto_nav2.png');
+		navTextures.pluto.anisotropy = _s.maxAnisotropy;
 		var icon = _s.navMenuIcon.clone();
 		icon.material = icon.material.clone();
 		icon.name = 'Pluto';
 		icon.active = false;
-		icon.material.materials[0].map = THREE.ImageUtils.loadTexture('img/nav/pluto_nav2.png');
-		icon.material.materials[0].emissiveMap = THREE.ImageUtils.loadTexture('img/nav/pluto_nav2.png');
+		icon.material.materials[0].map = navTextures.pluto;
+		icon.material.materials[0].emissiveMap = navTextures.pluto;
 		icon.rotation.y = -(Math.PI / 9) * 4;
 		_s.navMenuIcons.push(icon);
 
