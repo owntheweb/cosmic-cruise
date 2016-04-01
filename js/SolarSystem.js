@@ -547,7 +547,9 @@ function SolarSystem() {
 				//http://www.skymarvels.com/infopages/images/Size%20of%20Sun%20from%20Planets%20-%20SkyMarvels.jpg
 				//See Brigit's awesome Excel spreasheet (src/Cosmic-Cruise-Solar-Scale.xlsx) for details on the following math
 
-				sunScale = Math.max(Math.min((80000000 * Math.pow(planetDist,-1.292)), 1300), 5);
+				sunScale = 500; //!!! TEMP (testing framerate)
+
+				//sunScale = Math.max(Math.min((80000000 * Math.pow(planetDist,-1.292)), 1300), 5);
 				
 				_s.planets[item].sprite.scale.x = sunScale;
 				_s.planets[item].sprite.scale.y = sunScale;
