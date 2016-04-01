@@ -453,40 +453,43 @@ function SpaceScene(viewMode) {
 	//draw cursor
 	_s.drawCursor = function() {
 		_s.cursorContext.clearRect(0, 0, _s.cursorCanvas.width, _s.cursorCanvas.height);
-		_s.cursorContext.save();
-		_s.cursorContext.strokeStyle = '#FFFFFF';
-		_s.cursorContext.lineWidth = 1.5;
-		_s.cursorContext.beginPath();
 		
-		//resize animate based on menu rollover status
-		if(_s.navRolloverActive == true && _s.ship.navMenuActive == true) {
-			_s.cursorCurRad += 1.0;
-			if(_s.cursorCurRad > _s.cursorMaxRad) {
-				_s.cursorCurRad = _s.cursorMaxRad;
-			}
-		} else {
-			_s.cursorCurRad -= 1.0;
-			if(_s.cursorCurRad < _s.cursorMinRad) {
-				_s.cursorCurRad = _s.cursorMinRad;
-			}
-		}
-
-		if(_s.viewMode == "cardboard") {
-			//!!! trial and error, may need revised (22 seems to place cursor just over the nav)
-			//!!! having an issue where it seems to interefere with depth perception, perhaps some double vision? What are your thoughts?
-			var aspectMult = window.innerWidth / window.innerHeight * 24;
-
-			_s.cursorContext.arc((window.innerWidth / 4) - (window.innerWidth / aspectMult), window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
-			_s.cursorContext.stroke();
-			_s.cursorContext.moveTo((window.innerWidth / 4) + (window.innerWidth / 2) + (window.innerWidth / aspectMult), window.innerHeight / 2);
+		if(_s.ship.navMenuActive == true || _s.cursorCurRad > _s.cursorMinRad) {
+			_s.cursorContext.save();
+			_s.cursorContext.strokeStyle = '#FFFFFF';
+			_s.cursorContext.lineWidth = 1.5;
 			_s.cursorContext.beginPath();
-			_s.cursorContext.arc((window.innerWidth / 4) + (window.innerWidth / 2) + (window.innerWidth / aspectMult), window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
-		} else {
-			_s.cursorContext.arc(window.innerWidth / 2, window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
+			
+			//resize animate based on menu rollover status
+			if(_s.navRolloverActive == true && _s.ship.navMenuActive == true) {
+				_s.cursorCurRad += 1.0;
+				if(_s.cursorCurRad > _s.cursorMaxRad) {
+					_s.cursorCurRad = _s.cursorMaxRad;
+				}
+			} else {
+				_s.cursorCurRad -= 1.0;
+				if(_s.cursorCurRad < _s.cursorMinRad) {
+					_s.cursorCurRad = _s.cursorMinRad;
+				}
+			}
+
+			if(_s.viewMode == "cardboard") {
+				//!!! trial and error, may need revised (22 seems to place cursor just over the nav)
+				//!!! having an issue where it seems to interefere with depth perception, perhaps some double vision? What are your thoughts?
+				var aspectMult = window.innerWidth / window.innerHeight * 24;
+
+				_s.cursorContext.arc((window.innerWidth / 4) - (window.innerWidth / aspectMult), window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
+				_s.cursorContext.stroke();
+				_s.cursorContext.moveTo((window.innerWidth / 4) + (window.innerWidth / 2) + (window.innerWidth / aspectMult), window.innerHeight / 2);
+				_s.cursorContext.beginPath();
+				_s.cursorContext.arc((window.innerWidth / 4) + (window.innerWidth / 2) + (window.innerWidth / aspectMult), window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
+			} else {
+				_s.cursorContext.arc(window.innerWidth / 2, window.innerHeight / 2, _s.cursorCurRad, 0, 2 * Math.PI, false);
+			}
+			
+			_s.cursorContext.stroke();
+			_s.cursorContext.restore();
 		}
-		
-		_s.cursorContext.stroke();
-		_s.cursorContext.restore();
 	};
 
 	//make menu hover effects possible
