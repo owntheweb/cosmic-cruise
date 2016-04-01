@@ -245,13 +245,13 @@ function SpaceScene(viewMode) {
 		// STATS //
 		///////////
 
-		
+		/*
 		_s.stats = new Stats();
 		_s.stats.domElement.style.position = 'absolute';
 		_s.stats.domElement.style.bottom = '0px';
 		_s.stats.domElement.style.zIndex = 100;
 		_s.container.appendChild( _s.stats.domElement );
-		
+		*/
 
 		////////////
 		// SKYBOX //
@@ -562,7 +562,7 @@ function SpaceScene(viewMode) {
 
 		_s.uncoverVeil();
 
-		_s.stats.update();
+		//_s.stats.update();
 	};
 
 	//render three.js scene
