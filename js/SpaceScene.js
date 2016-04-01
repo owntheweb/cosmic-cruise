@@ -188,6 +188,9 @@ function SpaceScene(viewMode) {
 		);
 		_s.controls.enablePan = false;
 		_s.controls.enableZoom = false;
+		_s.controls.enableZoom = false;
+		_s.controls.autoRotate = false; //Android devices sometimes auto rotate?
+		_s.controls.autoRotateSpeed = 0.0;
 
 		///////////////////////////
 		// ray trace/hover detect//
