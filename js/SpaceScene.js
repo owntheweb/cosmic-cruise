@@ -236,16 +236,9 @@ function SpaceScene(viewMode) {
 				}
 			}
 		};
-		
-		if(runningIn == "browser") {
-			window.addEventListener('click', function() {
-				_s.onClick();
-			});
-		} else {
-			window.addEventListener('touchstart', function(e) {
-				_s.onClick();
-			});
-		}
+		window.addEventListener('click', function() {
+			_s.onClick();
+		});
 
 
 		///////////
