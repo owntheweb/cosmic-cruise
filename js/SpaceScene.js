@@ -336,6 +336,9 @@ function SpaceScene(viewMode) {
 
 		//ship
 		_s.ship = new Ship5();
+		_s.ship.obj.position.x = -2000;
+		_s.ship.obj.position.y = -2000;
+		_s.ship.obj.position.z = -2000;
 		_s.ship.maxAnisotropy = _s.maxAnisotropy; //make textures look sharper
 		_s.ship.loadModels();
 		_s.ship.obj.add(_s.camera); //if ship rotates, so does camera (as if you were in the ship)
@@ -527,7 +530,7 @@ function SpaceScene(viewMode) {
 	_s.uncoverVeil = function() {
 		if(_s.veilActive == true) {
 			document.getElementById('veil').style.pointerEvents = "none";
-			
+
 			_s.veilOpacity -= 0.01;
 			if(_s.veilOpacity <= 0.0) {
 				_s.veilOpacity = 0.0;

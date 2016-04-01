@@ -479,18 +479,25 @@ function Ship5() {
 							//initialize warp effect
 							_s.toggleWarp();
 							var tlWarp = new TimelineLite();
+							var tlWarpSpeed = new TimelineLite();
 							tlWarp.to(_s, 3, { 
 								ease: Power2.easeIn,
 								warpAlpha: 1.0,
-								warpSpeed: 4.0
 							}).to(_s, 6, { 
 								ease: Power4.easeOut,
-								delay: 11,
+								delay: 13,
 								warpAlpha: 0.0,
-								warpSpeed: 0.0,
 								onComplete: function() {
 									_s.toggleWarp();
 								}
+							});
+
+							tlWarpSpeed.to(_s, 10, { 
+								ease: Power2.easeIn,
+								warpSpeed: 10.0
+							}).to(_s, 12, { 
+								ease: Power4.easeOut,
+								warpSpeed: 0.0,
 							});
 
 							//initialize warp effect for camera (increased field of view)
@@ -667,7 +674,7 @@ function Ship5() {
 	};
 
 	_s.init = function() {
-		_s.obj.add(_s.chassis);
+		//_s.obj.add(_s.chassis);
 		_s.obj.add(_s.chair);
 		_s.obj.add(_s.screen);
 		_s.obj.add(_s.screenFace);
