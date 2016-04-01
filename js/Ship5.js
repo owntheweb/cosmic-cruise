@@ -674,7 +674,7 @@ function Ship5() {
 	};
 
 	_s.init = function() {
-		//_s.obj.add(_s.chassis);
+		_s.obj.add(_s.chassis);
 		_s.obj.add(_s.chair);
 		_s.obj.add(_s.screen);
 		_s.obj.add(_s.screenFace);
