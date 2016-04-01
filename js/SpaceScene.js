@@ -214,6 +214,11 @@ function SpaceScene(viewMode) {
 			_s.controls = new THREE.DeviceOrientationControls(_s.camera, true);
 			_s.controls.connect();
 			_s.controls.update();
+
+			//make camera re-face forward
+			var vector = new THREE.Vector3( 1, 0, 0 );
+			_s.camera.lookAt(vector);
+
 			//self.element.addEventListener('click', function() { _s.fullscreen(); }, false);
 
 			window.removeEventListener("deviceorientation", setOrientationControls, true);
