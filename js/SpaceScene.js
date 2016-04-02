@@ -5,13 +5,6 @@ function SpaceScene(viewMode) {
 	var _s = this;
 
 	_s.viewMode = viewMode;
-	//!!! Hey Chris, make this do something... viewMode values are 'cardboard' and 'cyclops'
-
-	//files
-	_s.images = {};
-	_s.fileCount = 0; //gets tallied later
-	_s.filesLoaded = 0;
-	_s.allFilesLoaded = false;
 
 	_s.targetPlanetName = '';
 	_s.curPlanetName = '';
@@ -58,40 +51,6 @@ function SpaceScene(viewMode) {
 
 	//audio
 	_s.soundManager;
-
-	//load files for scene
-	_s.loadFiles = function() {
-
-		//skybox
-		_s.queueFile('./img/skybox/backSm.jpg', 'backSrc');
-		_s.queueFile('./img/skybox/downSm.jpg', 'downSrc');
-		_s.queueFile('./img/skybox/frontSm.jpg', 'frontSrc');
-		_s.queueFile('./img/skybox/topSm.jpg', 'upSrc');
-		_s.queueFile('./img/skybox/rightSm.jpg', 'rightSrc');
-		_s.queueFile('./img/skybox/leftSm.jpg', 'leftSrc');
-	};
-
-	//add file to the queue
-	_s.queueFile = function(src, name) {
-		var image;
-
-		image = new Image();
-		//image.onload = function() { console.log(name + ' loaded'); this.onFileLoaded(); }.bind(this); //!!! temp
-		image.onload = function() { console.log(name + ' loaded'); _s.onFileLoaded(); };
-		image.src = src;
-		_s.images[name] = image;
-		_s.fileCount++;
-	};
-
-	//count files as they are loaded, init scene when all are loaded
-	_s.onFileLoaded = function() {
-		_s.filesLoaded++;
-		if(_s.filesLoaded >= _s.fileCount) {
-			console.log('all images loaded');
-			_s.allFilesLoaded = true;
-			_s.initScene();
-		}
-	};
 
 	_s.onResize = function() {
 		var width = window.innerWidth;
@@ -248,19 +207,6 @@ function SpaceScene(viewMode) {
 			_s.onClick();
 		});
 
-
-		///////////
-		// STATS //
-		///////////
-
-		/*
-		_s.stats = new Stats();
-		_s.stats.domElement.style.position = 'absolute';
-		_s.stats.domElement.style.bottom = '0px';
-		_s.stats.domElement.style.zIndex = 100;
-		_s.container.appendChild( _s.stats.domElement );
-		*/
-
 		////////////
 		// SKYBOX //
 		////////////
@@ -356,19 +302,6 @@ function SpaceScene(viewMode) {
 		_s.cursorCanvas = document.getElementById("cursor");
 		_s.cursorContext = _s.cursorCanvas.getContext('2d');
 
-		/*
-		var gui = new dat.GUI();
-		var f1 = gui.addFolder('Ship Position');
-		f1.add(_s.ship.obj.position, 'x', -1000, 1000);
-		f1.add(_s.ship.obj.position, 'y', -1000, 1000);
-		f1.add(_s.ship.obj.position, 'z', -1000, 1000);
-		var f2 = gui.addFolder('Ship Rotation');
-		//!!! I want to see floats here but am seeing integers, how to update?
-		f2.add(_s.ship.obj.rotation, 'x', 0.0, Math.PI * 2);
-		f2.add(_s.ship.obj.rotation, 'y', 0.0, Math.PI * 2);
-		f2.add(_s.ship.obj.rotation, 'z', 0.0, Math.PI * 2);
-		*/
-
 		//ensure size/scale is set correctly (wasn't during initial tests)
 		_s.onResize();
 
@@ -388,74 +321,27 @@ function SpaceScene(viewMode) {
 		//TESTING//
 		///////////
 
-
-		//!!! TEMP
-		//continuous random planet flight
 		/*
-		var lastPlanetInt = -1;
-		var endlessFlight = function() {
-			var randomPlanet = _s.solarSystem.planetArray[Math.floor(Math.random() * _s.solarSystem.planetArray.length)];
-			if(randomPlanet != lastPlanetInt) {
-				lastPlanetInt = randomPlanet;
-				console.log("We travel to " + randomPlanet.name + "! Weeeee!");
-				_s.ship.navToPlanet(randomPlanet, endlessFlight, _s.camera);
-			} else {
-				endlessFlight();
-			}
-		};
-		var startDelay = setTimeout(function() { endlessFlight(); },10000);
+		_s.stats = new Stats();
+		_s.stats.domElement.style.position = 'absolute';
+		_s.stats.domElement.style.bottom = '0px';
+		_s.stats.domElement.style.zIndex = 100;
+		_s.container.appendChild( _s.stats.domElement );
 		*/
-
-		//!!! TEMP
-		//toggle between Earth and Murcury
-		/*
-		var planetInt = -1;
-		var endlessToggleFlight = function() {
-			if(planetInt == 2) {
-				planetInt = 0;
-			} else {
-				planetInt = 2;
-			}
-			var randomPlanet = _s.solarSystem.planetArray[planetInt].planet;
-			if(randomPlanet != planetInt) {
-				console.log("We travel to " + randomPlanet.name + "! Weeeee!");
-				_s.ship.navToPlanet(randomPlanet, endlessToggleFlight, _s.camera);
-			} else {
-				endlessToggleFlight();
-			}
-		};
-		endlessToggleFlight();
-		*/
-
-
-		//!!! TEMP
-		/*
-		var testImages = [
-			'img/screen/test1.png',
-			'img/screen/test2.png',
-			'img/screen/test3.png'
-		];
-		var testImagesInt = 0;
-		var testImagesInterval = setInterval(function(){
-			_s.ship.setScreenImage(testImages[testImagesInt]);
-			testImagesInt++;
-			if(testImagesInt >= testImages.length) {
-				testImagesInt = 0;
-			}
-		}, 1000);
-		*/
-
-		//!!! TEMP
-		/*
-		var toggleNavInterval = setInterval(function(){
-			_s.ship.toggleNavMenu();
-		}, 5000);
-		*/
-
-		//!!! TEMP
-		//_s.ship.toggleNavMenu();
 		
-
+		/*
+		var gui = new dat.GUI();
+		var f1 = gui.addFolder('Ship Position');
+		f1.add(_s.ship.obj.position, 'x', -1000, 1000);
+		f1.add(_s.ship.obj.position, 'y', -1000, 1000);
+		f1.add(_s.ship.obj.position, 'z', -1000, 1000);
+		var f2 = gui.addFolder('Ship Rotation');
+		//!!! I want to see floats here but am seeing integers, how to update?
+		f2.add(_s.ship.obj.rotation, 'x', 0.0, Math.PI * 2);
+		f2.add(_s.ship.obj.rotation, 'y', 0.0, Math.PI * 2);
+		f2.add(_s.ship.obj.rotation, 'z', 0.0, Math.PI * 2);
+		*/
+		
 	};
 
 	//draw cursor
@@ -598,7 +484,7 @@ function SpaceScene(viewMode) {
 	_s.goForth = function() {
 		console.log('go forth!');
 
-		_s.loadFiles();
+		_s.initScene();
 
 		(function drawFrame() {
 			window.requestAnimationFrame(drawFrame, _s.earthCanvas);
