@@ -215,7 +215,7 @@ function SpaceScene(viewMode) {
 			_s.controls.connect();
 			_s.controls.update();
 
-			//make camera re-face forward
+			//make camera re-face forward //!!! check this: May not be working still
 			var vector = new THREE.Vector3(-1, 0, 0);
 			_s.camera.lookAt(vector);
 
