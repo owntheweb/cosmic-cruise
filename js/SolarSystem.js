@@ -23,7 +23,7 @@ function SolarSystem() {
 			y:0,
 			z:0,
 			a:0,
-			sprite: new THREE.Sprite(),
+			sprite: new THREE.Mesh(),
 			planet: new THREE.Object3D()
 		},
 		mercury: {
@@ -124,8 +124,21 @@ function SolarSystem() {
 
 		//"distant" sprite (will be treated a tou)
 		var map = new THREE.TextureLoader().load( "img/solar/sun.png" );
-		var material = new THREE.SpriteMaterial( { map: map, color: 0xffffff } );
-		_s.planets.sun.sprite = new THREE.Sprite( material );
+		//var material = new THREE.SpriteMaterial( { map: map, color: 0xffffff } );
+		
+		//_s.planets.sun.sprite = new THREE.Sprite( material );
+		_s.planets.sun.sprite = new THREE.Mesh( new THREE.PlaneGeometry(1, 1),
+								new THREE.MeshPhongMaterial({
+									color: 0xffffe0,
+									emissive: 0xffffe0,
+									map: map,
+									emissiveMap: map,
+									transparent: true,
+									opacity: 1.0,
+									shading: THREE.SmoothShading,
+									specular: 0.0,
+									depthWrite: false,
+								}));
 
 		_s.system.add(_s.planets.sun.sprite);
 	};
@@ -552,6 +565,9 @@ function SolarSystem() {
 				_s.planets[item].sprite.scale.x = sunScale;
 				_s.planets[item].sprite.scale.y = sunScale;
 				_s.planets[item].sprite.scale.z = sunScale;
+
+				//make sun look at ship, not camera (prevents odd sun shifting when changing camera directions)
+				_s.planets[item].sprite.lookAt(ship.position);
 			}
 		}
 	}
