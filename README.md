@@ -38,6 +38,8 @@ Permissions beyond the scope of this license may be available at [http://www.tou
 
 Narration by Travis Schenck and [Ron Sparkman](http://www.theupportunity.com). (coming in the next major app update)
 
+System voice by Amy Mirocha.
+
 ## Three.js
 This project is powered by [Three.js](http://threejs.org/).
 
