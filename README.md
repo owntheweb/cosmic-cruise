@@ -3,6 +3,16 @@
 
 Take a Google Cardboard tour of the solar system! This project is just getting started, so prepare for several updates before it's usable. The end project will run as a PhoneGap app.
 
+## Something look off? Ideas? Issue?
+For best results, be sure to [post a ticket](https://github.com/owntheweb/VR-Solar-System-Tour/issues) to offer your thoughts and feedback. 
+
+Are you a developer? Your pull requests are highly welcome here. :D
+
+## Status
+Everything has been considered to be stable enough for a first app release. The app will be available very soon.
+
+Next major upgrade: Narration and accompanying screen visuals (will post recordings prior to app update for fact checking purposes).
+
 ## Planet Textures
 This project makes use of textures, normal maps and bump maps from [planetpixelemporium](http://planetpixelemporium.com/planets.html) (Venus, Moon, Mars, Saturn, Uranus, Neptune).
 
@@ -11,9 +21,9 @@ This project makes use of textures, normal maps and bump maps from [planetpixele
 [Earth Bump Map](http://www.shadedrelief.com/natural3/pages/extra.html) credit: Tom Patterson, www.shadedrelief.com
 [Earth Specular Map](http://www.shadedrelief.com/natural3/pages/extra.html) credit: Tom Patterson, www.shadedrelief.com
 
-[Murcury image](http://messenger.jhuapl.edu/the_mission/mosaics.html) credit: NASA/Johns Hopkins University Applied Physics Laboratory/Carnegie Institution of Washington
+[Mercury texture](http://messenger.jhuapl.edu/the_mission/mosaics.html) credit: NASA/Johns Hopkins University Applied Physics Laboratory/Carnegie Institution of Washington
 
-[Jupiter image](http://laps.noaa.gov/albers/sos/sos.html#JUPITER) credit: NASA/JPL/Space Science Institute, color balance was adjusted in a subjective attempt (as suggested by Bjorn Jonsson) to better match the visual appearance of Jupiter in a telescope.
+[Jupiter texture](http://laps.noaa.gov/albers/sos/sos.html#JUPITER) credit: NASA/JPL/Space Science Institute, color balance was adjusted in a subjective attempt (as suggested by Bjorn Jonsson) to better match the visual appearance of Jupiter in a telescope.
 
 Pluto texture courtesy of (Snowfall-The-Cat)[http://ultrus.deviantart.com/art/Pluto-Map-2015-Nov-10-546286799], made with NASA/JPL/New horizons data.
 
@@ -26,7 +36,7 @@ Skybox texture generated and altered from [this image](http://www.eso.org/public
 Based on a work at [http://www.toucanmusic.co.uk/albums/toulp5.html](http://www.toucanmusic.co.uk/albums/toulp5.html)
 Permissions beyond the scope of this license may be available at [http://www.toucanmusic.co.uk/licensing.php](http://www.toucanmusic.co.uk/licensing.php).
 
-Note: Music selection is still a work-in-progress. Narration is also on the way. Credits will be added inside of the app itself once the app is in a more functional state (prior to posting non-commercial app in markets).
+Note: Narration is also on the way. Credits will be added inside of the app itself once the app is in a more functional state (prior to posting non-commercial app in markets).
 
 ## Three.js
 This project is powered by [Three.js](http://threejs.org/).
@@ -37,4 +47,4 @@ This project is powered by [Three.js](http://threejs.org/).
 
 This app is co-sponsored by the [Space Foundation](http://www.spacefoundation.org).
 
-In addition to personal time spent on this project, extra special thanks goes to the [Space Foundation](http://www.spacefoundation.org) team, supplying a Google Cardboard viewer, an iOS developer account (used for other projects and soon this one) and even a few on-the-clock training hours to dedicate towards VR development research. You too can help the Space Foundation achieve their mission to inspire, enable and propel, by contributing to this project. :D
+In addition to personal time spent on this project, extra special thanks goes to the [Space Foundation](http://www.spacefoundation.org) team, supplying a Google Cardboard viewer, an iOS developer account (used for other projects and soon this one) and even a few on-the-clock training hours to dedicate towards VR development research (not to mention a week or more of in-office hours to finish up the app). You too can help the Space Foundation achieve their mission to inspire, enable and propel, by contributing to this project. :D
