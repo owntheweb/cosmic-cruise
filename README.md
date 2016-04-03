@@ -1,9 +1,9 @@
 # VR Solar System Tour
 ![Preview](https://raw.githubusercontent.com/owntheweb/VR-Solar-System-Tour/dev/img/preview.png)
 
-Take a Google Cardboard tour of the solar system! This project is just getting started, so prepare for several updates before it's usable. The end project will run as a PhoneGap app.
+Take a Google Cardboard tour of the solar system! This project is created for PhoneGap, optimized to be built using Adobe PhoneGap Build.
 
-## Something look off? Ideas? Issue?
+## Something look off? Ideas? Issues?
 For best results, be sure to [post a ticket](https://github.com/owntheweb/VR-Solar-System-Tour/issues) to offer your thoughts and feedback. 
 
 Are you a developer? Your pull requests are highly welcome here. :D
@@ -36,7 +36,7 @@ Skybox texture generated and altered from [this image](http://www.eso.org/public
 Based on a work at [http://www.toucanmusic.co.uk/albums/toulp5.html](http://www.toucanmusic.co.uk/albums/toulp5.html)
 Permissions beyond the scope of this license may be available at [http://www.toucanmusic.co.uk/licensing.php](http://www.toucanmusic.co.uk/licensing.php).
 
-Note: Narration is also on the way. Credits will be added inside of the app itself once the app is in a more functional state (prior to posting non-commercial app in markets).
+Narration by Travis Schenck and [Ron Sparkman](http://www.theupportunity.com). (coming in the next major app update)
 
 ## Three.js
 This project is powered by [Three.js](http://threejs.org/).
