@@ -1,4 +1,4 @@
-# VR Solar System Tour
+# Cosmic Cruise
 ![Preview](https://raw.githubusercontent.com/owntheweb/VR-Solar-System-Tour/dev/img/preview.png)
 
 Take a Google Cardboard tour of the solar system! This project is created for PhoneGap, optimized to be built using Adobe PhoneGap Build.
