@@ -1,4 +1,4 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="org.spacefoundation.cosmic.cruise" version="1.0.0">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="org.spacefoundation.cosmic.cruise" version="1.0.2">
   <name>Cosmic Cruise</name>
   <description>Take a VR tour of the solar system!</description>
   <author href="http://www.spacefoundation.org" email="cstevens@spacefoundation.org">Christopher Stevens</author>
@@ -11,7 +11,7 @@
   <preference name="prerendered-icon" value="true"/>
   <preference name="stay-in-webview" value="false"/>
   <preference name="detect-data-types" value="true"/>
-  <preference name="exit-on-suspend" value="false"/>
+  <preference name="exit-on-suspend" value="true"/>
   <preference name="show-splash-screen-spinner" value="true"/>
   <preference name="auto-hide-splash-screen" value="true"/> 
   <preference name="disable-cursor" value="false"/>
