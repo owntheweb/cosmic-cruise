@@ -3,13 +3,17 @@
 
 Take a Google Cardboard tour of the solar system! This project is created for PhoneGap, optimized to be built using Adobe PhoneGap Build.
 
+##Now Available in the Apple App Store and Google Play
+
+Look for "Cosmic Cruise" in your favorite app store. Contribute here to make it better. :D
+
 ## Something look off? Ideas? Issues?
 For best results, be sure to [post a ticket](https://github.com/owntheweb/VR-Solar-System-Tour/issues) to offer your thoughts and feedback. 
 
 Are you a developer? Your pull requests are highly welcome here. :D
 
 ## Status
-Everything has been considered to be stable enough for a first app release. The app will be available very soon.
+Everything has been considered to be stable enough for a first app release. It's now available in Apple and Android markets as "Cosmic Cruise".
 
 Next major upgrade: Narration and accompanying screen visuals (will post recordings prior to app update for fact checking purposes).
 
