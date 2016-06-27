@@ -13,9 +13,9 @@ For best results, be sure to [post a ticket](https://github.com/owntheweb/VR-Sol
 Are you a developer? Your pull requests are highly welcome here. :D
 
 ## Status
-Everything has been considered to be stable enough for a first app release. It's now available in Apple and Android markets as "Cosmic Cruise".
+Phase 1 LIVE! Search for "Cosmic Cruise" in Apple App Store and Google Play.
 
-Next major upgrade: Narration and accompanying screen visuals (will post recordings prior to app update for fact checking purposes).
+Next major upgrade: Narration and accompanying screen visuals (will post recordings prior to app update for fact checking purposes). Special thanks to Space Foundation volunteer Ron Sparkman who is managing audio edits at this time.
 
 ## Planet Textures
 This project makes use of textures, normal maps and bump maps from [planetpixelemporium](http://planetpixelemporium.com/planets.html) (Venus, Moon, Mars, Saturn, Uranus, Neptune).
