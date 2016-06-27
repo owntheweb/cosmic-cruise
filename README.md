@@ -54,3 +54,27 @@ This project is powered by [Three.js](http://threejs.org/).
 This app is co-sponsored by the [Space Foundation](http://www.spacefoundation.org).
 
 In addition to personal time spent on this project, extra special thanks goes to the [Space Foundation](http://www.spacefoundation.org) team, supplying a Google Cardboard viewer, an iOS developer account (used for other projects and soon this one) and even a few on-the-clock training hours to dedicate towards VR development research (not to mention a week or more of in-office hours to finish up the app). You too can help the Space Foundation achieve their mission to inspire, enable and propel, by contributing to this and [other projects](http://www.spacefoundation.org/donate). :D
+
+## Legal
+
+MIT License
+
+Copyright (c) 2016 Space Foundation (www.spacefoundation.org)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
