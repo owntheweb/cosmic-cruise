@@ -1,4 +1,4 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="org.spacefoundation.cosmic.cruise" version="1.0.0">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:gap="http://phonegap.com/ns/1.0" id="org.spacefoundation.cosmic.cruise" version="1.0.3">
   <name>Cosmic Cruise</name>
   <description>Take a VR tour of the solar system!</description>
   <author href="http://www.spacefoundation.org" email="cstevens@spacefoundation.org">Christopher Stevens</author>
@@ -11,7 +11,7 @@
   <preference name="prerendered-icon" value="true"/>
   <preference name="stay-in-webview" value="false"/>
   <preference name="detect-data-types" value="true"/>
-  <preference name="exit-on-suspend" value="false"/>
+  <preference name="exit-on-suspend" value="true"/>
   <preference name="show-splash-screen-spinner" value="true"/>
   <preference name="auto-hide-splash-screen" value="true"/> 
   <preference name="disable-cursor" value="false"/>
@@ -25,7 +25,7 @@
   <gap:plugin name="org.apache.cordova.dialogs"/>
   -->
 
-  <gap:plugin name="org.apache.cordova.device"/>
+  <!--<gap:plugin name="org.apache.cordova.device"/>-->
   <gap:plugin name="org.apache.cordova.device-motion"/>
   <gap:plugin name="cordova-plugin-screen-orientation" source="npm" />
   <gap:plugin name="org.apache.cordova.inappbrowser"/>
@@ -101,6 +101,15 @@
   <gap:splash src="res/screen/android/screen-mdpi-portrait.png" gap:platform="android" gap:qualifier="port-mdpi"/>
   <gap:splash src="res/screen/android/screen-hdpi-portrait.png" gap:platform="android" gap:qualifier="port-hdpi"/>
   <gap:splash src="res/screen/android/screen-xhdpi-portrait.png" gap:platform="android" gap:qualifier="port-xhdpi"/>
+
+  <!-- remove permissions that are automatically added by PhoneGap Build but not needed in this app -->
+
+  <gap:config-file platform="android" parent="/manifest" mode="delete">
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+  </gap:config-file>
 
   <access origin="*"/>
   <plugin name="cordova-plugin-whitelist" version="1"/>
